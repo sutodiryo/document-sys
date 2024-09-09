@@ -3,13 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasRoles, Notifiable, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -43,5 +46,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'created_by', 'id')
+            ->orderByDesc('id');
+    }
+
+    public function newActivity($id, $activity)
+    {
+        Activity::create([
+            'created_by' => Auth::id(),
+            'activity' => $activity,
+            'user_id' => $id,
+        ]);
     }
 }
