@@ -27,6 +27,7 @@ class Index extends Component
     #[Url]
 
     public $uuid;
+    public $query;
     public $countSize, $countData, $limit, $latestUpdate, $obj;
     public $itemSelected = [], $countSelected, $sortSelected, $selected_folder_id, $selected_file_id;
     public $tags = [];
@@ -259,6 +260,15 @@ class Index extends Component
                 $folder->approval_resolution = $this->approval_resolution;
                 $folder->approval_status = 'Waiting Approval';
                 $folder->save();
+
+                if ($folder->files) {
+                    foreach ($folder->files as $key => $file) {
+                        $file->approval_resolution = $this->approval_resolution;
+                        $file->approval_status = 'Waiting Approval';
+                        $file->save();
+                    }
+                }
+                // dd($folder->files);
 
                 if ($this->resolution_status == 'Active') {
 

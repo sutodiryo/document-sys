@@ -269,22 +269,34 @@
                                             <a href="{{ route('folder.index') }}?uuid={{ $fd->id }}"
                                                 class="text-gray-800 text-hover-primary">
                                                 <span class="icon-wrapper">
-                                                    <i class="ki-duotone ki-folder fs-2x text-primary me-4">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>
+                                                    @if (empty($fd->approval_status))
+                                                        <i class="fas fa-folder fs-2x text-grey me-4" title=""></i>
+                                                    @elseif ($fd->approval_status == 'Approved')
+                                                        <i class="fas fa-folder fs-2x text-success me-4" title="Approved"></i>
+                                                    @elseif ($fd->approval_status == 'Rejected')
+                                                        <i class="fas fa-folder fs-2x text-danger me-4" title="Rejected"></i>
+                                                    @else
+                                                        <i class="fas fa-folder fs-2x text-warning me-4" title="Waiting Approval"></i>
+                                                    @endif
                                                 </span>
                                             </a>
                                             <a href="{{ route('folder.index') }}?uuid={{ $fd->id }}"
                                                 class="text-gray-800 text-hover-primary">
                                                 {{ $fd->name }}
+                                                {{-- @if ($fd->approval_status == 'Waiting Approval')
+                                                    <i class="fas fa-check-circle text-warning"></i>
+                                                @elseif ($fd->approval_status == 'Approved')
+                                                    <i class="fas fa-check-circle text-primary"></i>
+                                                @elseif ($fd->approval_status == 'Rejected')
+                                                    <i class="fas fa-check-circle text-danger"></i>
+                                                @endif --}}
                                             </a>
                                         </div>
                                     </td>
                                     <td>
                                         {{-- <div class="badge badge-light-success">Completed</div> --}}
                                     </td>
-                                    <td>{{ formatDateTime($fd->updated_at) }}</td>
+                                    <td>{{ formatDateID($fd->updated_at) }}</td>
                                     <td class="text-end" data-kt-filemanager-table="action_dropdown">
                                         <div class="d-flex justify-content-end">
                                             <div class="ms-2" data-kt-filemanger-table="copy_link">
@@ -352,10 +364,16 @@
                                         <div class="d-flex align-items-center">
                                             <a href="{{ route('file.index') }}?uuid={{ $fl->id }}">
                                                 <span class="icon-wrapper">
-                                                    <i class="ki-duotone ki-file fs-2x text-primary me-4">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>
+                                                    {{-- <i class="fas fa-file fs-2x text-grey me-4"></i> --}}
+                                                    @if (empty($fl->approval_status))
+                                                        <i class="fas fa-file fs-2x text-grey me-4" title=""></i>
+                                                    @elseif ($fl->approval_status == 'Approved')
+                                                        <i class="fas fa-file fs-2x text-success me-4" title="Approved"></i>
+                                                    @elseif ($fl->approval_status == 'Rejected')
+                                                        <i class="fas fa-file fs-2x text-danger me-4" title="Rejected"></i>
+                                                    @else
+                                                        <i class="fas fa-file fs-2x text-warning me-4" title="Waiting Approval"></i>
+                                                    @endif
                                                 </span>
                                             </a>
                                             <a href="{{ route('file.index') }}?uuid={{ $fl->id }}"
@@ -367,7 +385,7 @@
                                     <td>
                                         <div class="badge badge-light-success">Document</div>
                                     </td>
-                                    <td>{{ formatDateTime($fl->updated_at) }}</td>
+                                    <td>{{ formatDateID($fl->updated_at) }}</td>
                                     <td class="text-end" data-kt-filemanager-table="action_dropdown">
                                         <div class="d-flex justify-content-end">
                                             <div class="ms-2" data-kt-filemanger-table="copy_link">

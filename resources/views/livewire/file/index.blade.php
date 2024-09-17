@@ -104,7 +104,11 @@
                             <div class="card card-flush py-4 flex-row-fluid">
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <h2><i class="fas fa-document"></i> {{ $file->name }}</h2>
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#modal_view_pdf">
+                                            <h2><i class="fas fa-document"></i> {{ $file->name }}
+                                                {{-- {{ $file->attachments->first()->file }} <br> <br> {{ storage_path('app/public/uploads/' . $file->id . '/') . "" . $file->name . "" }} --}}
+                                            </h2>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -327,6 +331,40 @@
         </div>
     </div>
 
+
+    <div wire:ignore.self class="modal fade" id="modal_view_pdf" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-800px">
+
+            <div class="modal-content">
+
+                {{-- <form wire:submit="share_by_email"> --}}
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                </div>
+                <div class="modal-body pt-10 pb-15 px-lg-17">
+                    <div id="pspdfkit" style="height: 100vh"></div>
+                </div>
+
+                <div class="modal-footer flex-center">
+                    <button type="reset" id="modal_view_pdf_cancel" data-bs-dismiss="modal"
+                        class="btn btn-light me-3">Cancel</button>
+
+                    <button type="submit" id="modal_view_pdf_submit" class="btn btn-primary">
+                        <span class="indicator-label">Share</span>
+                        <span class="indicator-progress">Please wait...
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                    </button>
+                </div>
+                {{-- </form> --}}
+
+            </div>
+        </div>
+    </div>
 
     <div wire:ignore.self class="modal fade" id="kt_modal_share_file" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-800px">
@@ -585,7 +623,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="kt_modal_automate_approval" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">

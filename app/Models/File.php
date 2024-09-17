@@ -93,7 +93,7 @@ class File extends Model
 
     public function metadatas()
     {
-        return $this->hasMany(FileMetadata::class, 'file_id', 'id')
+        return $this->hasMany(Metadata::class, 'file_id', 'id')
             ->orderByDesc('created_at');
     }
 

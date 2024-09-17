@@ -4,6 +4,7 @@ namespace App\Livewire\Folder;
 
 use App\Models\Folder;
 use App\Models\FolderApproval;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,7 @@ class Approval extends Component
     #[Url]
 
     public $id;
-    public $approval;
+    public $approval, $approval_comment, $approval_file;
     public $approvals;
 
     public $curent_link;
@@ -28,6 +29,8 @@ class Approval extends Component
         $this->curent_link = Request::url();
 
         $this->approval = FolderApproval::findOrFail($this->id);
+        $this->approval_comment = $this->approval->comment;
+        $this->approval_file = $this->approval->file;
         $this->approvals = FolderApproval::where('folder_id', $this->approval->folder_id)->get();
         // dd($this->approvals);
     }
@@ -50,7 +53,13 @@ class Approval extends Component
                 $approval->status = $status;
                 $approval->save();
                 // dd($this->approval);
+                $this->SetMainStatus($status);
 
+                $approval->folder->activities()->create([
+                    'activity' => $status . " the document",
+                    'created_by' => Auth::id(),
+                    'folder_id' => $approval->folder_id,
+                ]);
             }
             // dd('stop');
             DB::commit();
@@ -70,6 +79,37 @@ class Approval extends Component
                 'cancelButtonText' => 'OK',
             ]);
         }
+    }
+
+    public function SetMainStatus($selected_status)
+    {
+        DB::beginTransaction();
+
+        $fa = FolderApproval::where('folder_id', $this->approval->folder_id);
+
+        $count_wa = $fa->where('status', 'Waiting Approval')->count();
+        if (!$count_wa) {
+            $count_a = $fa->where('status', 'Approved')->count();
+            $count_r = $fa->where('status', 'Rejected')->count();
+
+            $status = $count_r > 0 ? 'Rejected' : ($selected_status == 'Rejected' ? 'Rejected' : $selected_status);
+            // $status = $fa->count() > 1 ? (($count_r >= $count_a) ? 'Rejected' : 'Approved') : $selected_status;
+
+            $folder = $this->approval->folder;
+            $folder->approval_status = $status;
+            $folder->save();
+
+            if ($folder->files) {
+                foreach ($folder->files as $key => $file) {
+                    $file->approval_status = $status;
+                    $file->save();
+                }
+            }
+        }
+        // dd($folder);
+        DB::commit();
+
+        // $fol
     }
 
     public function render()

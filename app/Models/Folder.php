@@ -68,6 +68,12 @@ class Folder extends Model
         return $this->hasMany(FolderApproval::class, 'folder_id', 'id');
     }
 
+    public function metadatas()
+    {
+        return $this->hasMany(Metadata::class, 'folder_id', 'id')
+            ->orderByDesc('created_at');
+    }
+
     public function activities()
     {
         return $this->hasMany(Activity::class, 'folder_id', 'id')

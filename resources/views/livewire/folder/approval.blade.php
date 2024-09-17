@@ -60,18 +60,27 @@
                                         <hr>
                                         <div
                                             style="font-size: 14px; font-weight: 500; margin:0 60px 30px 60px; font-family:Arial,Helvetica,sans-serif">
-                                            <p style="margin-bottom:2px; color:#3F4254; line-height:1.6">
-                                                {{ $approval->created_at }}</p>
 
-                                            <p class="mt-5">{{ (!$approval->status == 'Waiting Approval') ? 'Your c' : 'C' }}omment</p>
-                                            <textarea wire:model="approval.comment" class="form-control" placeholder="Type here" rows="4"
-                                                {{ (!$approval->status == 'Waiting Approval') ? 'disabled' : '' }}>{{ $approval->comment }}</textarea>
+                                            @if (!($approval->status == 'Waiting Approval'))
+                                                <p
+                                                    style="margin-bottom:2px; color:#3F4254; line-height:1.6; font-size: 18px; font-weight:700;">
+                                                    Your decision :</p>
+                                                <p style="margin-bottom:2px; color:#3F4254; line-height:1.6">
+                                                    {{ $approval->created_at }}</p>
+                                            @endif
+
                                             <p class="mt-5">
-                                                {{ (!$approval->status == 'Waiting Approval') ? 'Uploaded file' : 'Add file (optional)' }}</p>
-                                            @if ((!$approval->status == 'Waiting Approval'))
-                                                <a href="#">{{ ($approval->file )? $approval->file : '-' }}</a>
-                                            @else
+                                                {{ $approval->status == 'Waiting Approval' ? 'C' : 'Your c' }}omment
+                                            </p>
+                                            <textarea wire:model="approval_comment" class="form-control" placeholder="Type here" rows="4"
+                                                {{ $approval->status == 'Waiting Approval' ? '' : 'disabled' }}>{{ $approval->comment }}</textarea>
+                                            <p class="mt-5">
+                                                {{ $approval->status == 'Waiting Approval' ? 'Add file (optional)' : 'Uploaded file' }}
+                                            </p>
+                                            @if ($approval->status == 'Waiting Approval')
                                                 <input wire:model="approval_file" type="file" class="form-control" />
+                                            @else
+                                                <a href="#">{{ $approval->file ? $approval->file : '-' }}</a>
                                             @endif
                                         </div>
                                         <hr>
@@ -82,8 +91,6 @@
                                                 Users in this approval workflow
                                             </p>
                                             @foreach ($approvals as $app)
-                                                <input type="hidden" name="email" value="{{ $app->email }}" />
-
                                                 <p style="margin-bottom:2px; color:#3F4254; line-height:1.6">
                                                     {{ $app->email }} <i
                                                         class="fas fa-{{ $app->status == 'Approved' ? 'check' : ($app->status == 'Waiting Approval' ? 'refresh' : 'close') }}"></i>
@@ -92,7 +99,7 @@
                                         </div>
                                     </div>
 
-                                    @if ((!$approval->status == 'Waiting Approval'))
+                                    @if ($approval->status == 'Waiting Approval')
                                         <button wire:click="store('Approved')"
                                             style="background-color:#50cd89; margin-bottom: 0px; border-radius:6px;display:inline-block; margin-left:0px; padding:11px 19px; color: #FFFFFF; font-size: 14px; font-weight:500; font-family:Arial,Helvetica,sans-serif;">
                                             Approve

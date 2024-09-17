@@ -14,9 +14,10 @@ use App\Livewire\Account\User;
 use App\Livewire\Account\UserGroup;
 use App\Livewire\AuditLog;
 use App\Livewire\File\Approval;
-use App\Livewire\FileMetadata\Index as FileMetadataIndex;
+use App\Livewire\Metadata\Index as MetadataIndex;
 use App\Livewire\RecycleBin;
 use App\Livewire\Folder\Approval as FolderApproval;
+use App\Livewire\Search;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,6 +52,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
         Route::get('/section-name-check', [MenuController::class, 'check_folder_name'])->name('section.check_name');
     });
 
+    Route::get('/search', Search::class)->name('search');
+
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     Route::group(['prefix' => '/folder', 'as' => 'folder.'], function () {
@@ -74,7 +77,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
     });
 
     Route::group(['prefix' => '/meta', 'as' => 'meta.'], function () {
-        Route::get('/', FileMetadataIndex::class)->name('index');
+        Route::get('/', MetadataIndex::class)->name('index');
     });
 
     Route::get('/audit', AuditLog::class)->name('audit-log');

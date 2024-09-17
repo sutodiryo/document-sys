@@ -114,6 +114,21 @@
 
     <!--end::Custom Javascript-->
 
+    {{-- <script src="{{ asset('assets/pspdfkit.js') }}"></script>
+    <script>
+        PSPDFKit.load({
+                licenseKey: '5ZHXLjgAXLL-jM0DZTa6_YlP6mqhAKwLVipsCZQKbUaCcryFBVi6NdOacjjEGUjm74vS35iiggInU1LBtpsdBHrKZhIsQlXSh3gYqM90VMExL2gowowoc3dLF4VnHONWpLRRdWlZ8khIvDc10gdlDQe-81PVHoVcEohOnyZY9cW0ZFOdGUoyhJoIHCfblA1NNWHX8cf4826wowtE',
+                container: "#pspdfkit",
+                document: "/Users/user/Herd/document-sys/storage/app/public/uploads/9ceee42c-7129-40b6-b321-70ee380ca34e/Contoh.pdf" // Add the path to your document here.
+            })
+            .then(function(instance) {
+                console.log("PSPDFKit loaded", instance);
+            })
+            .catch(function(error) {
+                console.error(error.message);
+            });
+    </script> --}}
+
     @livewireScripts
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

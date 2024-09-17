@@ -30,6 +30,31 @@ function formatDateTime($dateTime, $format = "d/m/Y h:i A")
     return ($dateTime) ? date($format, strtotime($dateTime)) : $dateTime;
 }
 
+
+function formatDateTimeID($dateTime, $format = "d M Y h:i A")
+{
+    if (is_null($dateTime)) {
+        return '-';
+    }
+    return ($dateTime) ? date($format, strtotime($dateTime)) : $dateTime;
+}
+
+function formatDateID($dateTime, $format = "d M Y")
+{
+    if (is_null($dateTime)) {
+        return '-';
+    }
+    return ($dateTime) ? date($format, strtotime($dateTime)) : $dateTime;
+}
+
+function formatTimeID($dateTime, $format = "h:i A")
+{
+    if (is_null($dateTime)) {
+        return '-';
+    }
+    return ($dateTime) ? date($format, strtotime($dateTime)) : $dateTime;
+}
+
 /**
  * Format The Time
  * @param $time
@@ -109,8 +134,13 @@ function groupTagsPermissions($permissions)
 
     $tagsWise = [];
     for ($i = 0; $i < $permissions->count(); $i++) {
-        preg_match_all('/([\D]+) documents in tag ([\d]+)/m',
-            $permissions[$i]->name, $matches, PREG_SET_ORDER, 0);
+        preg_match_all(
+            '/([\D]+) documents in tag ([\d]+)/m',
+            $permissions[$i]->name,
+            $matches,
+            PREG_SET_ORDER,
+            0
+        );
         if (!empty($matches)) {
             if (isset($tagsWise[$matches[0][2]])) {
                 $tagsWise[$matches[0][2]]['permissions'][] = $matches[0][1];
@@ -136,8 +166,13 @@ function groupDocumentsPermissions($permissions)
 
     $docWise = [];
     for ($i = 0; $i < $permissions->count(); $i++) {
-        preg_match_all('/([\D]+) document ([\d]+)/m',
-            $permissions[$i]->name, $matches, PREG_SET_ORDER, 0);
+        preg_match_all(
+            '/([\D]+) document ([\d]+)/m',
+            $permissions[$i]->name,
+            $matches,
+            PREG_SET_ORDER,
+            0
+        );
         if (!empty($matches)) {
             if (isset($docWise[$matches[0][2]])) {
                 $docWise[$matches[0][2]]['permissions'][] = $matches[0][1];
