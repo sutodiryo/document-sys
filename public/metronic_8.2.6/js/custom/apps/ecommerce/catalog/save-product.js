@@ -31,17 +31,21 @@
                         maxItems: 20, classname: "tagify__inline__suggestions", enabled: 0, closeOnSelect: !1
                     }
                 })
-            })), o = document.querySelector("#kt_ecommerce_add_product_discount_slider"), a = document.querySelector("#kt_ecommerce_add_product_discount_label"), noUiSlider.create(o, {
+            })),
+            o = document.querySelector("#kt_ecommerce_add_product_discount_slider"), a = document.querySelector("#kt_ecommerce_add_product_discount_label"), noUiSlider.create(o, {
                 start: [10], connect: !0, range: {
                     min: 1, max: 100
                 }
-            }), o.noUiSlider.on("update", (function (e, t) {
+            }),
+            o.noUiSlider.on("update", (function (e, t) {
                 a.innerHTML = Math.round(e[t]), t && (a.innerHTML = Math.round(e[t]))
-            })), e(), new Dropzone("#kt_ecommerce_add_product_media", {
+            })),
+            e(), new Dropzone("#kt_ecommerce_add_product_media", {
                 url: "https://keenthemes.com/scripts/void.php", paramName: "file", maxFiles: 10, maxFilesize: 10, addRemoveLinks: !0, accept: function (e, t) {
                     "wow.jpg" == e.name ? t("Naha, you don't.") : t()
                 }
-            }), t(), (() => {
+            }),
+             t(), (() => {
                 const e = document.getElementById("kt_ecommerce_add_product_status"), t = document.getElementById("kt_ecommerce_add_product_status_select"), o = ["bg-success", "bg-warning", "bg-danger"]; $(t).on("change", (function (t) {
                     switch (t.target.value) {
                         case "published": e.classList.remove(...o), e.classList.add("bg-success"), c(); break; case "scheduled": e.classList.remove(...o), e.classList.add("bg-warning"), d(); break; case "inactive": e.classList.remove(...o), e.classList.add("bg-danger"), c(); break; case "draft": e.classList.remove(...o), e.classList.add("bg-primary"), c()

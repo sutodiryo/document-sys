@@ -6,6 +6,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\MenuController;
 use App\Livewire\Folder\Index as FolderIndex;
 use App\Livewire\File\Index as FileIndex;
+use App\Livewire\File\Edit as FileEdit;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Account\AccessOverview;
 use App\Livewire\Account\AccessOverviewIndex;
@@ -47,6 +48,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], function () {
+    // Route::get('/', Dashboard::class)->name('home');
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+
     Route::group(['prefix' => '/menu', 'as' => 'menu.'], function () {
         Route::post('/section-store', [MenuController::class, 'section_store'])->name('section.store');
         Route::get('/section-name-check', [MenuController::class, 'check_folder_name'])->name('section.check_name');
@@ -54,7 +58,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
 
     Route::get('/search', Search::class)->name('search');
 
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     Route::group(['prefix' => '/folder', 'as' => 'folder.'], function () {
         Route::get('/', FolderIndex::class)->name('index');
@@ -62,6 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
 
     Route::group(['prefix' => '/file', 'as' => 'file.'], function () {
         Route::get('/', FileIndex::class)->name('index');
+        Route::get('edit/', FileEdit::class)->name('edit');
 
         Route::group(['prefix' => '/mail', 'as' => 'mail.'], function () {
             Route::post('share/{id}', [EmailController::class, 'SendShareFileEmail'])->name('share');

@@ -7,10 +7,10 @@
                     <div class="d-flex align-items-center">
                         <div class="d-flex flex-column">
                             <h2 class="mb-1">{{ $file->name }}</h2>
-                            <div class="text-muted fw-bold">
+                            {{-- <div class="text-muted fw-bold">
                                 <a>File Manager</a>
                                 <span class="mx-3">|</span>2.6 GB
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -31,10 +31,10 @@
                                     <i class="fas fa-lock fs-2"></i>Lock File
                                 </button>
                             @else
-                                <a href="{{ route('doc.unlock', ['id' => $file->id]) }}"
+                                <button wire:click="unlock_file" {{-- href="{{ route('doc.unlock', ['id' => $file->id]) }}" --}}
                                     class="btn btn-sm btn-primary me-3">
                                     <i class="fas fa-unlock fs-2"></i>Unlock File
-                                </a>
+                                </button>
                             @endif
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
@@ -44,8 +44,11 @@
                                 </i>Reminder</button>
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <button type="button" class="btn btn-sm btn-primary me-3" data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_upload_new_version">
+                            <button type="button" class="btn btn-sm btn-primary me-3"
+                            wire:click="updateUploadFiles('Yes')"
+                            {{-- data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_upload_new_version" --}}
+                                >
                                 <i class="ki-solid ki-file fs-2">
                                 </i>Upload new version</button>
                         </div>
@@ -57,7 +60,8 @@
                         </div>
 
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <a {{-- href="{{ route('documents.edit', $file->id) }}" --}} type="button" class="btn btn-sm btn-primary me-3">
+                            <a href="{{ route('file.edit', ['uuid' => $file->id]) }}" type="button"
+                                class="btn btn-sm btn-primary me-3">
                                 <i class="ki-solid ki-gear fs-2">
                                 </i>Modify
                             </a>
@@ -76,8 +80,54 @@
                 </div>
                 <div class="card-body">
 
+                    @if ($open_form_upload == 'Yes')
+
+                        <div class="dropzone" x-data="{ isUploading: false, progress: 0 }" x-on:livewire-upload-start="isUploading = true"
+                            x-on:livewire-upload-finish="isUploading = false"
+                            x-on:livewire-upload-error="isUploading = false"
+                            x-on:livewire-upload-progress="progress = $event.detail.progress">
+
+                            <input type="file" class="form-control" id="upload_file" wire:model.live="upload_file"/>
+
+                            <!-- Progress Bar -->
+                            <div x-show="isUploading">
+                                <progress max="100" x-bind:value="progress"></progress>
+                            </div>
+                        </div>
+
+                        @if ($upload_file)
+                            <div class="list-files mt-3">
+                                <div class="module-attachment-items d-flex flex-column gap-2">
+
+                                    {{-- @foreach ($upload_file as $upload_file) --}}
+                                        @php
+                                            $base = log($upload_file->getSize(), 1024);
+                                            $suffixes = ['', 'Kb', 'Mb', 'Gb', 'Tb'];
+                                            $upload_file_size =
+                                                round(pow(1024, $base - floor($base)), 2) .
+                                                ' ' .
+                                                $suffixes[floor($base)];
+                                        @endphp
+                                        <div>
+                                            <div
+                                                class="image position-relative d-flex gap-3 align-items-center bg-white rounded p-2 border border-1 w-100">
+                                                <div class="img-name">{{ $upload_file->getClientOriginalName() }}
+                                                </div>
+                                                <div class="img-size opacity-50">{{ $upload_file_size }}</div>
+                                                <a class="btn ms-auto" href="#">
+                                                    <i class="fas fa-gear"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {{-- @endforeach --}}
+
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+
                     {{-- Breadcumbs --}}
-                    <div class="d-flex flex-stack mb-8">
+                    <div class="d-flex flex-stack mt-8 mb-8">
                         <div class="badge badge-lg badge-light-primary">
                             <div class="d-flex align-items-center flex-wrap">
                                 <i class="ki-duotone ki-home fs-2 text-primary me-3">
@@ -171,10 +221,10 @@
                                                                 @endforeach --}}
                                                                 <div class="mt-3">
 
-                                                                    <span data-bs-toggle="modal"
+                                                                    {{-- <span data-bs-toggle="modal"
                                                                         data-bs-target="#kt_modal_reminder"><i
                                                                             class="fas fa-bell"></i> Add new
-                                                                        reminder</span>
+                                                                        reminder</span> --}}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -331,6 +381,103 @@
         </div>
     </div>
 
+    {{-- Lock --}}
+    <div class="modal fade" id="kt_modal_lock" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content">
+                <form class="form" action="none" id="kt_modal_lock_form">
+                    <div class="modal-header">
+                        <h2 class="fw-bold">Lock files</h2>
+                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                            <i class="ki-duotone ki-cross fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                    </div>
+                    <div class="modal-body pt-10 pb-15 px-lg-17">
+                        <div class="form-group">
+                            <div class="d-flex flex-stack">
+                                <div class="d-flex">
+                                    <div class="d-flex flex-column">
+                                        <a href="#" class="fs-5 text-gray-900 text-hover-primary fw-bold">Are
+                                            you
+                                            sure you want to lock the file?</a>
+                                        <div class="fs-6 fw-semibold text-gray-500">Other editors will not be able to
+                                            change the metadata or add new versions until the file is unlocked. The file
+                                            unlocks automatically after 6 hours if you don't unlock it first.</div>
+                                    </div>
+                                </div>
+                                {{-- <div class="d-flex justify-content-end">
+                                    <div class="form-check form-check-solid form-check-custom form-switch">
+                                        <input class="form-check-input w-45px h-30px" type="checkbox" id="lockswitch">
+                                        <label class="form-check-label" for="lockswitch"></label>
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button> --}}
+                        <button wire:click="lock_file" {{-- href="{{ route('doc.lock', ['id' => $document->id]) }}" --}} type="button"
+                            class="btn btn-primary">Lock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- Reminder --}}
+
+    <div wire:ignore.self class="modal fade" id="kt_modal_reminder" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_reminder_header">
+                    <h2>Set reminder to: {{ $file->name }}</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                </div>
+
+                {{-- {!! Form::open(['route' => ['doc.reminder.store'], 'method' => 'post', 'files' => true]) !!} --}}
+                <div class="modal-body py-10 px-lg-17">
+                    {{-- {!! Form::hidden('id', $document->id) !!}
+                    {!! Form::hidden('curent_link', Request::url()) !!} --}}
+
+                    <div class="scroll-y me-n7 pe-7" id="kt_modal_reminder_scroll" data-kt-scroll="true"
+                        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+                        data-kt-scroll-dependencies="#kt_modal_reminder_header"
+                        data-kt-scroll-wrappers="#kt_modal_reminder_scroll" data-kt-scroll-offset="300px">
+
+                        <div class="d-flex flex-column mb-5 fv-row">
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <input type="datetime-local" name="remind_at" class="form-control"
+                                        placeholder="Date & Time" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" />
+                                </div>
+                            </div>
+                            <textarea class="form-control form-control" rows="3" name="message" placeholder="Message"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button type="submit" id="kt_modal_reminder_submit" class="btn btn-primary">
+                            <span class="indicator-label">Remind</span>
+                        </button>
+                    </div>
+                    {{-- {!! Form::close() !!} --}}
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div wire:ignore.self class="modal fade" id="modal_view_pdf" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-800px">

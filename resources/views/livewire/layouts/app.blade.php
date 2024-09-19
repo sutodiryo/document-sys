@@ -102,6 +102,9 @@
     <script src="{{ asset('metronic_8.2.6/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <!--end::Vendors Javascript-->
 
+    {{-- <script src="{{ asset('metronic_8.2.6/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
+    <script src="{{ asset('metronic_8.2.6/js/custom/apps/ecommerce/catalog/save-product.js') }}"></script> --}}
+
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="{{ asset('metronic_8.2.6/js/custom/apps/file-manager/list.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/widgets.bundle.js') }}"></script>
@@ -110,6 +113,7 @@
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/create-app.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/users-search.js') }}"></script>
+
     {{-- <script src="{{ asset('metronic_8.2.6/js/custom/apps/ecommerce/catalog/save-product.js') }}"></script> --}}
 
     <!--end::Custom Javascript-->

@@ -63,6 +63,7 @@ class Index extends Component
         $this->countData = $folders->count() + $files->count();
         $this->limit = $this->countData ? $this->countData : 0;
     }
+
     public function updateUploadFiles($val)
     {
         $this->open_form_upload = $val;

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Metadata extends Model
 {
     protected $table = 'metadatas';
+
     public $fillable = [
         'folder_id',
         'file_id',
@@ -14,7 +15,7 @@ class Metadata extends Model
         'description',
         'allow_multiple_use',
         'data_type',
-        'string_value',
+        'value',
     ];
 
     public function folder()

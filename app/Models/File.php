@@ -19,7 +19,9 @@ class File extends Model
         'created_by',
         'custom_fields',
         'verified_at',
-        'verified_by'
+        'verified_by',
+        'date',
+        'due_date'
     ];
 
     /**

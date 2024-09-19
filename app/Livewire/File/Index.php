@@ -9,13 +9,16 @@ use App\Models\FileShare;
 use App\Models\Folder;
 use App\Models\UserGroup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class Index extends Component
 {
@@ -25,7 +28,7 @@ class Index extends Component
     public $uuid;
     public $tags = [];
     public $file, $folder, $ancestors, $another_version_files = [], $user_groups;
-    public $upload_files, $emailLists = [], $invited_emails, $email;
+    public $open_form_upload, $upload_file, $emailLists = [], $invited_emails, $email;
 
     // Modal share
     public $share_by_email_group, $share_by_email_role, $share_by_email_expiration, $share_by_email_expires_at;
@@ -58,6 +61,103 @@ class Index extends Component
             $this->share_by_link_role = $file_share_data->by_link ? $file_share_data->role : null;
             // dd($file_share_data);
         }
+    }
+
+    public function lock_file()
+    {
+        DB::beginTransaction();
+        $this->file->update(['lock_status' => 1]);
+
+        $text = " Locked";
+        $this->file->newActivity($this->file->id, $text);
+        DB::commit();
+
+        $this->flash('success', 'File locked!', [
+            'position' => 'top-end',
+            'timer' => 3000,
+            'toast' => true,
+            'timerProgressBar' => true,
+        ], $this->curent_link);
+    }
+
+    public function unlock_file()
+    {
+        DB::beginTransaction();
+        $this->file->update(['lock_status' => 0]);
+
+        $text = " Unlocked";
+        $this->file->newActivity($this->file->id, $text);
+        DB::commit();
+
+        $this->flash('success', 'File unlocked!', [
+            'position' => 'top-end',
+            'timer' => 3000,
+            'toast' => true,
+            'timerProgressBar' => true,
+        ], $this->curent_link);
+    }
+
+    public function updateUploadFiles($val)
+    {
+        $this->open_form_upload = $val;
+    }
+
+    public function updatedUploadFile()
+    {
+        DB::beginTransaction();
+
+        $file_name = $this->upload_file->getClientOriginalName();
+
+        // $this->file = Document::findOrFail($request->id);
+        // $this->file->update(['name' => $file_name]);
+
+        $this->file->attachments()->insert([
+            'id' => Str::orderedUuid(),
+            'name' => $file_name,
+            'file' => '/uploads/' . $this->file->id . '/' . $file_name,
+            'file_id' => $this->file->id,
+            'created_by' => Auth::id(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $upload = Storage::disk('public')->putFileAs('uploads/' . $this->file->id . '/', $this->upload_file, $file_name);
+
+        $text = $file_name . " is Updated To " . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $this->file->name . "</a>";
+        $this->file->newActivity($this->file->id, $text);
+        // dd($this->file->activities);
+
+        DB::commit();
+
+        // return redirect($request->curent_link);
+
+        // $file_name = $file->getClientOriginalName();
+        // $file_ext = $file->getClientOriginalExtension();
+
+        // $newFile = new File();
+
+        // $newFile->name = $file_name;
+        // $newFile->folder_id = $this->uuid;
+        // $newFile->status = 'PENDING';
+        // $newFile->lock_status = NULL;
+        // $newFile->created_by = Auth::id();
+        // $newFile->save();
+
+        // // dd($newFile);
+        // $newFile->attachments()->insert([
+        //     'id' => Str::orderedUuid(),
+        //     'file_id' => $newFile->id,
+        //     'name' => $file_name,
+        //     'file' => "/uploads/$newFile->id/$file_name",
+        //     'created_by' => Auth::id()
+        // ]);
+
+        // $text = "Uploaded to " . $this->folder->name . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $newFile->name . "</a>";
+        // $newFile->newActivity($newFile->id, $text);
+
+        // $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
+
+        DB::commit();
     }
 
     public function share_by_email()

@@ -64,10 +64,10 @@ class Search extends Component
             })
             ->where(function ($query) {
                 $query->when($this->search_on == 'metadata', function ($query) {
-                    $query->where('name', 'like', '%' . $this->query . '%'); // metadata
-                    // $query->whereHas('department', function ($query) {
-                    //     $query->where('name', 'like', '%' . $this->searchDepartemen . '%');
-                    // });
+                    $query->whereHas('metadatas', function ($query) {
+                        $query->where('name', 'like', '%' . $this->query . '%')
+                            ->orWhere('value', 'like', '%' . $this->query . '%');
+                    });
                 });
             })->where(function ($query) {
                 $query->when($this->search_on == 'notes', function ($query) {
@@ -106,7 +106,10 @@ class Search extends Component
             })
             ->where(function ($query) {
                 $query->when($this->search_on == 'metadata', function ($query) {
-                    $query->where('name', 'like', '%' . $this->query . '%'); // metadata
+                    $query->whereHas('metadatas', function ($query) {
+                        $query->where('name', 'like', '%' . $this->query . '%')
+                            ->orWhere('value', 'like', '%' . $this->query . '%');
+                    });
                 });
             })->where(function ($query) {
                 $query->when($this->search_on == 'notes', function ($query) {
