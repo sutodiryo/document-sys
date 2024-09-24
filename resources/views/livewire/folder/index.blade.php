@@ -185,22 +185,29 @@
                             <div class="list-files mt-3">
                                 <div class="module-attachment-items d-flex flex-column gap-2">
 
-                                    @foreach ($upload_files as $upload_file)
+                                    @foreach ($uploaded_files as $upload_file)
                                         @php
-                                            $base = log($upload_file->getSize(), 1024);
-                                            $suffixes = ['', 'Kb', 'Mb', 'Gb', 'Tb'];
-                                            $upload_file_size =
-                                                round(pow(1024, $base - floor($base)), 2) .
-                                                ' ' .
-                                                $suffixes[floor($base)];
+                                            // $base = log($upload_file->getSize(), 1024);
+                                            // $suffixes = ['', 'Kb', 'Mb', 'Gb', 'Tb'];
+                                            // $upload_file_size =
+                                            //     round(pow(1024, $base - floor($base)), 2) .
+                                            //     ' ' .
+                                            //     $suffixes[floor($base)];
+                                            $upload_file_size = 12;
                                         @endphp
                                         <div>
                                             <div
                                                 class="image position-relative d-flex gap-3 align-items-center bg-white rounded p-2 border border-1 w-100">
-                                                <div class="img-name">{{ $upload_file->getClientOriginalName() }}
+
+                                                <div class="img-name">
+                                                    <a class="btn ms-auto" target="_blank"
+                                                        href="{{ route('file.index') . '?uuid=' . $upload_file->id }}">{{ $upload_file->name }}
+                                                        {{-- <div class="img-name">{{ $upload_file->getClientOriginalName() }} --}}
+                                                    </a>
                                                 </div>
-                                                <div class="img-size opacity-50">{{ $upload_file_size }}</div>
-                                                <a class="btn ms-auto" href="#">
+                                                <div class="img-size opacity-50">{{ $upload_file_size }}Kb</div>
+                                                <a class="btn ms-auto" target="_blank"
+                                                    href="{{ route('file.index') . '?uuid=' . $upload_file->id }}">
                                                     <i class="fas fa-gear"></i>
                                                 </a>
                                             </div>
@@ -270,13 +277,17 @@
                                                 class="text-gray-800 text-hover-primary">
                                                 <span class="icon-wrapper">
                                                     @if (empty($fd->approval_status))
-                                                        <i class="fas fa-folder fs-2x text-grey me-4" title=""></i>
+                                                        <i class="fas fa-folder fs-2x text-grey me-4"
+                                                            title=""></i>
                                                     @elseif ($fd->approval_status == 'Approved')
-                                                        <i class="fas fa-folder fs-2x text-success me-4" title="Approved"></i>
+                                                        <i class="fas fa-folder fs-2x text-success me-4"
+                                                            title="Approved"></i>
                                                     @elseif ($fd->approval_status == 'Rejected')
-                                                        <i class="fas fa-folder fs-2x text-danger me-4" title="Rejected"></i>
+                                                        <i class="fas fa-folder fs-2x text-danger me-4"
+                                                            title="Rejected"></i>
                                                     @else
-                                                        <i class="fas fa-folder fs-2x text-warning me-4" title="Waiting Approval"></i>
+                                                        <i class="fas fa-folder fs-2x text-warning me-4"
+                                                            title="Waiting Approval"></i>
                                                     @endif
                                                 </span>
                                             </a>
@@ -366,13 +377,17 @@
                                                 <span class="icon-wrapper">
                                                     {{-- <i class="fas fa-file fs-2x text-grey me-4"></i> --}}
                                                     @if (empty($fl->approval_status))
-                                                        <i class="fas fa-file fs-2x text-grey me-4" title=""></i>
+                                                        <i class="fas fa-file fs-2x text-grey me-4"
+                                                            title=""></i>
                                                     @elseif ($fl->approval_status == 'Approved')
-                                                        <i class="fas fa-file fs-2x text-success me-4" title="Approved"></i>
+                                                        <i class="fas fa-file fs-2x text-success me-4"
+                                                            title="Approved"></i>
                                                     @elseif ($fl->approval_status == 'Rejected')
-                                                        <i class="fas fa-file fs-2x text-danger me-4" title="Rejected"></i>
+                                                        <i class="fas fa-file fs-2x text-danger me-4"
+                                                            title="Rejected"></i>
                                                     @else
-                                                        <i class="fas fa-file fs-2x text-warning me-4" title="Waiting Approval"></i>
+                                                        <i class="fas fa-file fs-2x text-warning me-4"
+                                                            title="Waiting Approval"></i>
                                                     @endif
                                                 </span>
                                             </a>
@@ -418,7 +433,10 @@
                                                         <a href="#" class="menu-link px-3">Share</a>
                                                     </div>
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3">Duplicate</a>
+                                                        <a wire:click="setModalFileId('{{ $fl->id }}')"
+                                                            href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#kt_modal_duplicate_file_to_folder"
+                                                            {{-- wire:click="duplicateFile" --}} class="menu-link px-3">Duplicate</a>
                                                     </div>
                                                     <div class="menu-item px-3">
                                                         <a wire:click="del_file('{{ $fl->id }}')"
@@ -1105,73 +1123,47 @@
             <div class="modal fade" id="kt_modal_duplicate_file_to_folder" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered mw-650px">
                     <div class="modal-content">
-                        {{-- {!! Form::open(['route' => ['files.duplicate', 1], 'method' => 'post']) !!} --}}
-                        <div class="modal-header">
-                            <h2 class="fw-bold">Duplicate file </h2>
-                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
-                                <i class="ki-duotone ki-cross fs-1">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
+                        <form>
+                            <div class="modal-header">
+                                <h2 class="fw-bold">Duplicate file </h2>
+                                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                                    <i class="ki-duotone ki-cross fs-1">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-body pt-10 pb-15 px-lg-17">
-                            {{-- {!! Form::hidden('curent_link', Request::url()) !!} --}}
-                            <div class="form-group fv-row">
+                            <div class="modal-body pt-10 pb-15 px-lg-17">
+                                <div class="form-group fv-row">
 
-                                @foreach ($folders as $folder)
-                                    @cannot('view', $folder)
-                                        @continue
-                                    @endcannot
-                                    <div class="d-flex">
-                                        <div class="form-check form-check-custom form-check-solid">
-                                            <input class="form-check-input me-3" name="folder_id" type="radio"
-                                                value="{{ $folder->id }}"
-                                                id="kt_modal_duplicate_file_to_folder_{{ $folder->id }}" />
-                                            <label class="form-check-label"
-                                                for="kt_modal_duplicate_file_to_folder_{{ $folder->id }}">
-                                                <div class="fw-bold">
-                                                    <i class="ki-duotone ki-folder fs-2 text-primary me-2">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>{{ $folder->name }}
-                                                </div>
-                                            </label>
+                                    @foreach ($folders as $folder)
+                                        <div class="d-flex">
+                                            <div class="form-check form-check-custom form-check-solid">
+                                                <input class="form-check-input me-3" wire:model="selected_folder_id"
+                                                    type="radio" value="{{ $folder->id }}"
+                                                    id="kt_modal_duplicate_file_to_folder_{{ $folder->id }}" />
+                                                <label class="form-check-label"
+                                                    for="kt_modal_duplicate_file_to_folder_{{ $folder->id }}">
+                                                    <div class="fw-bold">
+                                                        <i class="ki-duotone ki-folder fs-2 text-primary me-2">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>{{ $folder->name }}
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class='separator separator-dashed my-5'></div>
-                                @endforeach
+                                        <div class='separator separator-dashed my-5'></div>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex flex-center mt-12">
+                                    <button wire:click="duplicateFile" class="btn btn-primary">
+                                        <span class="indicator-label">Duplicate</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
-                                {{-- <div class="d-flex">
-                                        <div class="form-check form-check-custom form-check-solid">
-                                            <input class="form-check-input me-3" name="move_to_folder" type="radio"
-                                                value="1" id="kt_modal_duplicate_file_to_folder_1" />
-                                            <label class="form-check-label" for="kt_modal_duplicate_file_to_folder_1">
-                                                <div class="fw-bold">
-                                                    <i class="ki-duotone ki-folder fs-2 text-primary me-2">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>apps
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div> --}}
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Action buttons-->
-                            <div class="d-flex flex-center mt-12">
-                                <!--begin::Button-->
-                                <button type="submit" class="btn btn-primary"
-                                    id="kt_modal_duplicate_file_to_folder_submit">
-                                    <span class="indicator-label">Duplicate</span>
-                                    <span class="indicator-progress">Please wait...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                </button>
-                                <!--end::Button-->
-                            </div>
-                            <!--begin::Action buttons-->
-                        </div>
-                        {{-- {!! Form::close() !!} --}}
                     </div>
                 </div>
             </div>

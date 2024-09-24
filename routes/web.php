@@ -58,7 +58,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
 
     Route::get('/search', Search::class)->name('search');
 
-
     Route::group(['prefix' => '/folder', 'as' => 'folder.'], function () {
         Route::get('/', FolderIndex::class)->name('index');
     });

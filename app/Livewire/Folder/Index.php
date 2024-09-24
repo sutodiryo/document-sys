@@ -33,7 +33,7 @@ class Index extends Component
     public $tags = [];
     public $folders = [], $folder, $ancestors;
     public $files = [], $delete_id;
-    public $open_form_upload, $upload_files = [];
+    public $open_form_upload, $upload_files = [], $uploaded_files = [];
 
     public $user_groups, $approval_group, $resolution_status, $approval_resolution, $approval_invited_emails;
     public $retention_status = 'Active', $retention_date_end, $retention_action = 'Move to Recycle Bin';
@@ -74,7 +74,7 @@ class Index extends Component
         // #[Validate('image|max:1024')]
 
         DB::beginTransaction();
-        $files = [];
+        // $this->uploaded_files = [];
         foreach ($this->upload_files as $file) {
             $file_name = $file->getClientOriginalName();
             $file_ext = $file->getClientOriginalExtension();
@@ -104,12 +104,15 @@ class Index extends Component
 
                 $text = "Uploaded to " . $this->folder->name . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $newFile->name . "</a>";
                 $newFile->newActivity($newFile->id, $text);
-
+                $this->uploaded_files[] = $newFile;
                 $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
 
                 DB::commit();
             }
         }
+
+        // dd($this->uploaded_files );
+
     }
 
     public function uploadAndExtract($file, $file_name)
@@ -135,87 +138,36 @@ class Index extends Component
         return to_route('dashboard')->with('message', 'File uploaded and extracted successfully');
     }
 
-    public function delete()
-    {
-        foreach ($this->itemSelected as $item) {
-            $folder = Folder::find($item);
-
-            DB::beginTransaction();
-            $folder->delete();
-            dd($folder);
-            DB::commit();
-        }
-
-        $this->dispatchBrowserEvent('swal', [
-            'title' => 'Berhasil',
-            'icon' => 'success',
-            'text' => 'Data berhasil di hapus',
-        ]);
-
-        $this->emit('refreshComponent');
-
-        $this->itemSelected = [];
-        $this->countSelected = 0;
-    }
-
-    public function destroy_file($id, $permanent = false)
+    public function duplicateFile()
     {
         DB::beginTransaction();
-        $file = File::withTrashed()->findOrFail($id);
-        if ($permanent) {
-            // $file->forceDelete();
-            $text = "Permanent deleted file" . ' : <a href="#">' . $file->name . "</a>";
-            $file->newActivity($file->id, $text);
-        } else {
-            $file->delete();
-            $text = "Deleted file" . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $file->name . "</a>";
-            $file->newActivity($file->id, $text);
+        $file = File::find($this->selected_file_id);
+
+        $new_file = $file->replicate();
+        $new_file->folder_id = $this->selected_folder_id ? $this->selected_folder_id : $new_file->folder_id;
+        $new_file->save();
+
+        if ($new_file) {
+            $text = "Duplicated from file: <a href=" . route('file.index') . "?uuid=" . $this->selected_file_id . '">' . $new_file->name . "</a>";
+            $new_file->newActivity($new_file->id, $text);
         }
-        dd($file->activities());
+
+        $this->flash(
+            'success',
+            'File duplicated succesfully!',
+            [
+                'position' => 'top-end',
+                'timer' => 3000,
+                'toast' => true,
+                'timerProgressBar' => true,
+            ],
+            route('file.index', ['uuid' => $new_file->id])
+        );
+        // $this->curent_link);
+
         DB::commit();
 
-        return redirect()->route('doc.recycle-bin');
-    }
-
-    public function del_file($id)
-    {
-        $this->delete_id = $id;
-
-        $file = File::withTrashed()->findOrFail($id);
-
-        $this->alert('question', '', [
-            'title' => 'Anda yakin akan menghapus file ini ?',
-            'text' => $file->name,
-            'showConfirmButton' => true,
-            'confirmButtonText' => 'Ya, Hapus',
-            'showCancelButton' => true,
-            'onConfirmed' => 'confirmFileDelete',
-            'onDismissed' => 'cancelDelete',
-            'cancelButtonText' => 'Tidak, Batalkan',
-            'position' => 'center',
-            'toast' => false,
-            'timer' => null,
-        ]);
-    }
-
-    public function confirmFileDelete()
-    {
-        DB::beginTransaction();
-        $file = File::withTrashed()->findOrFail($this->delete_id);
-        $file->delete();
-        $text = "Deleted file" . ' : <a href="' . route('file.index') . '?uuid=' . $this->delete_id . '">' . $file->name . "</a>";
-        $file->newActivity($file->id, $text);
-
-        // dd($file->activities());
-        DB::commit();
-
-        $this->flash('success', 'File berhasil dihapus.', [], $this->curent_link);
-    }
-
-    public function cancelDelete()
-    {
-        // $this->reset(['delete_id']);
-        redirect($this->curent_link);
+        // return redirect($this->curent_link);
     }
 
     public function setModalFolderId($id)
@@ -412,6 +364,89 @@ class Index extends Component
                 'cancelButtonText' => 'OK',
             ]);
         }
+    }
+
+    public function delete()
+    {
+        foreach ($this->itemSelected as $item) {
+            $folder = Folder::find($item);
+
+            DB::beginTransaction();
+            $folder->delete();
+            dd($folder);
+            DB::commit();
+        }
+
+        $this->dispatchBrowserEvent('swal', [
+            'title' => 'Berhasil',
+            'icon' => 'success',
+            'text' => 'Data berhasil di hapus',
+        ]);
+
+        $this->emit('refreshComponent');
+
+        $this->itemSelected = [];
+        $this->countSelected = 0;
+    }
+
+    public function destroy_file($id, $permanent = false)
+    {
+        DB::beginTransaction();
+        $file = File::withTrashed()->findOrFail($id);
+        if ($permanent) {
+            // $file->forceDelete();
+            $text = "Permanent deleted file" . ' : <a href="#">' . $file->name . "</a>";
+            $file->newActivity($file->id, $text);
+        } else {
+            $file->delete();
+            $text = "Deleted file" . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $file->name . "</a>";
+            $file->newActivity($file->id, $text);
+        }
+        dd($file->activities());
+        DB::commit();
+
+        return redirect()->route('doc.recycle-bin');
+    }
+
+    public function del_file($id)
+    {
+        $this->delete_id = $id;
+
+        $file = File::withTrashed()->findOrFail($id);
+
+        $this->alert('question', '', [
+            'title' => 'Anda yakin akan menghapus file ini ?',
+            'text' => $file->name,
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Ya, Hapus',
+            'showCancelButton' => true,
+            'onConfirmed' => 'confirmFileDelete',
+            'onDismissed' => 'cancelDelete',
+            'cancelButtonText' => 'Tidak, Batalkan',
+            'position' => 'center',
+            'toast' => false,
+            'timer' => null,
+        ]);
+    }
+
+    public function confirmFileDelete()
+    {
+        DB::beginTransaction();
+        $file = File::withTrashed()->findOrFail($this->delete_id);
+        $file->delete();
+        $text = "Deleted file" . ' : <a href="' . route('file.index') . '?uuid=' . $this->delete_id . '">' . $file->name . "</a>";
+        $file->newActivity($file->id, $text);
+
+        // dd($file->activities());
+        DB::commit();
+
+        $this->flash('success', 'File berhasil dihapus.', [], $this->curent_link);
+    }
+
+    public function cancelDelete()
+    {
+        // $this->reset(['delete_id']);
+        redirect($this->curent_link);
     }
 
     public function render()
