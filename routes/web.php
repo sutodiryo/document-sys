@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controllers\HomeController;
 use App\Livewire\Dashboard;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
@@ -18,12 +19,16 @@ use App\Livewire\File\Approval;
 use App\Livewire\Metadata\Index as MetadataIndex;
 use App\Livewire\RecycleBin;
 use App\Livewire\Folder\Approval as FolderApproval;
+use App\Livewire\HomePage;
 use App\Livewire\Search;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome')->name('home');
-});
+// Route::get('/', function () {
+//     return view('metronic.home')->name('home');
+// });
+// Route::get('/', 'Controllers\HomeController@home')->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+
 
 // Public link
 
