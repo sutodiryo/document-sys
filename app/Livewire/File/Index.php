@@ -50,8 +50,8 @@ class Index extends Component
         $this->ancestors = $this->folder->joinAncestors()->reverse();
         $this->user_groups = UserGroup::get();
 
-        $this->link_file = route('admin.preview.file', $this->uuid);
-        // $this->link_file = route('home') . Storage::url('uploads/' . $this->file->id . '/' . $this->file->attachment->name);
+        // $this->link_file = route('admin.preview.file', $this->uuid);
+        $this->link_file = route('home') . Storage::url('uploads/' . $this->file->id . '/' . $this->file->attachment->name);
 
         // $this->link_file = "http://writing.engr.psu.edu/workbooks/formal_report_template.doc";
 
