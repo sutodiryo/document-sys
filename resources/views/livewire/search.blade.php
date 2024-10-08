@@ -108,13 +108,13 @@
                                 <span class="form-check-label text-gray-600">Metadata</span>
                             </label>
                         </div>
-                        {{-- <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
+                        <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
                             <label class="form-check form-check-sm form-check-custom form-check-solid">
                                 <input class="form-check-input" type="radio" wire:model.live="search_on"
                                     value="content">
                                 <span class="form-check-label text-gray-600">Content</span>
                             </label>
-                        </div> --}}
+                        </div>
                         <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
                             <label class="form-check form-check-sm form-check-custom form-check-solid">
                                 <input class="form-check-input" type="radio" wire:model.live="search_on"

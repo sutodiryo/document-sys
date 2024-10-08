@@ -41,6 +41,7 @@ class Search extends Component
         } elseif ($property == 'sort_by_date') {
             $this->sort_by = 'created_at';
         }
+
         $this->setTables();
     }
 
@@ -115,7 +116,47 @@ class Search extends Component
                 $query->when($this->search_on == 'notes', function ($query) {
                     $query->where('description', 'like', '%' . $this->query . '%'); // description
                 });
+            })->where(function ($query) {
+                $query->when($this->search_on == 'content', function ($query) {
+
+                    $ids = [];
+                    foreach ($query->get() as $key => $value) {
+                        // dd($value->attachment->file);
+                        if ($value->attachment) {
+
+                            $path = storage_path('app/public/' . $value->attachment->file);
+                            $file = file_get_contents($path);
+                            // dd($file);
+
+                            if (strpos($file, $this->query)) {
+                                $ids[] = $value->id;
+                            }
+                            // $ids[] = $value->id;
+
+                            // else {
+                            //     $str = ["String not found"];
+                            // }
+                        }
+                        // $ids = [$key];
+
+                    }
+
+                    // dd($ids);
+
+                    // $ids = [];
+                    $query->whereIn('id', $ids); // content
+                });
             })
+
+            // $filename = 'example.txt';
+            // $searchfor = 'hello';
+            // $file = file_get_contents($filename);
+            // if(strpos($file, $searchfor))
+            // {
+            //    echo "String found";
+            // }
+
+
             // where('name', 'like', '%' . $this->query . '%')
             ->when(!empty($this->filter_folder), function ($query) {
                 $query->where('folder_id', $this->filter_folder);
@@ -134,7 +175,7 @@ class Search extends Component
                 $query->whereBetween('created_at', [$from, $to]);
             });
 
-        $this->folders = $this->search_on == 'file_name' ? [] : $folders->get();
+        $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content') ? [] : $folders->get();
         $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
 
         $this->count = $folders->count() + $files->count();

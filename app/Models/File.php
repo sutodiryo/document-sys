@@ -82,6 +82,12 @@ class File extends Model
         return !empty($this->verified_by) && !empty($this->verified_at) && $this->status == config('constants.STATUS.APPROVED');
     }
 
+    public function attachment()
+    {
+        return $this->hasOne(Attachment::class, 'file_id', 'id')->latest();
+        // return $this->hasOne('App\Model\PhoneNumber')->latest();
+    }
+
     public function attachments()
     {
         return $this->hasMany(Attachment::class, 'file_id', 'id');

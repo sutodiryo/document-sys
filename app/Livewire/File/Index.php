@@ -27,7 +27,7 @@ class Index extends Component
 
     public $uuid;
     public $tags = [];
-    public $file, $folder, $ancestors, $another_version_files = [], $user_groups;
+    public $file, $folder, $ancestors, $another_version_files = [], $user_groups, $link_file;
     public $open_form_upload, $upload_file, $emailLists = [], $invited_emails, $email;
 
     // Modal share
@@ -49,6 +49,11 @@ class Index extends Component
         $this->folder = Folder::find($this->file->folder_id);
         $this->ancestors = $this->folder->joinAncestors()->reverse();
         $this->user_groups = UserGroup::get();
+
+        $this->link_file = route('admin.preview.file', $this->uuid);
+        // $this->link_file = route('home') . Storage::url('uploads/' . $this->file->id . '/' . $this->file->attachment->name);
+
+        // $this->link_file = "http://writing.engr.psu.edu/workbooks/formal_report_template.doc";
 
         $file_share = FileShare::where('file_id', $this->uuid)->whereNotNull('by_link');
         if ($file_share->count()) {
@@ -283,7 +288,6 @@ class Index extends Component
     {
         // dd($this->share_by_link_expires_at);
     }
-
 
     public function start_approval()
     {

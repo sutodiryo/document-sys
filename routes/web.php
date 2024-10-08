@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Livewire\Folder\Index as FolderIndex;
 use App\Livewire\File\Index as FileIndex;
 use App\Livewire\File\Edit as FileEdit;
+use App\Livewire\File\View as FileView;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Account\AccessOverview;
 use App\Livewire\Account\AccessOverviewIndex;
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], function () {
+
+    Route::get('file/preview/{id}', [FileController::class, 'preview_admin'])->name('admin.preview.file');
+
+
     // Route::get('/', Dashboard::class)->name('home');
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
@@ -70,6 +75,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
     Route::group(['prefix' => '/file', 'as' => 'file.'], function () {
         Route::get('/', FileIndex::class)->name('index');
         Route::get('edit/', FileEdit::class)->name('edit');
+        Route::get('view-online/', FileView::class)->name('view');
 
         Route::group(['prefix' => '/mail', 'as' => 'mail.'], function () {
             Route::post('share/{id}', [EmailController::class, 'SendShareFileEmail'])->name('share');

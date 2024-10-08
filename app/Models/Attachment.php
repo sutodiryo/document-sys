@@ -18,7 +18,7 @@ class Attachment extends Model
         'user_id'
     ];
 
-    public function file()
+    public function has_file()
     {
         return $this->belongsTo(File::class, 'file_id', 'id');
     }

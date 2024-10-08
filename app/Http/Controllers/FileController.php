@@ -80,6 +80,15 @@ class FileController extends Controller
         }
     }
 
+    public function preview_admin($id)
+    {
+        $file = File::find($id);
+
+        $path = storage_path('app/public/' . $file->attachment->file);
+        return response()->file($path);
+        // $link = Storage::url('app/public/' . $file->attachment->file);
+        // return $link;
+    }
 
     /**
      * Show the form for creating a new resource.

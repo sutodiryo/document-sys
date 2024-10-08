@@ -45,10 +45,8 @@
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
                             <button type="button" class="btn btn-sm btn-primary me-3"
-                            wire:click="updateUploadFiles('Yes')"
-                            {{-- data-bs-toggle="modal"
-                                data-bs-target="#kt_modal_upload_new_version" --}}
-                                >
+                                wire:click="updateUploadFiles('Yes')" {{-- data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_upload_new_version" --}}>
                                 <i class="ki-solid ki-file fs-2">
                                 </i>Upload new version</button>
                         </div>
@@ -87,7 +85,7 @@
                             x-on:livewire-upload-error="isUploading = false"
                             x-on:livewire-upload-progress="progress = $event.detail.progress">
 
-                            <input type="file" class="form-control" id="upload_file" wire:model.live="upload_file"/>
+                            <input type="file" class="form-control" id="upload_file" wire:model.live="upload_file" />
 
                             <!-- Progress Bar -->
                             <div x-show="isUploading">
@@ -100,25 +98,23 @@
                                 <div class="module-attachment-items d-flex flex-column gap-2">
 
                                     {{-- @foreach ($upload_file as $upload_file) --}}
-                                        @php
-                                            $base = log($upload_file->getSize(), 1024);
-                                            $suffixes = ['', 'Kb', 'Mb', 'Gb', 'Tb'];
-                                            $upload_file_size =
-                                                round(pow(1024, $base - floor($base)), 2) .
-                                                ' ' .
-                                                $suffixes[floor($base)];
-                                        @endphp
-                                        <div>
-                                            <div
-                                                class="image position-relative d-flex gap-3 align-items-center bg-white rounded p-2 border border-1 w-100">
-                                                <div class="img-name">{{ $upload_file->getClientOriginalName() }}
-                                                </div>
-                                                <div class="img-size opacity-50">{{ $upload_file_size }}</div>
-                                                <a class="btn ms-auto" href="#">
-                                                    <i class="fas fa-gear"></i>
-                                                </a>
+                                    @php
+                                        $base = log($upload_file->getSize(), 1024);
+                                        $suffixes = ['', 'Kb', 'Mb', 'Gb', 'Tb'];
+                                        $upload_file_size =
+                                            round(pow(1024, $base - floor($base)), 2) . ' ' . $suffixes[floor($base)];
+                                    @endphp
+                                    <div>
+                                        <div
+                                            class="image position-relative d-flex gap-3 align-items-center bg-white rounded p-2 border border-1 w-100">
+                                            <div class="img-name">{{ $upload_file->getClientOriginalName() }}
                                             </div>
+                                            <div class="img-size opacity-50">{{ $upload_file_size }}</div>
+                                            <a class="btn ms-auto" href="#">
+                                                <i class="fas fa-gear"></i>
+                                            </a>
                                         </div>
+                                    </div>
                                     {{-- @endforeach --}}
 
                                 </div>
@@ -162,7 +158,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-8">
                                         <div class="card-body pt-0">
                                             <div class="table-responsive">
                                                 <table
@@ -202,7 +198,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4">
                                         <div class="card-body pt-0">
                                             <div class="table-responsive">
                                                 <table
@@ -273,7 +269,32 @@
                                                                     data-kt-filemanager-table-toolbar="base">
                                                                     <a {{-- href="{{ route('files.downloadZip', ['dir' => 'original', 'id' => $file->id]) }}" --}} type="button"
                                                                         class="btn btn-sm btn-primary me-3">
-                                                                        </i>Click to edit
+                                                                        Click to edit
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-muted">
+                                                                <div class="d-flex align-items-center">
+                                                                    {{-- E-Sign --}}
+                                                                </div>
+                                                            </td>
+                                                            <td class="fw-bold text-end">
+                                                                <div class="d-flex justify-content-end mb-3"
+                                                                    data-kt-filemanager-table-toolbar="base">
+                                                                    <a href="{{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                        type="button"
+                                                                        class="btn btn-block btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
+                                                                        <i class="fas fa-eye"></i>View in Excel
+                                                                    </a>
+                                                                </div>
+                                                                <div class="d-flex justify-content-end"
+                                                                    data-kt-filemanager-table-toolbar="base">
+                                                                    <a href="#" type="button"
+                                                                        class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
+                                                                        <i class="fas fa-pencil"></i>Edit in Excel
                                                                     </a>
                                                                 </div>
                                                             </td>
@@ -494,7 +515,11 @@
                     </div>
                 </div>
                 <div class="modal-body pt-10 pb-15 px-lg-17">
-                    <div id="pspdfkit" style="height: 100vh"></div>
+                    {{-- {{ $link_file }} --}}
+                    <iframe style="width: 100%; height: 500px;"
+                        src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true"></iframe>
+
+                    {{-- <div id="pspdfkit" style="height: 100vh"></div> --}}
                 </div>
 
                 <div class="modal-footer flex-center">
