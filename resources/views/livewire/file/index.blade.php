@@ -7,8 +7,8 @@
                     <div class="d-flex align-items-center">
                         <div class="d-flex flex-column">
                             <h2 class="mb-1">{{ $file->name }}</h2>
-                            <br>
-                            <h2>{{ $link_file }}</h2>
+                            {{-- <br>
+                            <h2>{{ $link_file }}</h2> --}}
                             {{-- <div class="text-muted fw-bold">
                                 <a>File Manager</a>
                                 <span class="mx-3">|</span>2.6 GB
