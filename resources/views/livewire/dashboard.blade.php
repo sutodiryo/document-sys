@@ -7,10 +7,10 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #2e313c;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                            style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
-                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #2e313c">
+                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
                                     <i class="fas fa-copy text-white fs-2qx lh-0"></i>
                                 </div>
                             </div>
@@ -32,10 +32,10 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #2e313c;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
+                            style="background-color: #7239EA;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
-                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #2e313c">
+                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #7239EA">
                                     <i class="fas fa-handshake text-white fs-2qx lh-0"></i>
                                 </div>
                             </div>
@@ -58,10 +58,10 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #2e313c;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
+                            style="background-color: #00cb1e;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
-                                    style="border: 1px dashed #ffffff;background-color: #2e313c">
+                                    style="border: 1px dashed #ffffff;background-color: #00cb1e">
                                     <i class="fas fa-clock text-white fs-2qx lh-0"></i>
                                 </div>
                             </div>
@@ -89,10 +89,10 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #2e313c;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                            style="background-color: #e39c04;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
-                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #2e313c">
+                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #e39c04">
                                     <i class="fas fa-warning text-white fs-2qx lh-0"></i>
                                 </div>
                             </div>
@@ -115,10 +115,10 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #2e313c;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
+                            style="background-color: #ee0000;background-image:url('assets/media/svg/shapes/wave-bg-purple.svg')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
-                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #2e313c">
+                                    style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #ee0000">
                                     <i class="fas fa-file text-white fs-2qx lh-0"></i>
                                 </div>
                             </div>
