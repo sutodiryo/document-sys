@@ -3,21 +3,57 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            {{-- <form action="#"> --}}
             <div class="card mb-7">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="position-relative w-md-400px me-md-2">
-                            <i
-                                class="ki-duotone ki-magnifier fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <input wire:model.live="query" type="text" class="form-control form-control-solid ps-10"
-                                placeholder="Search" />
+
+                    @if ($search_on == 'ocr')
+                        <div>
+                            <div class="row g-8 mb-8">
+                                <div class="col-xxl-12">
+                                    <label class="fs-6 form-label fw-bold text-gray-900">OCR Search</label>
+
+                                    <div class="dropzone" x-data="{ isUploading: false, progress: 0 }" x-on:livewire-upload-start="isUploading = true"
+                                    x-on:livewire-upload-finish="isUploading = false"
+                                    x-on:livewire-upload-error="isUploading = false"
+                                    x-on:livewire-upload-progress="progress = $event.detail.progress">
+
+                                    <input type="file" class="form-control" id="upload_file" wire:model.live="upload_file" />
+
+                                    <!-- Progress Bar -->
+                                    <div x-show="isUploading">
+                                        <progress max="100" x-bind:value="progress"></progress>
+                                    </div>
+                                </div>
+
+                                    <select wire:model.live="filter_folder" class="form-select form-select-solid"
+                                        data-placeholder="Select Folder" data-hide-search="true">
+                                        <option value="">Select Folder</option>
+                                        @foreach ($all_folders as $fda)
+                                            <option value="{{ $fda->id }}">{{ $fda->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+                    @endif
+
+                    <div class="d-flex align-items-center">
+                        @if ($search_on != 'ocr')
+                            <div class="position-relative w-md-400px me-md-2">
+                                <i
+                                    class="ki-duotone ki-magnifier fs-3 text-gray-500 position-absolute top-50 translate-middle ms-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                                <input wire:model.live="query" type="text"
+                                    class="form-control form-control-solid ps-10" placeholder="Search" />
+                            </div>
+                        @endif
+
                         <div class="d-flex align-items-center">
-                            <button type="submit" class="btn btn-primary me-5">Search term</button>
+                            @if ($search_on != 'ocr')
+                                <button type="submit" class="btn btn-primary me-5">Search term</button>
+                            @endif
                             <button wire:click="advancedSearch" class="btn btn-link">Advanced
                                 Search</button>
                         </div>
@@ -84,20 +120,22 @@
 
                         <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
                             <label class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
-                                <input class="form-check-input" type="radio" wire:model.live="search_on" value="all"
-                                    checked="checked">
+                                <input class="form-check-input" type="radio" wire:model.live="search_on"
+                                    value="all" checked="checked">
                                 <span class="form-check-label text-gray-600">All</span>
                             </label>
                         </div>
                         <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
                             <label class="form-check form-check-sm form-check-custom form-check-solid mb-3 me-5">
-                                <input class="form-check-input" type="radio" wire:model.live="search_on" value="file_name">
+                                <input class="form-check-input" type="radio" wire:model.live="search_on"
+                                    value="file_name">
                                 <span class="form-check-label text-gray-600">File name</span>
                             </label>
                         </div>
                         <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
                             <label class="form-check form-check-sm form-check-custom form-check-solid mb-3">
-                                <input class="form-check-input" type="radio" wire:model.live="search_on" value="folder_name">
+                                <input class="form-check-input" type="radio" wire:model.live="search_on"
+                                    value="folder_name">
                                 <span class="form-check-label text-gray-600">Folder name</span>
                             </label>
                         </div>
@@ -113,6 +151,13 @@
                                 <input class="form-check-input" type="radio" wire:model.live="search_on"
                                     value="content">
                                 <span class="form-check-label text-gray-600">Content</span>
+                            </label>
+                        </div>
+                        <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
+                            <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="radio" wire:model.live="search_on"
+                                    value="ocr">
+                                <span class="form-check-label text-gray-600">OCR</span>
                             </label>
                         </div>
                         <div class="d-flex flex-column flex-wrap fw-semibold mt-5">
@@ -155,6 +200,13 @@
                 <div class="card card-flush">
                     <div class="card-body pt-0">
                         <div class="table-responsive">
+                            <h1>
+
+                                @if ($parsed_text)
+                                    {{ $parsed_text }}
+                                @endif
+
+                            </h1>
                             <table class="table align-middle table-row-dashed fs-6 gy-5">
                                 <thead>
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
@@ -166,11 +218,12 @@
                                                     value="1" />
                                             </div>
                                         </th> --}}
-                                        <th class="min-w-250px">Name<select wire:model.live="sort_by_name" data-hide-search="true" data-placeholder="Filter"
-                                            class="form-select form-select-sm form-select-solid w-150px me-5">
-                                            <option value="ASC">ASC</option>
-                                            <option value="DESC">DESC</option>
-                                        </select></th>
+                                        <th class="min-w-250px">Name<select wire:model.live="sort_by_name"
+                                                data-hide-search="true" data-placeholder="Filter"
+                                                class="form-select form-select-sm form-select-solid w-150px me-5">
+                                                <option value="ASC">ASC</option>
+                                                <option value="DESC">DESC</option>
+                                            </select></th>
 
                                         <th class="min-w-10px"></th>
                                         <th class="min-w-125px">Date

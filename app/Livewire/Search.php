@@ -10,14 +10,24 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Request;
 use Livewire\Attributes\Url;
 
+// OCR
+use Alimranahmed\LaraOCR\Services\OcrAbstract;
+use App\Http\Controllers\Controller;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
+use OCR;
+
 class Search extends Component
 {
+    use WithFileUploads, LivewireAlert;
+
     #[Url]
 
     public $all_folders, $folders, $files, $count, $limit = 20;
     public $query, $search_on = 'all', $link;
     public $filter_folder, $advanced_search, $filter_by_date, $filter_date_start, $filter_date_end;
     public $sort_by, $sort_by_name = "ASC", $sort_by_date = "ASC";
+    public $upload_file, $parsed_text;
 
     protected $listeners = ['folders', 'confirmFileDelete'];
 
@@ -34,20 +44,41 @@ class Search extends Component
         $this->setTables();
     }
 
-    public function updated($property, $value)
-    {
-        if ($property == 'sort_by_name') {
-            $this->sort_by = 'name';
-        } elseif ($property == 'sort_by_date') {
-            $this->sort_by = 'created_at';
-        }
+    // public function updated($property, $value)
+    // {
+    //     if ($property == 'sort_by_name') {
+    //         $this->sort_by = 'name';
+    //     } elseif ($property == 'sort_by_date') {
+    //         $this->sort_by = 'created_at';
+    //     }
 
+    //     $this->setTables();
+    // }
+
+    public function updatedSortByName()
+    {
+        $this->sort_by = 'name';
         $this->setTables();
     }
+
+    public function updatedSortByDate()
+    {
+        $this->sort_by = 'created_at';
+        $this->setTables();
+    }
+
 
     public function advancedSearch()
     {
         $this->advanced_search = $this->advanced_search ? false : true;
+    }
+
+
+    public function updatedUploadFile()
+    {
+        $ocr = app()->make(OcrAbstract::class);
+        $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
+        $this->setTables();
     }
 
     public function setTables()
@@ -125,6 +156,7 @@ class Search extends Component
                         if ($value->attachment) {
 
                             $path = storage_path('app/public/' . $value->attachment->file);
+
                             $file = file_get_contents($path);
                             // dd($file);
 
@@ -144,6 +176,26 @@ class Search extends Component
                     // dd($ids);
 
                     // $ids = [];
+                    $query->whereIn('id', $ids); // content
+                });
+            })->where(function ($query) {
+                $query->when($this->search_on == 'ocr', function ($query) {
+
+                    $ids = [];
+                    dd($this->parsed_text);
+
+                    foreach ($query->get() as $key => $value) {
+                        if ($value->attachment) {
+
+                            $path = storage_path('app/public/' . $value->attachment->file);
+
+                            $file = file_get_contents($path);
+
+                            if (strpos($file, $this->query)) {
+                                $ids[] = $value->id;
+                            }
+                        }
+                    }
                     $query->whereIn('id', $ids); // content
                 });
             })
