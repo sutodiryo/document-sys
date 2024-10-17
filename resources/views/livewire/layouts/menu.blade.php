@@ -37,8 +37,8 @@
                                 ->joinAncestors()
                                 ->last()->id;
                         } elseif (Request::is('admin/file*')) {
-                            $q = App\Models\File::find(request()->uuid)
-                                ->first();
+                            $q = App\Models\File::find(request()->uuid);
+
                             $first_ancestor = App\Models\Folder::find($q->folder_id)
                                 ->joinAncestors()
                                 ->last()->id;

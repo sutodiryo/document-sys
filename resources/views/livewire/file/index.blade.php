@@ -286,17 +286,17 @@
                                                             <td class="fw-bold text-end">
                                                                 <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a href="{{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                    <a href="{{ route('file.view', ['uuid' => $file->id]) }}" target="_blank"
                                                                         type="button"
                                                                         class="btn btn-block btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-eye"></i>View in Excel
+                                                                        <i class="fas fa-eye"></i>View Document
                                                                     </a>
                                                                 </div>
                                                                 <div class="d-flex justify-content-end"
                                                                     data-kt-filemanager-table-toolbar="base">
                                                                     <a href="#" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit in Excel
+                                                                        <i class="fas fa-pencil"></i>Edit Document
                                                                     </a>
                                                                 </div>
                                                             </td>
