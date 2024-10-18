@@ -195,7 +195,8 @@ class Search extends Component
 
                             // $file = file_get_contents($path);
 
-                            if (strpos($file, $this->parsed_text)) {
+                            // if (strpos($file, $this->parsed_text))
+                            if(stripos($file, $this->parsed_text) !== FALSE){
                                 $ids[] = $value->id;
                             }
                         }
@@ -231,7 +232,7 @@ class Search extends Component
                 $query->whereBetween('created_at', [$from, $to]);
             });
 
-        $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content') ? [] : $folders->get();
+        $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? [] : $folders->get();
         $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
 
         $this->count = $folders->count() + $files->count();
