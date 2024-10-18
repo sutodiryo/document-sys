@@ -12,26 +12,21 @@
                                 <div class="col-xxl-12">
                                     <label class="fs-6 form-label fw-bold text-gray-900">OCR Search</label>
 
-                                    <div class="dropzone" x-data="{ isUploading: false, progress: 0 }" x-on:livewire-upload-start="isUploading = true"
-                                    x-on:livewire-upload-finish="isUploading = false"
-                                    x-on:livewire-upload-error="isUploading = false"
-                                    x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                    <div class="dropzone" x-data="{ isUploading: false, progress: 0 }"
+                                        x-on:livewire-upload-start="isUploading = true"
+                                        x-on:livewire-upload-finish="isUploading = false"
+                                        x-on:livewire-upload-error="isUploading = false"
+                                        x-on:livewire-upload-progress="progress = $event.detail.progress">
 
-                                    <input type="file" class="form-control" id="upload_file" wire:model.live="upload_file" />
+                                        <input type="file" class="form-control" id="upload_file"
+                                            wire:model.live="upload_file" />
 
-                                    <!-- Progress Bar -->
-                                    <div x-show="isUploading">
-                                        <progress max="100" x-bind:value="progress"></progress>
+                                        <!-- Progress Bar -->
+                                        <div x-show="isUploading">
+                                            <progress max="100" x-bind:value="progress"></progress>
+                                        </div>
                                     </div>
-                                </div>
 
-                                    <select wire:model.live="filter_folder" class="form-select form-select-solid"
-                                        data-placeholder="Select Folder" data-hide-search="true">
-                                        <option value="">Select Folder</option>
-                                        @foreach ($all_folders as $fda)
-                                            <option value="{{ $fda->id }}">{{ $fda->name }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -204,6 +199,11 @@
 
                                 @if ($parsed_text)
                                     {{ $parsed_text }}
+                                @endif
+                                <br>
+                                <br>
+                                @if ($file_parsed_text)
+                                    {{ $file_parsed_text }}
                                 @endif
 
                             </h1>
