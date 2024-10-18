@@ -27,7 +27,7 @@ class Search extends Component
     public $query, $search_on = 'all', $link;
     public $filter_folder, $advanced_search, $filter_by_date, $filter_date_start, $filter_date_end;
     public $sort_by, $sort_by_name = "ASC", $sort_by_date = "ASC";
-    public $upload_file, $parsed_text, $file_parsed_text;
+    public $upload_file, $parsed_text, $file_parsed_text = [];
 
     protected $listeners = ['folders', 'confirmFileDelete'];
 
@@ -143,7 +143,7 @@ class Search extends Component
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
-                        $this->file_parsed_text = $file;
+                        $this->file_parsed_text[] = $file;
                         // $file = file_get_contents($path);
 
                         // if (strpos($file, $this->parsed_text))
