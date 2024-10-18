@@ -129,6 +129,30 @@ class Search extends Component
             $query->when($this->search_on == 'all', function ($query) {
                 $query->where('name', 'like', '%' . $this->query . '%')
                     ->orWhere('description', 'like', '%' . $this->query . '%');
+            })->when($this->search_on == 'ocr', function ($query) {
+
+                $ids = [];
+                // dd($this->parsed_text);
+
+                foreach ($query->get() as $key => $value) {
+                    if ($value->attachment) {
+
+                        $path = storage_path('app/public/' . $value->attachment->file);
+
+                        // dd($path);
+
+                        $ocr = app()->make(OcrAbstract::class);
+                        $file = $ocr->scan($path);
+                        $this->file_parsed_text = $file;
+                        // $file = file_get_contents($path);
+
+                        // if (strpos($file, $this->parsed_text))
+                        if (stripos($file, $this->parsed_text) !== FALSE) {
+                            $ids[] = $value->id;
+                        }
+                    }
+                }
+                $query->whereIn('id', $ids); // content
             });
         })
             ->where(function ($query) {
@@ -179,30 +203,31 @@ class Search extends Component
                     $query->whereIn('id', $ids); // content
                 });
             })->where(function ($query) {
-                $query->when($this->search_on == 'ocr', function ($query) {
+                // $query->when($this->search_on == 'ocr', function ($query) {
 
-                    $ids = [];
-                    // dd($this->parsed_text);
+                //     $ids = [];
+                //     // dd($this->parsed_text);
 
-                    foreach ($query->get() as $key => $value) {
-                        if ($value->attachment) {
+                //     foreach ($query->get() as $key => $value) {
+                //         if ($value->attachment) {
 
-                            $path = storage_path('app/public/' . $value->attachment->file);
+                //             $path = storage_path('app/public/' . $value->attachment->file);
 
+                //             dd($path);
 
-                            $ocr = app()->make(OcrAbstract::class);
-                            $file = $ocr->scan($path);
-                            $this->file_parsed_text = $file;
-                            // $file = file_get_contents($path);
+                //             $ocr = app()->make(OcrAbstract::class);
+                //             $file = $ocr->scan($path);
+                //             $this->file_parsed_text = $file;
+                //             // $file = file_get_contents($path);
 
-                            // if (strpos($file, $this->parsed_text))
-                            if (stripos($file, $this->parsed_text) !== FALSE) {
-                                $ids[] = $value->id;
-                            }
-                        }
-                    }
-                    $query->whereIn('id', $ids); // content
-                });
+                //             // if (strpos($file, $this->parsed_text))
+                //             if (stripos($file, $this->parsed_text) !== FALSE) {
+                //                 $ids[] = $value->id;
+                //             }
+                //         }
+                //     }
+                //     $query->whereIn('id', $ids); // content
+                // });
             })
 
             // $filename = 'example.txt';
