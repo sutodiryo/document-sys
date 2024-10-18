@@ -189,9 +189,13 @@ class Search extends Component
 
                             $path = storage_path('app/public/' . $value->attachment->file);
 
-                            $file = file_get_contents($path);
 
-                            if (strpos($file, $this->query)) {
+                            $ocr = app()->make(OcrAbstract::class);
+                            $file = $ocr->scan($path);
+
+                            // $file = file_get_contents($path);
+
+                            if (strpos($file, $this->parsed_text)) {
                                 $ids[] = $value->id;
                             }
                         }
