@@ -182,7 +182,7 @@ class Search extends Component
                 $query->when($this->search_on == 'ocr', function ($query) {
 
                     $ids = [];
-                    dd($this->parsed_text);
+                    // dd($this->parsed_text);
 
                     foreach ($query->get() as $key => $value) {
                         if ($value->attachment) {
