@@ -203,7 +203,11 @@
                                 <br>
                                 <br>
                                 @if ($file_parsed_text)
-                                    {{ $file_parsed_text }}
+
+                                @foreach ( $file_parsed_text as $fpt)
+                                    {{ $fpt }}
+                                @endforeach
+                                    {{-- {{ $file_parsed_text }} --}}
                                 @endif
 
                             </h1>
