@@ -260,7 +260,8 @@ class Search extends Component
         $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? [] : $folders->get();
         $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
 
-        $this->count = $this->folders->count() + $this->files->count();
+        $this->count = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? $files->count() : ($this->search_on == 'folder_name' ? $folders->count() : $folders->count() + $files->count());
+        // $folders->count() + $files->count()
     }
 
     // public function getLabelListingsProperty()
