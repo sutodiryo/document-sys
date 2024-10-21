@@ -109,7 +109,7 @@ class Index extends Component
     {
         DB::beginTransaction();
 
-        $file_name = $this->upload_file->getClientOriginalName();
+        $file_name = str_replace(' ', '_', $this->upload_file->getClientOriginalName());
 
         // $this->file = Document::findOrFail($request->id);
         // $this->file->update(['name' => $file_name]);

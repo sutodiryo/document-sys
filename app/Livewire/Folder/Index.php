@@ -76,7 +76,9 @@ class Index extends Component
         DB::beginTransaction();
         // $this->uploaded_files = [];
         foreach ($this->upload_files as $file) {
-            $file_name = $file->getClientOriginalName();
+
+            $file_name = str_replace(' ', '_', $file->getClientOriginalName());
+
             $file_ext = $file->getClientOriginalExtension();
 
             if ($file_ext == 'zip') {
