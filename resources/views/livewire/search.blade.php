@@ -204,7 +204,7 @@
                                 <br>
                                 @if ($file_parsed_text)
 
-                                @foreach ( $file_parsed_text as $i as $fpt)
+                                @foreach ( $file_parsed_text as $i => $fpt)
                                     {{ $i }}. {{ $fpt }}
                                     <br>
                                     <br>
