@@ -143,7 +143,7 @@ class Search extends Component
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
-                        $this->file_parsed_text[] = $path;
+                        $this->file_parsed_text[] = $path . ' ----- ' . $file;
                         // $file = file_get_contents($path);
 
                         // if (strpos($file, $this->parsed_text))
