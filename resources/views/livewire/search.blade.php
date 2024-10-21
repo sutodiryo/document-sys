@@ -204,8 +204,10 @@
                                 <br>
                                 @if ($file_parsed_text)
 
-                                @foreach ( $file_parsed_text as $fpt)
-                                    {{ $fpt }}
+                                @foreach ( $file_parsed_text as $i as $fpt)
+                                    {{ $i }}. {{ $fpt }}
+                                    <br>
+                                    <br>
                                 @endforeach
                                     {{-- {{ $file_parsed_text }} --}}
                                 @endif
