@@ -195,8 +195,7 @@
                 <div class="card card-flush">
                     <div class="card-body pt-0">
                         <div class="table-responsive">
-                            <h1>
-
+                            {{-- <h1>
                                 @if ($parsed_text)
                                     {{ $parsed_text }}
                                 @endif
@@ -204,15 +203,13 @@
                                 <br>
                                 @if ($file_parsed_text)
 
-                                @foreach ( $file_parsed_text as $i => $fpt)
-                                    {{ $i }}. {{ $fpt }}
-                                    <br>
-                                    <br>
-                                @endforeach
-                                    {{-- {{ $file_parsed_text }} --}}
+                                    @foreach ($file_parsed_text as $i => $fpt)
+                                        {{ $i }}. {{ $fpt }}
+                                        <br>
+                                        <br>
+                                    @endforeach
                                 @endif
-
-                            </h1>
+                            </h1> --}}
                             <table class="table align-middle table-row-dashed fs-6 gy-5">
                                 <thead>
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
