@@ -137,13 +137,13 @@ class Search extends Component
                 foreach ($query->get() as $key => $value) {
                     if ($value->attachment) {
 
-                        $path = storage_path('app/public/' . $value->attachment->file);
+                        $path = storage_path('app/public' . $value->attachment->file);
 
                         // dd($path);
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
-                        $this->file_parsed_text[] = $file;
+                        $this->file_parsed_text[] = $path;
                         // $file = file_get_contents($path);
 
                         // if (strpos($file, $this->parsed_text))
