@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
         Route::get('/', FileIndex::class)->name('index');
         Route::get('edit/', FileEdit::class)->name('edit');
         Route::get('view-online/', FileView::class)->name('view');
+        Route::get('convert-jpg/{id}', [FileController::class, 'convertJPG'])->name('convert.jpg');
 
         Route::group(['prefix' => '/mail', 'as' => 'mail.'], function () {
             Route::post('share/{id}', [EmailController::class, 'SendShareFileEmail'])->name('share');

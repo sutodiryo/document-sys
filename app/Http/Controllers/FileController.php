@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\FileShare;
 use Carbon\Carbon;
+use ConvertApi\ConvertApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -89,6 +90,27 @@ class FileController extends Controller
         // $link = Storage::url('app/public/' . $file->attachment->file);
         // return $link;
     }
+
+    public function convertJPG($id)
+    {
+        $file = File::find($id);
+        $path = storage_path('app/public/');
+        dd($file);
+
+        ConvertApi::setApiCredentials('secret_6QN4WQBvAUZrCAfO');
+        $result = ConvertApi::convert(
+            'jpg',
+            [
+                'File' => $path . $file->attachment->file,
+            ],
+            $file->attachment->file_type
+        );
+        $result->saveFiles($path . $file->attachment->path . 'jpg/');
+
+        dd($result);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

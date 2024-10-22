@@ -10,7 +10,8 @@
                             <h2 class="mb-1">{{ $folder->name }}</h2>
                             <div class="text-muted fw-bold">
                                 <a>File Manager</a>
-                                <span class="mx-3">|</span>{{ $countSize }},04 MB
+                                <span class="mx-3">|</span>{{ $countSize }}
+                                {{-- ,04 MB --}}
                                 <span class="mx-3">|</span>{{ $countData }} items
                             </div>
                         </div>
@@ -393,7 +394,7 @@
                                             </a>
                                             <a href="{{ route('file.index') }}?uuid={{ $fl->id }}"
                                                 class="text-gray-800 text-hover-primary">
-                                                {{ $fl->name }}
+                                                {{ $fl->name }}.{{ $fl->attachment->file_type }}
                                             </a>
                                         </div>
                                     </td>

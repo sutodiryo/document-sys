@@ -9,6 +9,7 @@ use App\Models\FileShare;
 use App\Models\Folder;
 use App\Models\UserGroup;
 use Carbon\Carbon;
+use ConvertApi\ConvertApi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -109,14 +110,26 @@ class Index extends Component
     {
         DB::beginTransaction();
 
-        $file_name = str_replace(' ', '_', $this->upload_file->getClientOriginalName());
+        // $file_name = str_replace(' ', '_', $this->upload_file->getClientOriginalName());
+
+        $name = pathinfo($this->upload_file->getClientOriginalName(), PATHINFO_FILENAME);
+        $file_name = str_replace(' ', '_', $name);
+
+        $file_ext = $this->upload_file->getClientOriginalExtension();
+        $file_size = $this->upload_file->getSize();
 
         // $this->file = Document::findOrFail($request->id);
         // $this->file->update(['name' => $file_name]);
 
+        $id = Str::orderedUuid();
         $this->file->attachments()->insert([
-            'id' => Str::orderedUuid(),
+            'id' => $id,
             'name' => $file_name,
+
+            'file_type' => $file_ext,
+            'file_size' => $file_size,
+            'path' => '/uploads/' . $this->file->id . '/',
+
             'file' => '/uploads/' . $this->file->id . '/' . $file_name,
             'file_id' => $this->file->id,
             'created_by' => Auth::id(),
@@ -124,11 +137,29 @@ class Index extends Component
             'updated_at' => now(),
         ]);
 
-        $upload = Storage::disk('public')->putFileAs('uploads/' . $this->file->id . '/', $this->upload_file, $file_name);
 
         $text = $file_name . " is Updated To " . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $this->file->name . "</a>";
         $this->file->newActivity($this->file->id, $text);
         // dd($this->file->activities);
+
+
+        $upload = Storage::disk('public')->putFileAs('uploads/' . $this->file->id . '/', $this->upload_file, $file_name);
+
+        if ($upload && ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx')) {
+
+            $file = File::find($id);
+            $path = storage_path('app/public/');
+
+            ConvertApi::setApiCredentials('secret_6QN4WQBvAUZrCAfO');
+            $result = ConvertApi::convert(
+                'jpg',
+                [
+                    'File' => $path . $file->attachment->file,
+                ],
+                $file->attachment->file_type
+            );
+            $result->saveFiles($path . $file->attachment->path);
+        }
 
         DB::commit();
 

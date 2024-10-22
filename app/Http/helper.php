@@ -202,3 +202,15 @@ function isValidationRulesValid($rules)
         return false;
     }
 }
+
+
+function bytesToHuman($bytes)
+{
+    $units = ['B', 'Kb', 'MB', 'GB', 'TB', 'PB'];
+
+    for ($i = 0; $bytes > 1024; $i++) {
+        $bytes /= 1024;
+    }
+
+    return round($bytes, 2) . ' ' . $units[$i];
+}

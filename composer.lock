@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ceb0d1d2001899f59159a0a6899315e8",
+    "content-hash": "42f70f955dbee26c0906dc53952d86e5",
     "packages": [
         {
             "name": "alimranahmed/laraocr",
@@ -336,6 +336,58 @@
                 }
             ],
             "time": "2024-03-19T13:25:39+00:00"
+        },
+        {
+            "name": "convertapi/convertapi-php",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ConvertAPI/convertapi-library-php.git",
+                "reference": "568344d082a524e490b73f0cb72891a10b295f81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ConvertAPI/convertapi-library-php/zipball/568344d082a524e490b73f0cb72891a10b295f81",
+                "reference": "568344d082a524e490b73f0cb72891a10b295f81",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ConvertApi\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ConvertAPI and contributors",
+                    "homepage": "https://github.com/ConvertAPI/convertapi-php/graphs/contributors"
+                }
+            ],
+            "description": "Convert API PHP Client",
+            "homepage": "https://github.com/ConvertAPI/convertapi-php",
+            "keywords": [
+                "api",
+                "client",
+                "conversion",
+                "convert"
+            ],
+            "support": {
+                "issues": "https://github.com/ConvertAPI/convertapi-library-php/issues",
+                "source": "https://github.com/ConvertAPI/convertapi-library-php/tree/v3.0.0"
+            },
+            "time": "2024-09-14T08:49:40+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

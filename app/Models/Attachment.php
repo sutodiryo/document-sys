@@ -13,6 +13,9 @@ class Attachment extends Model
         'file_id',
         'name',
         'file',
+        'file_type',
+        'file_size',
+        'path',
         'custom_fields',
         'created_by',
         'user_id'

@@ -136,14 +136,15 @@ class Search extends Component
 
                 foreach ($query->get() as $key => $value) {
                     if ($value->attachment) {
+                        $file_ext = $value->attachment->file_type;
 
-                        $path = storage_path('app/public' . $value->attachment->file);
+                        $path =  ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
 
                         // dd($path);
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
-                        $this->file_parsed_text[] = $path . ' ----- ' . $file;
+                        // $this->file_parsed_text[] = $path . ' ----- ' . $file;
                         // $file = file_get_contents($path);
 
                         // if (strpos($file, $this->parsed_text))

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Folder;
 
+use App\Http\Controllers\FileController;
 use App\Mail\StartAutomatedApproval;
 use App\Models\File;
 use App\Models\Folder;
 use App\Models\UserGroup;
 use Carbon\Carbon;
+use ConvertApi\ConvertApi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -54,12 +56,12 @@ class Index extends Component
         $this->folder = Folder::find($this->uuid);
         $this->ancestors = $this->folder->joinAncestors()->reverse();
 
-        $files = File::where('folder_id', $this->uuid);
-        $this->files = $files->orderBy('created_at')->get();
+        $files = File::with('attachment')->where('folder_id', $this->uuid);
+        $this->files = $files->with('attachment')->orderBy('created_at')->get();
 
         $this->user_groups = UserGroup::get();
 
-        $this->countSize = $files->count();
+        $this->countSize = bytesToHuman($this->files->sum('attachment.file_size'));
         $this->countData = $folders->count() + $files->count();
         $this->limit = $this->countData ? $this->countData : 0;
     }
@@ -77,37 +79,61 @@ class Index extends Component
         // $this->uploaded_files = [];
         foreach ($this->upload_files as $file) {
 
-            $file_name = str_replace(' ', '_', $file->getClientOriginalName());
+            // $name = $file->getClientOriginalName();
+            $name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $file_name = str_replace(' ', '_', $name);
 
             $file_ext = $file->getClientOriginalExtension();
+            $file_size = $file->getSize();
 
             if ($file_ext == 'zip') {
                 $this->uploadAndExtract($file, $file_name);
             } else {
-                // dd('biasa');
 
                 $newFile = new File();
 
-                $newFile->name = $file_name;
+                $newFile->name = $file_name. '.' . $file_ext;
                 $newFile->folder_id = $this->uuid;
                 $newFile->status = 'PENDING';
                 $newFile->lock_status = NULL;
                 $newFile->created_by = Auth::id();
                 $newFile->save();
 
-                // dd($newFile);
                 $newFile->attachments()->insert([
                     'id' => Str::orderedUuid(),
                     'file_id' => $newFile->id,
                     'name' => $file_name,
+
+                    'file_type' => $file_ext,
+                    'file_size' => $file_size,
+                    'path' => "/uploads/$newFile->id/",
                     'file' => "/uploads/$newFile->id/$file_name",
                     'created_by' => Auth::id()
                 ]);
+                // dd(bytesToHuman($file_size));
 
                 $text = "Uploaded to " . $this->folder->name . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $newFile->name . "</a>";
                 $newFile->newActivity($newFile->id, $text);
                 $this->uploaded_files[] = $newFile;
                 $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
+
+                if ($upload && ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx')) {
+                    // route('file.convert.jpg', $newFile->id);
+
+                    $file = File::find($newFile->id);
+                    $path = storage_path('app/public/');
+                    // dd($file);
+
+                    ConvertApi::setApiCredentials('secret_6QN4WQBvAUZrCAfO');
+                    $result = ConvertApi::convert(
+                        'jpg',
+                        [
+                            'File' => $path . $file->attachment->file,
+                        ],
+                        $file->attachment->file_type
+                    );
+                    $result->saveFiles($path . $file->attachment->path);
+                }
 
                 DB::commit();
             }
