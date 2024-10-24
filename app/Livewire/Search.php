@@ -33,7 +33,6 @@ class Search extends Component
 
     public function mount()
     {
-        // dd(env("APP_URL") . Request::getRequestUri());
         $this->query = request()->q;
         $this->filter_folder = request()->filter_folder;
         $this->link = env("APP_URL") . Request::getRequestUri();
@@ -44,16 +43,6 @@ class Search extends Component
         $this->setTables();
     }
 
-    // public function updated($property, $value)
-    // {
-    //     if ($property == 'sort_by_name') {
-    //         $this->sort_by = 'name';
-    //     } elseif ($property == 'sort_by_date') {
-    //         $this->sort_by = 'created_at';
-    //     }
-
-    //     $this->setTables();
-    // }
 
     public function updatedSortByName()
     {
@@ -132,15 +121,11 @@ class Search extends Component
             })->when($this->search_on == 'ocr', function ($query) {
 
                 $ids = [];
-                // dd($this->parsed_text);
-
                 foreach ($query->get() as $key => $value) {
                     if ($value->attachment) {
                         $file_ext = $value->attachment->file_type;
 
-                        $path =  ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
-
-                        // dd($path);
+                        $path =  ($file_ext == 'doc' || $file_ext == 'docx' ||$file_ext == 'pdf' || $file_ext == 'PDF' ||  $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
@@ -203,44 +188,7 @@ class Search extends Component
                     // $ids = [];
                     $query->whereIn('id', $ids); // content
                 });
-            })->where(function ($query) {
-                // $query->when($this->search_on == 'ocr', function ($query) {
-
-                //     $ids = [];
-                //     // dd($this->parsed_text);
-
-                //     foreach ($query->get() as $key => $value) {
-                //         if ($value->attachment) {
-
-                //             $path = storage_path('app/public/' . $value->attachment->file);
-
-                //             dd($path);
-
-                //             $ocr = app()->make(OcrAbstract::class);
-                //             $file = $ocr->scan($path);
-                //             $this->file_parsed_text = $file;
-                //             // $file = file_get_contents($path);
-
-                //             // if (strpos($file, $this->parsed_text))
-                //             if (stripos($file, $this->parsed_text) !== FALSE) {
-                //                 $ids[] = $value->id;
-                //             }
-                //         }
-                //     }
-                //     $query->whereIn('id', $ids); // content
-                // });
             })
-
-            // $filename = 'example.txt';
-            // $searchfor = 'hello';
-            // $file = file_get_contents($filename);
-            // if(strpos($file, $searchfor))
-            // {
-            //    echo "String found";
-            // }
-
-
-            // where('name', 'like', '%' . $this->query . '%')
             ->when(!empty($this->filter_folder), function ($query) {
                 $query->where('folder_id', $this->filter_folder);
             })
@@ -262,55 +210,7 @@ class Search extends Component
         $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
 
         $this->count = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? $files->count() : ($this->search_on == 'folder_name' ? $folders->count() : $folders->count() + $files->count());
-        // $folders->count() + $files->count()
     }
-
-    // public function getLabelListingsProperty()
-    // {
-    // return Bidding::when(!empty($this->sortSelected), function ($query) {
-    //     $query->where(function ($query) {
-    //         $query->when($this->sortFieldSelected == 'ccow_id', function ($query) {
-    //             array_key_exists('ccow_id', $this->sortSelected) ? $query->whereIn('ccow_id', $this->sortSelected['ccow_id']) : '';
-    //         });
-    //         $query->when($this->sortFieldSelected == 'business_entity_id', function ($query) {
-    //             array_key_exists('business_entity_id', $this->sortSelected) ? $query->whereIn('business_entity_id', $this->sortSelected['business_entity_id']) : '';
-    //         });
-
-    //     });
-    // })
-    //     ->when(!empty($this->searchCcow), function ($query) {
-    //         $query->whereHas('ccow', function ($query) {
-    //             $query->where('company_name', 'like', '%' . $this->searchCcow . '%');
-    //         });
-    //     })
-    //     ->when(!empty($this->searchCompanyName), function ($query) {
-    //         $query->where('company_name', 'like', '%' . $this->searchCompanyName . '%');
-    //     })
-    //     ->when(!empty($this->searchCompanyAddress), function ($query) {
-    //         $query->where('address', 'like', '%' . $this->searchCompanyAddress . '%');
-    //     })
-    //     ->when(!empty($this->searchCompanySites), function ($query) {
-    //         $query->where('company_site', 'like', '%' . $this->searchCompanySites . '%');
-    //     })
-    //     ->when(!empty($this->searchCompanyBusinessLicenseNumber), function ($query) {
-    //         $query->where('license_number', 'like', '%' . $this->searchCompanyBusinessLicenseNumber . '%');
-    //     })
-    //     ->when(!empty($this->searchCompanyParent), function ($query) {
-    //         $query->whereHas('parent_company', function ($query) {
-    //             $query->where('company_name', 'like', '%' . $this->searchCompanyParent . '%');
-    //         });
-    //     })
-    //     ->when(!empty($this->searchPIC), function ($query) {
-    //         $query->where('person_in_charge', 'like', '%' . $this->searchPIC . '%');
-    //     })
-    //     ->where('maker_id', Auth::user()->id)
-    //     ->where('criteria', CsmsStatus::Bidding)
-    //     ->where('status', CsmsStatus::Approved)
-    //     ->where('requested', CsmsStatus::Approved)
-    //     ->where('published', CsmsStatus::Publish)
-    //     ->orderBy($this->sortField, $this->sortType)
-    //     ->paginate($this->limit);
-    // }
 
     public function render()
     {

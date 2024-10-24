@@ -53,7 +53,7 @@
                                 </i>Upload new version</button>
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <a {{-- href="{{ route('files.downloadZip', ['dir' => 'original', 'id' => $file->id]) }}" --}} type="button" class="btn btn-sm btn-primary me-3">
+                            <a wire:click="downloadZip" type="button" class="btn btn-sm btn-primary me-3">
                                 <i class="ki-solid ki-archive fs-2">
                                 </i>Download Zip
                             </a>
@@ -269,7 +269,7 @@
                                                             <td class="fw-bold text-end">
                                                                 <div class="d-flex justify-content-end"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a {{-- href="{{ route('files.downloadZip', ['dir' => 'original', 'id' => $file->id]) }}" --}} type="button"
+                                                                    <a wire:click="eSign" type="button"
                                                                         class="btn btn-sm btn-primary me-3">
                                                                         Click to edit
                                                                     </a>
@@ -341,16 +341,16 @@
                                                                 {{-- </a> --}}
                                                             </td>
                                                             <td>
-                                                                <a href="#" title="Restore"
+                                                                <a wire:click="restoreVersion('{{ $attachment->id }}')" title="Restore"
                                                                     class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
                                                                     <i class="fas fa-refresh"></i>
                                                                 </a>
 
-                                                                <a {{-- href="{{ route('doc.files.get', $attachment->id) }}" --}} title="Download"
+                                                                <a wire:click="downloadAttachment('{{ $attachment->id }}')" title="Download"
                                                                     class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
                                                                     <i class="fas fa-download"></i>
                                                                 </a>
-                                                                <a href="#" title="Delete"
+                                                                <a wire:click="deleteAttachment('{{ $attachment->id }}')"  title="Delete"
                                                                     class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>

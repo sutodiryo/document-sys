@@ -124,7 +124,7 @@ class Index extends Component
                     $path = storage_path('app/public/');
                     // dd($file);
 
-                    ConvertApi::setApiCredentials('secret_6QN4WQBvAUZrCAfO');
+                    ConvertApi::setApiCredentials('secret_JC9IonJgkKHwq2UH');
                     $result = ConvertApi::convert(
                         'jpg',
                         [

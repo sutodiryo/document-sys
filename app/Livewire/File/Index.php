@@ -4,6 +4,7 @@ namespace App\Livewire\File;
 
 use App\Mail\ApprovalFile;
 use App\Mail\ShareFile;
+use App\Models\Attachment;
 use App\Models\File;
 use App\Models\FileShare;
 use App\Models\Folder;
@@ -106,6 +107,11 @@ class Index extends Component
         $this->open_form_upload = $val;
     }
 
+    public function downloadZip()
+    {
+        dd('oke');
+    }
+
     public function updatedUploadFile()
     {
         DB::beginTransaction();
@@ -192,6 +198,28 @@ class Index extends Component
         // $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
 
         DB::commit();
+    }
+
+    public function restoreVersion($id)
+    {
+        $attachment = Attachment::findOrFail($id);
+
+        // Warning
+        // update file to this attachment version
+
+        dd($attachment);
+    }
+
+    public function downloadAttachment($id)
+    {
+        $attachment = Attachment::findOrFail($id);
+        dd($attachment);
+    }
+
+    public function deleteAttachment($id)
+    {
+        $attachment = Attachment::findOrFail($id);
+        dd($attachment);
     }
 
     public function share_by_email()
@@ -373,6 +401,11 @@ class Index extends Component
                 'cancelButtonText' => 'OK',
             ], $this->curent_link);
         }
+    }
+
+    public function eSign()
+    {
+        dd('yaa');
     }
 
     public function addSpare($spareId)
