@@ -90,7 +90,7 @@ class File extends Model
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'file_id', 'id');
+        return $this->hasMany(Attachment::class, 'file_id', 'id')->orderBy('updated_at', 'DESC');
     }
 
     public function activities()

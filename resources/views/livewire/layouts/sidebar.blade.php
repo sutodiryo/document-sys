@@ -225,8 +225,11 @@
                     <div class="cursor-pointer symbol symbol-35px"
                         data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end">
-                        <img src="{{ asset('metronic_8.2.6/media/avatars/300-3.jpg') }}" class="rounded-3"
-                            alt="user" />
+                        {{-- <img src="{{ asset('metronic_8.2.6/media/avatars/300-3.jpg') }}" class="rounded-3"
+                            alt="user" /> --}}
+                        <span class="profile-image">
+                            <span class="text-profile">{{ generateInitialName(auth()->user()->name) }}</span>
+                        </span>
                     </div>
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
                         data-kt-menu="true">
@@ -234,8 +237,12 @@
                             <div class="menu-content d-flex align-items-center px-3">
                                 <div class="symbol symbol-50px me-5">
                                     {{-- <img alt="Logo" src="{{ asset('metronic_8.2.6/media/avatars/300-3.jpg') }}" /> --}}
-                                    <img src="{{ asset(config('settings.system_logo')) }}" class="img-circle"
-                                        alt="User Image" />
+                                    <span class="profile-image">
+                                        <span
+                                            class="text-profile">{{ generateInitialName(auth()->user()->name) }}</span>
+                                    </span>
+                                    {{-- <img src="{{ asset(config('settings.system_logo')) }}" class="img-circle"
+                                        alt="User Image" /> --}}
                                 </div>
                                 <div class="d-flex flex-column">
                                     <div class="fw-bold d-flex align-items-center fs-5">{!! Auth::user()->name !!}

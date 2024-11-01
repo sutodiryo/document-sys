@@ -108,6 +108,8 @@ class Index extends Component
                     'file_size' => $file_size,
                     'path' => "/uploads/$newFile->id/",
                     'file' => "/uploads/$newFile->id/$file_name",
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                     'created_by' => Auth::id()
                 ]);
                 // dd(bytesToHuman($file_size));
@@ -124,15 +126,15 @@ class Index extends Component
                     $path = storage_path('app/public/');
                     // dd($file);
 
-                    ConvertApi::setApiCredentials('secret_JC9IonJgkKHwq2UH');
-                    $result = ConvertApi::convert(
-                        'jpg',
-                        [
-                            'File' => $path . $file->attachment->file,
-                        ],
-                        $file->attachment->file_type
-                    );
-                    $result->saveFiles($path . $file->attachment->path);
+                    // ConvertApi::setApiCredentials('secret_JC9IonJgkKHwq2UH');
+                    // $result = ConvertApi::convert(
+                    //     'jpg',
+                    //     [
+                    //         'File' => $path . $file->attachment->file,
+                    //     ],
+                    //     $file->attachment->file_type
+                    // );
+                    // $result->saveFiles($path . $file->attachment->path);
                 }
 
                 DB::commit();

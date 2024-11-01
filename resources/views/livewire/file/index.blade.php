@@ -3,16 +3,10 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card card-flush pb-0 bgi-position-y-center bgi-no-repeat mb-10"
                 style="background-size: auto calc(100% + 10rem); background-position-x: 100%; background-image: url('{{ asset('metronic_8.2.6/media/illustrations/sketchy-1/4.png') }}')">
-                <div class="card-header pt-10">
+                {{-- <div class="card-header pt-10">
                     <div class="d-flex align-items-center">
                         <div class="d-flex flex-column">
                             <h2 class="mb-1">{{ $file->name }}</h2>
-                            {{-- <br>
-                            <h2>{{ $link_file }}</h2> --}}
-                            {{-- <div class="text-muted fw-bold">
-                                <a>File Manager</a>
-                                <span class="mx-3">|</span>2.6 GB
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -20,8 +14,9 @@
                 <div class="card-body pb-0">
                     <div class="d-flex overflow-auto h-20px">
                     </div>
-                </div>
+                </div> --}}
             </div>
+
             <div class="card card-flush">
                 <div class="card-header pt-8">
 
@@ -153,9 +148,7 @@
                                 <div class="card-header">
                                     <div class="card-title">
                                         <a type="button" data-bs-toggle="modal" data-bs-target="#modal_view_pdf">
-                                            <h2><i class="fas fa-document"></i> {{ $file->name }}
-                                                {{-- {{ $file->attachments->first()->file }} <br> <br> {{ storage_path('app/public/uploads/' . $file->id . '/') . "" . $file->name . "" }} --}}
-                                            </h2>
+                                            <h2><i class="fas fa-document"></i> {{ $file->name }}</h2>
                                         </a>
                                     </div>
                                 </div>
@@ -286,8 +279,8 @@
                                                             <td class="fw-bold text-end">
                                                                 <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a href="{{ route('file.view', ['uuid' => $file->id]) }}" target="_blank"
-                                                                        type="button"
+                                                                    <a href="{{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                        target="_blank" type="button"
                                                                         class="btn btn-block btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-eye"></i>View Document
                                                                     </a>
@@ -341,19 +334,26 @@
                                                                 {{-- </a> --}}
                                                             </td>
                                                             <td>
-                                                                <a wire:click="restoreVersion('{{ $attachment->id }}')" title="Restore"
-                                                                    class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
-                                                                    <i class="fas fa-refresh"></i>
-                                                                </a>
 
-                                                                <a wire:click="downloadAttachment('{{ $attachment->id }}')" title="Download"
+                                                                <a wire:click="downloadAttachment('{{ $attachment->id }}')"
+                                                                    title="Download"
                                                                     class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
                                                                     <i class="fas fa-download"></i>
                                                                 </a>
-                                                                <a wire:click="deleteAttachment('{{ $attachment->id }}')"  title="Delete"
-                                                                    class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
+                                                                @if ($index > 0)
+                                                                    <a wire:click="restoreVersion('{{ $attachment->id }}')"
+                                                                        title="Restore"
+                                                                        class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
+                                                                        <i class="fas fa-refresh"></i>
+                                                                    </a>
+
+                                                                    <a wire:click="deleteAttachment('{{ $attachment->id }}')"
+                                                                        title="Delete"
+                                                                        class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </a>
+                                                                @endif
+
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -891,5 +891,17 @@
         })
 
         document.getElementById("myLocalDate").min = "2006-05-05T16:15:23";
+
+
+        PSPDFKit.load({
+                container: "#pspdfkit",
+                document: "document.pdf" // Add the path to your document here.
+            })
+            .then(function(instance) {
+                console.log("PSPDFKit loaded", instance);
+            })
+            .catch(function(error) {
+                console.error(error.message);
+            });
     </script>
 @endpush

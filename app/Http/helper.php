@@ -214,3 +214,19 @@ function bytesToHuman($bytes)
 
     return round($bytes, 2) . ' ' . $units[$i];
 }
+
+function changeByte($size)
+{
+    $unit = array('b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb');
+    return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+}
+
+function generateInitialName(string $name): string
+{
+    $words = explode(' ', $name);
+    return mb_strtoupper(
+        mb_substr($words[0], 0, 1, 'UTF-8') .
+            mb_substr(end($words), 0, 1, 'UTF-8'),
+        'UTF-8'
+    );
+}

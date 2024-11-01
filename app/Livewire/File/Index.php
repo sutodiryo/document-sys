@@ -22,6 +22,10 @@ use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 
+// use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\Tcpdf\Fpdi;
+
+
 class Index extends Component
 {
     use WithFileUploads, LivewireAlert;
@@ -31,6 +35,7 @@ class Index extends Component
     public $tags = [];
     public $file, $folder, $ancestors, $another_version_files = [], $user_groups, $link_file;
     public $open_form_upload, $upload_file, $emailLists = [], $invited_emails, $email;
+    public $restore_attachment_id;
 
     // Modal share
     public $share_by_email_group, $share_by_email_role, $share_by_email_expiration, $share_by_email_expires_at;
@@ -42,6 +47,7 @@ class Index extends Component
     public $curent_link;
 
     protected $rules =  ['qty' => 'array', 'qty.*' => 'numeric'];
+    protected $listeners = ['cancelDelete', 'confirmFileDelete', 'confirmAttachmentRestore'];
 
     public function mount()
     {
@@ -203,11 +209,41 @@ class Index extends Component
     public function restoreVersion($id)
     {
         $attachment = Attachment::findOrFail($id);
+        $this->restore_attachment_id = $id;
+
+        $this->alert('question', '', [
+            'title' => 'Anda yakin akan mengembalikan file ke versi ini ?',
+            'text' => $attachment->name,
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Ya, kembalikan',
+            'showCancelButton' => true,
+            'onConfirmed' => 'confirmAttachmentRestore',
+            // 'onDismissed' => 'cancelAttachmentRestore',
+            'cancelButtonText' => 'Tidak, Batalkan',
+            'position' => 'center',
+            'toast' => false,
+            'timer' => null,
+        ]);
 
         // Warning
         // update file to this attachment version
 
-        dd($attachment);
+        // dd($attachment);
+    }
+
+    public function confirmAttachmentRestore()
+    {
+        DB::beginTransaction();
+        $attactment = Attachment::findOrFail($this->restore_attachment_id);
+        // $file = Attachment::withTrashed()->findOrFail($this->restore_attachment_id);
+        $attactment->updated_at = Carbon::now();
+
+        $text = "Restore attactment to " . $attactment->name;
+        $this->file->newActivity($this->file->id, $text);
+
+        DB::commit();
+
+        $this->flash('success', 'File berhasil di kembalikan.', [], $this->curent_link);
     }
 
     public function downloadAttachment($id)
@@ -219,6 +255,20 @@ class Index extends Component
     public function deleteAttachment($id)
     {
         $attachment = Attachment::findOrFail($id);
+
+        $this->alert('question', '', [
+            'title' => 'Anda yakin akan menghapus file ini ?',
+            'text' => $attachment->name,
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Ya, Hapus',
+            'showCancelButton' => true,
+            'onConfirmed' => 'confirmFileDelete',
+            'onDismissed' => 'cancelDelete',
+            'cancelButtonText' => 'Tidak, Batalkan',
+            'position' => 'center',
+            'toast' => false,
+            'timer' => null,
+        ]);
         dd($attachment);
     }
 
@@ -405,7 +455,34 @@ class Index extends Component
 
     public function eSign()
     {
-        dd('yaa');
+        $pdf = new FPDI('P', 'mm', 'A4');
+        // dd(storage_path('app/public/') . 'uploads/' . $this->file->id . '/' . $this->file->attachment->name);
+        $pages = $pdf->setSourceFile(storage_path('app/public/') . 'uploads/' . $this->file->id . '/' . $this->file->attachment->name);
+
+        $certificate = 'file:/' . storage_path('app/public/') . 'document-sys.test.crt';
+
+        $certificate = storage_path('app/public/') . 'host.cert';
+        $certificateKey = storage_path('app/public/') . 'host.key';
+        $prepend = "file://";
+        // dd($certificate);
+        // set additional information
+        $info = array(
+            'Name' => 'TCPDF',
+            'Location' => 'Office',
+            'Reason' => 'Testing TCPDF',
+            'ContactInfo' => 'http://www.tcpdf.org',
+        );
+
+        for ($i = 1; $i <= $pages; $i++) {
+            $pdf->AddPage();
+            $page = $pdf->importPage($i);
+            $pdf->useTemplate($page, 0, 0);
+            // set document signature
+            $pdf->setSignature($prepend . $certificate, $prepend . $certificateKey, 'tcpdfdemo', '', 2, $info);
+        }
+
+        $pdf->Output();
+        // dd($pdf);
     }
 
     public function addSpare($spareId)
