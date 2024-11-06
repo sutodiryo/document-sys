@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-column-fluid">
+<div class="d-flex flex-column flex-column-fluid" x-data="{ loading: $wire.entangle('loading') }">
 
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -11,6 +11,7 @@
                             <div class="row g-8 mb-8">
                                 <div class="col-xxl-12">
                                     <label class="fs-6 form-label fw-bold text-gray-900">OCR Search</label>
+                                    <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
 
                                     <div class="dropzone" x-data="{ isUploading: false, progress: 0 }"
                                         x-on:livewire-upload-start="isUploading = true"
@@ -27,18 +28,20 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div wire:loading wire:target="upload_file">
-                                        Searching ...
-                                    </div> --}}
-
-                                    {{-- <div class="page-loading" wire:loading>
-                                        Loading...
-                                    </div> --}}
-                                    <div wire:loading.class="d-block" wire:target="reinitialize" class="d-none">
-                                        {{-- <div class="spinner-border load-spinner text-tertiary p-0 me-2"></div> --}}
-                                        <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
-
+                                    <div x-show="loading">
+                                        loading ...
                                     </div>
+
+                                    {{-- <div wire:loading wire:target="remove({{ $post->id }})">
+                                        Removing post...
+                                    </div> --}}
+
+                                    {{-- <button class="btn btn-primary w-100 text-center" id="kt_widget_5_load_more_btn">
+                                        <span class="indicator-label">More Feeds</span>
+                                        <span class="indicator-progress">Loading...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    </button> --}}
+
                                 </div>
                             </div>
                         </div>

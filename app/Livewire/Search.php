@@ -29,7 +29,9 @@ class Search extends Component
     public $sort_by, $sort_by_name = "ASC", $sort_by_date = "ASC";
     public $upload_file, $parsed_text, $file_parsed_text = [];
 
-    protected $listeners = ['folders', 'confirmFileDelete'];
+    public $loading = false;
+
+    protected $listeners = ['folders', 'confirmFileDelete', 'onOcrSearchFindData'];
 
     public function mount()
     {
@@ -120,6 +122,8 @@ class Search extends Component
                     ->orWhere('description', 'like', '%' . $this->query . '%');
             })->when($this->search_on == 'ocr', function ($query) {
 
+                $this->loading = true;
+
                 $ids = [];
                 foreach ($query->get() as $key => $value) {
                     if ($value->attachment) {
@@ -139,6 +143,8 @@ class Search extends Component
                     }
                 }
                 $query->whereIn('id', $ids); // content
+                $this->loading = true;
+
             });
         })
             ->where(function ($query) {
