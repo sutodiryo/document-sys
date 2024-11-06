@@ -144,7 +144,7 @@ class Search extends Component
                         }
                     }
                 }
-                $this->loading = false;
+                // $this->loading = false;
 
                 $query->whereIn('id', $ids); // content
 
