@@ -143,7 +143,7 @@ class Search extends Component
                     }
                 }
                 $query->whereIn('id', $ids); // content
-                $this->loading = true;
+                $this->loading = false;
 
             });
         })
