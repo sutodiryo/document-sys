@@ -67,9 +67,11 @@ class Search extends Component
 
     public function updatedUploadFile()
     {
-        $ocr = app()->make(OcrAbstract::class);
-        $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
         $this->loading = true;
+
+        $ocr = app()->make(OcrAbstract::class);
+
+        $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
 
         $this->setTables();
     }
