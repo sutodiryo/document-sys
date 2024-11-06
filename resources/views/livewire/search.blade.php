@@ -5,13 +5,12 @@
             <div class="card mb-7">
                 <div class="card-body">
 
+
                     @if ($search_on == 'ocr')
                         <div>
                             <div class="row g-8 mb-8">
                                 <div class="col-xxl-12">
                                     <label class="fs-6 form-label fw-bold text-gray-900">OCR Search</label>
-                                    <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
-
                                     <div class="dropzone"
                                         x-on:livewire-upload-start="[isUploading = true, loading = true]"
                                         x-on:livewire-upload-finish="isUploading = false"
@@ -28,8 +27,12 @@
                                     </div>
 
                                     @if (!$loading)
-                                        <div x-show='loading'>
-                                            loading ...
+                                        <div
+                                        x-show='loading'
+                                        >
+
+                                        <div class="spinner spinner-track spinner-primary spinner-lg mt-5 spinner-right ps-20"><span>Searching . .  .</span></div>
+                                            {{-- <button type="button" class="btn btn-secondary spinner spinner-dark spinner-right mr-3"> Searching</button> --}}
                                         </div>
                                     @endif
 
