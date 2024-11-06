@@ -67,13 +67,12 @@ class Search extends Component
 
     public function updatedUploadFile()
     {
-        $this->loading = true;
-
         $ocr = app()->make(OcrAbstract::class);
 
         $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
 
         $this->setTables();
+
     }
 
     public function setTables()
@@ -125,6 +124,7 @@ class Search extends Component
                 $query->where('name', 'like', '%' . $this->query . '%')
                     ->orWhere('description', 'like', '%' . $this->query . '%');
             })->when($this->search_on == 'ocr', function ($query) {
+                $this->loading = true;
 
                 $ids = [];
                 foreach ($query->get() as $key => $value) {
@@ -135,18 +135,22 @@ class Search extends Component
 
                         $ocr = app()->make(OcrAbstract::class);
                         $file = $ocr->scan($path);
+
                         // $this->file_parsed_text[] = $path . ' ----- ' . $file;
                         // $file = file_get_contents($path);
 
                         // if (strpos($file, $this->parsed_text))
+
                         if (stripos($file, $this->parsed_text) !== FALSE) {
                             $ids[] = $value->id;
                         }
                     }
                 }
-                // $this->loading = false;
 
                 $query->whereIn('id', $ids); // content
+// dd($this->loading);
+
+                $this->loading = false;
 
             });
         })
