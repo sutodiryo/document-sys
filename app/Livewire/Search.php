@@ -69,6 +69,8 @@ class Search extends Component
     {
         $ocr = app()->make(OcrAbstract::class);
         $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
+        $this->loading = true;
+
         $this->setTables();
     }
 
@@ -121,8 +123,6 @@ class Search extends Component
                 $query->where('name', 'like', '%' . $this->query . '%')
                     ->orWhere('description', 'like', '%' . $this->query . '%');
             })->when($this->search_on == 'ocr', function ($query) {
-
-                $this->loading = true;
 
                 $ids = [];
                 foreach ($query->get() as $key => $value) {
