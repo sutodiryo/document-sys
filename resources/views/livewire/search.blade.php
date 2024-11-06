@@ -27,6 +27,18 @@
                                         </div>
                                     </div>
 
+                                    {{-- <div wire:loading wire:target="upload_file">
+                                        Searching ...
+                                    </div> --}}
+
+                                    {{-- <div class="page-loading" wire:loading>
+                                        Loading...
+                                    </div> --}}
+                                    <div wire:loading.class="d-block" wire:target="reinitialize" class="d-none">
+                                        {{-- <div class="spinner-border load-spinner text-tertiary p-0 me-2"></div> --}}
+                                        <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
