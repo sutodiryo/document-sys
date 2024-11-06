@@ -67,7 +67,8 @@ class Search extends Component
 
     public function updatedUploadFile()
     {
-        $this->loading = true;
+        // $this->loading = true;
+        // dd($this->loading);
 
         $ocr = app()->make(OcrAbstract::class);
 
@@ -81,6 +82,7 @@ class Search extends Component
 
     public function setTables()
     {
+
         $folders = Folder::where(function ($query) {
             $query->when($this->search_on == 'all', function ($query) {
                 $query->where('name', 'like', '%' . $this->query . '%')
@@ -128,6 +130,7 @@ class Search extends Component
                 $query->where('name', 'like', '%' . $this->query . '%')
                     ->orWhere('description', 'like', '%' . $this->query . '%');
             })->when($this->search_on == 'ocr', function ($query) {
+                // $this->loading = true;
 
                 $ids = [];
                 foreach ($query->get() as $key => $value) {

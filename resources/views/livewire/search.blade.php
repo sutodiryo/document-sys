@@ -1,5 +1,4 @@
-<div class="d-flex flex-column flex-column-fluid">
-
+<div class="d-flex flex-column flex-column-fluid"  x-data="{ isUploading: false, progress: 0, loading: false }">
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
@@ -13,10 +12,10 @@
                                     <label class="fs-6 form-label fw-bold text-gray-900">OCR Search</label>
                                     <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
 
-                                    <div class="dropzone" x-data="{ isUploading: false, progress: 0 }"
+                                    <div class="dropzone"
                                         x-on:livewire-upload-start="isUploading = true"
-                                        x-on:livewire-upload-finish="isUploading = false"
-                                        x-on:livewire-upload-error="isUploading = false"
+                                        x-on:livewire-upload-finish="[isUploading = false, loading = true]"
+                                        x-on:livewire-upload-error  ="isUploading = false"
                                         x-on:livewire-upload-progress="progress = $event.detail.progress">
 
                                         <input type="file" class="form-control" id="upload_file"
@@ -28,11 +27,11 @@
                                         </div>
                                     </div>
 
-                                    @if ($loading)
-                                        <div>
+                                    {{-- @if ($loading) --}}
+                                        <div x-show='loading'>
                                             loading ...
                                         </div>
-                                    @endif
+                                    {{-- @endif --}}
 
                                     {{-- <div wire:loading wire:target="remove({{ $post->id }})">
                                         Removing post...
