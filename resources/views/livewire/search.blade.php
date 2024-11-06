@@ -13,8 +13,8 @@
                                     <div class="spinner spinner-track spinner-primary spinner-lg mr-15"></div>
 
                                     <div class="dropzone"
-                                        x-on:livewire-upload-start="isUploading = true"
-                                        x-on:livewire-upload-finish="[isUploading = false, loading = true]"
+                                        x-on:livewire-upload-start="[isUploading = true, loading = true]"
+                                        x-on:livewire-upload-finish="isUploading = false"
                                         x-on:livewire-upload-error  ="isUploading = false"
                                         x-on:livewire-upload-progress="progress = $event.detail.progress">
 
