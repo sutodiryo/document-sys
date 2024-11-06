@@ -27,11 +27,11 @@
                                         </div>
                                     </div>
 
-                                    {{-- @if ($loading) --}}
+                                    @if (!$loading)
                                         <div x-show='loading'>
                                             loading ...
                                         </div>
-                                    {{-- @endif --}}
+                                    @endif
 
                                     {{-- <div wire:loading wire:target="remove({{ $post->id }})">
                                         Removing post...

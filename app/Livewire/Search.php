@@ -67,7 +67,7 @@ class Search extends Component
 
     public function updatedUploadFile()
     {
-        // $this->loading = true;
+        $this->loading = true;
         // dd($this->loading);
 
         $ocr = app()->make(OcrAbstract::class);
@@ -154,6 +154,7 @@ class Search extends Component
                 }
 
                 $query->whereIn('id', $ids); // content
+                $this->loading = true;
 
             });
         })
