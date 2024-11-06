@@ -75,7 +75,7 @@ class Search extends Component
 
         $this->setTables();
         // dd($this->loading);
-        $this->loading = false;
+        // $this->loading = false;
 
     }
 
