@@ -142,8 +142,9 @@ class Search extends Component
                         }
                     }
                 }
-                $query->whereIn('id', $ids); // content
                 $this->loading = false;
+
+                $query->whereIn('id', $ids); // content
 
             });
         })
