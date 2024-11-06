@@ -74,7 +74,7 @@ class Search extends Component
         $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
 
         $this->setTables();
-        dd($this->loading);
+        // dd($this->loading);
         $this->loading = false;
 
     }

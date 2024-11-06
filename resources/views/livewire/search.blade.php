@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-column-fluid" x-data="{ loading: $wire.entangle('loading') }">
+<div class="d-flex flex-column flex-column-fluid">
 
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -28,9 +28,11 @@
                                         </div>
                                     </div>
 
-                                    <div x-show="loading">
-                                        loading ...
-                                    </div>
+                                    @if ($loading)
+                                        <div>
+                                            loading ...
+                                        </div>
+                                    @endif
 
                                     {{-- <div wire:loading wire:target="remove({{ $post->id }})">
                                         Removing post...
