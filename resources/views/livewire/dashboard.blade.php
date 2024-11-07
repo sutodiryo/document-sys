@@ -6,7 +6,7 @@
 
                 <div class="col-xl-4">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                        style="background-color: #F1416C;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-dark.svg') }}')">
+                        style="background-color: #F1416C;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-purple.svg') }}')">
                         <div class="card-header pt-5 mb-3">
                             <div class="d-flex flex-center rounded-circle h-80px w-80px"
                                 style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
@@ -43,7 +43,7 @@
 
                 <div class="col-xl-4">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                        style="background-color: #7239EA;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-dark.svg') }}')">
+                        style="background-color: #7239EA;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-red.svg') }}')">
                         <div class="card-header pt-5 mb-3">
                             <div class="d-flex flex-center rounded-circle h-80px w-80px"
                                 style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #7239EA">
@@ -133,7 +133,7 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #00cb1e;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-dark.svg') }}')">
+                            style="background-color: #00cb1e;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-purple.svg') }}')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
                                     style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #00cb1e">
@@ -167,7 +167,7 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #e39c04;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-dark.svg') }}')">
+                            style="background-color: #e39c04;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-red.svg') }}')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
                                     style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #e39c04">
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div class="card-footer"
-                                style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: #dedcdc26;">
+                                style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: rgba(0, 0, 0, 0.15);">
                                 <div class="fw-bold text-white py-2">
                                     <span class="fs-1 d-block">{{ $due_date }}</span>
                                     <span class="opacity-50">due or soon to be due documents</span>
@@ -196,7 +196,7 @@
                 <div class="col-xl-4">
                     <a href="#">
                         <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100"
-                            style="background-color: #ee0000;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-dark.svg') }}')">
+                            style="background-color: #ee0000;background-image:url('{{ asset('metronic_8.2.6/media/svg/shapes/wave-bg-purple.svg') }}')">
                             <div class="card-header pt-5 mb-3">
                                 <div class="d-flex flex-center rounded-circle h-80px w-80px"
                                     style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #ee0000">
@@ -212,7 +212,7 @@
                                 </div>
                             </div>
                             <div class="card-footer"
-                                style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: #dedcdc26;">
+                                style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: rgba(0, 0, 0, 0.15);">
                                 <div class="fw-bold text-white py-2">
                                     <span class="fs-1 d-block">{{ $all_files }}</span>
                                     <span class="opacity-50">counted files</span>

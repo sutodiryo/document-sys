@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-column-fluid"  x-data="{ isUploading: false, progress: 0, loading: false }">
+<div class="d-flex flex-column flex-column-fluid" x-data="{ isUploading: false, progress: 0, loading: false }">
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
@@ -26,25 +26,15 @@
                                         </div>
                                     </div>
 
+                                    <!-- Spinner -->
                                     @if (!$loading)
-                                        <div
-                                        x-show='loading'
-                                        >
-
-                                        <div class="spinner spinner-track spinner-primary spinner-lg mt-5 spinner-right ps-20"><span>Searching . .  .</span></div>
-                                            {{-- <button type="button" class="btn btn-secondary spinner spinner-dark spinner-right mr-3"> Searching</button> --}}
+                                        <div x-show='loading'>
+                                            <div
+                                                class="spinner spinner-track spinner-primary spinner-lg mt-5 spinner-right ps-20">
+                                                <span>Searching . . .</span>
+                                            </div>
                                         </div>
                                     @endif
-
-                                    {{-- <div wire:loading wire:target="remove({{ $post->id }})">
-                                        Removing post...
-                                    </div> --}}
-
-                                    {{-- <button class="btn btn-primary w-100 text-center" id="kt_widget_5_load_more_btn">
-                                        <span class="indicator-label">More Feeds</span>
-                                        <span class="indicator-progress">Loading...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                    </button> --}}
 
                                 </div>
                             </div>

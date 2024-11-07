@@ -82,6 +82,9 @@ class Search extends Component
 
     public function setTables()
     {
+if ($this->query || $this->parsed_text) {
+    # code...
+
 
         $folders = Folder::where(function ($query) {
             $query->when($this->search_on == 'all', function ($query) {
@@ -222,12 +225,20 @@ class Search extends Component
 
                 $query->whereBetween('created_at', [$from, $to]);
             });
+            $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? [] : $folders->get();
+            $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
 
-        $this->folders = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? [] : $folders->get();
-        $this->files =  $this->search_on == 'folder_name' ? [] : $files->get();
+            $this->count = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? $files->count() : ($this->search_on == 'folder_name' ? $folders->count() : $folders->count() + $files->count());
 
-        $this->count = ($this->search_on == 'file_name' || $this->search_on == 'content' || $this->search_on == 'ocr') ? $files->count() : ($this->search_on == 'folder_name' ? $folders->count() : $folders->count() + $files->count());
-    }
+        } else {
+            $this->folders = [];
+            $this->files =  [];
+
+            $this->count = 0;
+
+        }
+
+}
 
     public function render()
     {
