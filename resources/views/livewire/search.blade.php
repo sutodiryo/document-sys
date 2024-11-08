@@ -5,7 +5,6 @@
             <div class="card mb-7">
                 <div class="card-body">
 
-
                     @if ($search_on == 'ocr')
                         <div>
                             <div class="row g-8 mb-8">
@@ -56,7 +55,7 @@
 
                         <div class="d-flex align-items-center">
                             @if ($search_on != 'ocr')
-                                <button type="submit" class="btn btn-primary me-5">Search term</button>
+                                <button wire:click="setTables" class="btn btn-primary me-5">Search term</button>
                             @endif
                             <button wire:click="advancedSearch" class="btn btn-link">Advanced
                                 Search</button>
@@ -96,7 +95,6 @@
 
                 </div>
             </div>
-            {{-- </form> --}}
 
             <div class="d-flex flex-wrap flex-stack pb-7">
                 <div class="d-flex flex-wrap align-items-center my-1">
@@ -105,20 +103,6 @@
                 </div>
 
                 <div class="d-flex flex-wrap my-1">
-                    {{-- <ul class="nav nav-pills me-6 mb-2 mb-sm-0">
-                        <li class="nav-item m-0">
-                            <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active"
-                                data-bs-toggle="tab" href="#kt_project_users_card_pane">
-                                <i class="ki-duotone ki-element-plus fs-2"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item m-0">
-                            <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary"
-                                data-bs-toggle="tab" href="#kt_project_users_table_pane">
-                                <i class="ki-duotone ki-row-horizontal fs-2"></i>
-                            </a>
-                        </li>
-                    </ul> --}}
 
                     <div class="d-flex my-0">
 
@@ -171,31 +155,6 @@
                                 <span class="form-check-label text-gray-600">Notes</span>
                             </label>
                         </div>
-
-                        {{-- <select wire:model.live="sort_by_name" data-hide-search="true" data-placeholder="Filter"
-                            class="form-select form-select-sm form-select-solid w-150px me-5">
-                            <option value="ASC">ASC</option>
-                            <option value="DESC">DESC</option>
-                        </select> --}}
-                        {{-- <select wire:model.live="sort_by_date" data-hide-search="true"
-                            class="form-select form-select-sm form-select-solid w-150px me-5">
-                            <option value="ASC">ASC</option>
-                            <option value="DESC">DESC</option>
-                        </select> --}}
-                        {{-- <select wire:model.live="status" data-hide-search="true"
-                            data-placeholder="Export" class="form-select form-select-sm form-select-solid w-100px">
-                            <option value="1">Excel</option>
-                            <option value="1">PDF</option>
-                            <option value="2">Print</option>
-                        </select> --}}
-                        {{-- <select wire:model.live="filter_folder" class="form-select form-select-solid"
-                            data-placeholder="Select Folder" data-hide-search="true">
-                            <option value="">Select Folder</option>
-                            <option value="9ce9f96b-6151-4984-9e6d-f3f45c6ddc4c">Section 1</option>
-                            <option value="9ce9f999-e233-450a-aa1e-3c80ebf6bd6a">Section 2</option>
-                            <option value="9cf11d1e-0d93-4e44-af9d-88533fe83134">Section 3</option>
-                        </select> --}}
-                        {{-- <button wire:click="sss('9ce9f96b-6151-4984-9e6d-f3f45c6ddc4c')">Cek</button> --}}
                     </div>
                 </div>
             </div>
@@ -204,32 +163,9 @@
                 <div class="card card-flush">
                     <div class="card-body pt-0">
                         <div class="table-responsive">
-                            {{-- <h1>
-                                @if ($parsed_text)
-                                    {{ $parsed_text }}
-                                @endif
-                                <br>
-                                <br>
-                                @if ($file_parsed_text)
-
-                                    @foreach ($file_parsed_text as $i => $fpt)
-                                        {{ $i }}. {{ $fpt }}
-                                        <br>
-                                        <br>
-                                    @endforeach
-                                @endif
-                            </h1> --}}
                             <table class="table align-middle table-row-dashed fs-6 gy-5">
                                 <thead>
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                        {{-- <th class="w-10px pe-2">
-                                            <div
-                                                class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                    data-kt-check-target="#kt_file_manager_list .form-check-input"
-                                                    value="1" />
-                                            </div>
-                                        </th> --}}
                                         <th class="min-w-250px">Name<select wire:model.live="sort_by_name"
                                                 data-hide-search="true" data-placeholder="Filter"
                                                 class="form-select form-select-sm form-select-solid w-150px me-5">
@@ -365,52 +301,6 @@
 
                                 </tbody>
                             </table>
-                            {{-- <table id="kt_project_users_table"
-                                class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
-                                <thead class="fs-7 text-gray-500 text-uppercase">
-                                    <tr>
-                                        <th class="min-w-250px">Manager</th>
-                                        <th class="min-w-150px">Date</th>
-                                        <th class="min-w-90px">Amount</th>
-                                        <th class="min-w-90px">Status</th>
-                                        <th class="min-w-50px text-end">Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="fs-6">
-                                    @foreach ($folders as $index => $fd)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="me-5 position-relative">
-                                                        <div class="symbol symbol-35px symbol-circle">
-                                                            <span
-                                                                class="symbol-label bg-light-danger text-danger fw-semibold">M</span>
-                                                        </div>
-                                                        <div
-                                                            class="bg-success position-absolute border border-4 border-body h-15px w-15px rounded-circle translate-middle start-100 top-100 ms-n1 mt-n1">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <a href=""
-                                                            class="mb-1 text-gray-800 text-hover-primary">{{ $fd->name }}</a>
-                                                        <div class="fw-semibold fs-6 text-gray-500">melody@altbox.com
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Feb 21, 2024</td>
-                                            <td>$900.00</td>
-                                            <td>
-                                                <span
-                                                    class="badge badge-light-warning fw-bold px-4 py-3">Pending</span>
-                                            </td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn btn-light btn-sm">View</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table> --}}
                         </div>
                     </div>
                 </div>

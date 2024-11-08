@@ -15,13 +15,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
 
-    {{-- @stack('plugin-alpine')
-    <script defer src="{{ asset('assets/libs/alpinejs/dist/cdn.min.js') }}"></script> --}}
-
     <!--begin::Vendor Stylesheets(used for this page only)-->
     <link href="{{ asset('metronic_8.2.6/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
         type="text/css" />
     <!--end::Vendor Stylesheets-->
+
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('metronic_8.2.6/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('metronic_8.2.6/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
@@ -71,23 +69,6 @@
         </div>
     </div>
 
-    {{-- <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div> --}}
-
 
     <script>
         var hostUrl = "{{ asset('metronic_8.2.6') }}/";
@@ -102,9 +83,6 @@
     <script src="{{ asset('metronic_8.2.6/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <!--end::Vendors Javascript-->
 
-    {{-- <script src="{{ asset('metronic_8.2.6/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script>
-    <script src="{{ asset('metronic_8.2.6/js/custom/apps/ecommerce/catalog/save-product.js') }}"></script> --}}
-
     <!--begin::Custom Javascript(used for this page only)-->
     <script src="{{ asset('metronic_8.2.6/js/custom/apps/file-manager/list.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/widgets.bundle.js') }}"></script>
@@ -113,25 +91,6 @@
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/create-app.js') }}"></script>
     <script src="{{ asset('metronic_8.2.6/js/custom/utilities/modals/users-search.js') }}"></script>
-
-    {{-- <script src="{{ asset('metronic_8.2.6/js/custom/apps/ecommerce/catalog/save-product.js') }}"></script> --}}
-
-    <!--end::Custom Javascript-->
-
-    {{-- <script src="{{ asset('assets/pspdfkit.js') }}"></script>
-    <script>
-        PSPDFKit.load({
-                licenseKey: '5ZHXLjgAXLL-jM0DZTa6_YlP6mqhAKwLVipsCZQKbUaCcryFBVi6NdOacjjEGUjm74vS35iiggInU1LBtpsdBHrKZhIsQlXSh3gYqM90VMExL2gowowoc3dLF4VnHONWpLRRdWlZ8khIvDc10gdlDQe-81PVHoVcEohOnyZY9cW0ZFOdGUoyhJoIHCfblA1NNWHX8cf4826wowtE',
-                container: "#pspdfkit",
-                document: "/Users/user/Herd/document-sys/storage/app/public/uploads/9ceee42c-7129-40b6-b321-70ee380ca34e/Contoh.pdf" // Add the path to your document here.
-            })
-            .then(function(instance) {
-                console.log("PSPDFKit loaded", instance);
-            })
-            .catch(function(error) {
-                console.error(error.message);
-            });
-    </script> --}}
 
     @livewireScripts
 
