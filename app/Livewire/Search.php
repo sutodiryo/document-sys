@@ -29,7 +29,7 @@ class Search extends Component
     public $sort_by, $sort_by_name = "ASC", $sort_by_date = "ASC";
     public $upload_file, $parsed_text, $file_parsed_text = [];
 
-    public $loading = false;
+    public $loading = true;
 
     protected $listeners = ['folders', 'confirmFileDelete', 'onOcrSearchFindData'];
 
@@ -68,6 +68,7 @@ class Search extends Component
     public function updatedUploadFile()
     {
         if ($this->parsed_text) {
+            $this->loading = true;
             $this->parsed_text = null;
         }
 
@@ -145,7 +146,7 @@ class Search extends Component
                     }
 
                     $query->whereIn('id', $ids); // content
-                    $this->loading = true;
+                    $this->loading = false;
                 });
             })
                 ->where(function ($query) {

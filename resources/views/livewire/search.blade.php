@@ -26,7 +26,7 @@
                                     </div>
 
                                     <!-- Spinner -->
-                                    @if (!$loading)
+                                    @if ($loading)
                                         <div x-show='loading'>
                                             <div
                                                 class="spinner spinner-track spinner-primary spinner-lg mt-5 spinner-right ps-20">
