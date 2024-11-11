@@ -17,6 +17,7 @@
         "codedge/laravel-fpdf": "^1.12",
         "convertapi/convertapi-php": "^3.0",
         "elibyy/tcpdf-laravel": "^11.1",
+        "google/cloud-document-ai": "^2.1",
         "guzzlehttp/guzzle": "^7.0",
         "intervention/image": "^3.9",
         "jantinnerezo/livewire-alert": "^3.0",
