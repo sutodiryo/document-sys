@@ -524,11 +524,12 @@ class Index extends Component
             // }
         ]);
 
-        // $response = json_decode($response->getBody()->getContents());
+        $response = json_decode($response->getBody()->getContents());
 
         // return $response->body;
         // redirect($response->getBody()->getContents()->url);
-        return Redirect::to($response->getBody()->getContents()->url);
+        dd($response->url);
+        return Redirect::to($response->url);
     }
 
     public function addSpare($spareId)
