@@ -88,7 +88,7 @@ class Search extends Component
                 'Content-Type' => 'application/json',
                 'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
             ])->post($this->pdfco_url . 'convert/to/text', [
-                'url' => route('public.preview.files', $this->upload_file->getFileName()),
+                'url' => route('public.tmp.preview.files', $this->upload_file->getFileName()),
                 'inline' => true,
                 'async' => false,
             ]);
