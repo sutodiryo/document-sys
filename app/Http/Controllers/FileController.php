@@ -119,9 +119,8 @@ class FileController extends Controller
     public function file_preview($id) // for api call
     {
         $file = File::find($id);
-
-        $file = storage_path('app/public/uploads/' . $file->id . '/') . "" . $file->name . "";
-        return response()->file($file); // harusnya view only pake third party
+        $file = storage_path('app/public/uploads/' . $file->id . '/' . $file->attachment->name);
+        return response()->file($file);
     }
 
     /**

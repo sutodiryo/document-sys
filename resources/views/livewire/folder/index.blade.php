@@ -394,7 +394,8 @@
                                             </a>
                                             <a href="{{ route('file.index') }}?uuid={{ $fl->id }}"
                                                 class="text-gray-800 text-hover-primary">
-                                                {{ $fl->name }}.{{ $fl->attachment->file_type }}
+                                                {{ $fl->name }}
+                                                {{-- .{{ $fl->attachment->file_type }} --}}
                                             </a>
                                         </div>
                                     </td>
