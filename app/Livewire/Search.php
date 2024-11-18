@@ -79,20 +79,21 @@ class Search extends Component
         if ($file_ext == 'pdf' || $file_ext == 'PDF') {
 
             // dd($this->upload_file->getPathName());
+            // route('public.preview.files', $this->upload_file->getFileName());
 
-            route('public.preview.files', $this->upload_file->getFileName());
+            // $response = Http::acceptJson()->get('http://example.com/users');
 
-            $response = Http::acceptJson()->get('http://example.com/users');
+            // $response = Http::withHeaders([
+            //     'Content-Type' => 'application/json',
+            //     'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+            // ])->post($this->pdfco_url . 'convert/to/text', [
+            //     'url' => route('public.tmp.preview.files', $this->upload_file->getFileName()),
+            //     'inline' => true,
+            //     'async' => false,
+            // ]);
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
-            ])->post($this->pdfco_url . 'convert/to/text', [
-                'url' => route('public.tmp.preview.files', $this->upload_file->getFileName()),
-                'inline' => true,
-                'async' => false,
-            ]);
-            $this->parsed_text = $response->getBody()->getContents();
+            // $this->parsed_text = $response->getBody()->getContents();
+            $this->parsed_text = $this->pdf_to_text($this->upload_file->getFileName());
         } else {
 
             $ocr = app()->make(OcrAbstract::class);
@@ -103,6 +104,20 @@ class Search extends Component
         dd($this->parsed_text);
 
         $this->setTables();
+    }
+
+    public function pdf_to_text($tmp_file_name)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+        ])->post($this->pdfco_url . 'convert/to/text', [
+            'url' => route('public.tmp.preview.files', $tmp_file_name),
+            'inline' => true,
+            'async' => false,
+        ]);
+
+        return $response->getBody()->getContents();
     }
 
     public function setTables()
