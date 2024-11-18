@@ -76,32 +76,31 @@ class Search extends Component
 
         $file_ext = $this->upload_file->getClientOriginalExtension();
 
-        // if ($file_ext == 'pdf' || $file_ext == 'PDF') {
+        if ($file_ext == 'pdf' || $file_ext == 'PDF') {
 
-        //     // $response = Http::post('http://example.com/users', [
-        //     //     'name' => 'Steve',
-        //     //     'role' => 'Network Administrator',
-        //     // ]);
-        //     $response = Http::acceptJson()->get('http://example.com/users');
+            // dd($this->upload_file->getFileName());
 
-        //     $response = Http::withHeaders([
-        //         'Content-Type' => 'application/json',
-        //         'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
-        //     ])->post($this->pdfco_url . 'convert/to/text', [
-        //         'url' => 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-to-text/sample.pdf',
-        //         'inline' => true,
-        //         'async' => false,
-        //     ]);
+            route('public.preview.files', $this->upload_file->getFileName());
 
-        //     dd($response->getBody()->getContents());
-        // } else {
+            $response = Http::acceptJson()->get('http://example.com/users');
 
-        $ocr = app()->make(OcrAbstract::class);
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+            ])->post($this->pdfco_url . 'convert/to/text', [
+                'url' => route('public.preview.files', $this->upload_file->getFileName()),
+                'inline' => true,
+                'async' => false,
+            ]);
+            $this->parsed_text = $response->getBody()->getContents();
+        } else {
 
-        $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
+            $ocr = app()->make(OcrAbstract::class);
+
+            $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
+        }
+
         dd($this->parsed_text);
-
-        // }
 
         $this->setTables();
     }

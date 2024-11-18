@@ -36,9 +36,13 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::group(['prefix' => '/public', 'as' => 'public.'], function () {
     // File
     Route::get('public/{id}', [FileController::class, 'share_by_link'])->name('share.files');
+    Route::get('public/{id}', [FileController::class, 'share_by_link'])->name('share.files');
     Route::get('file/dowload/{id}', [FileController::class, 'download'])->name('download.files');
     Route::get('file/preview/{id}', [FileController::class, 'preview'])->name('preview.files');
     Route::get('file/approval/{id}', Approval::class)->name('approval.files');
+
+    Route::get('tmp/{file}', [FileController::class, 'tmp_preview'])->name('tmp.preview.files');
+
     // Folder
     Route::get('approval/folder/{id}', FolderApproval::class)->name('approval.folder');
     //     Route::get('folder/view/', [ResolutionController::class, 'folder'])->name('folder.view');

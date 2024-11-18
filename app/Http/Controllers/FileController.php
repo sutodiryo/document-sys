@@ -110,6 +110,11 @@ class FileController extends Controller
         dd($result);
     }
 
+    public function tmp_preview($file)
+    {
+        return response()->file('/Users/user/Herd/document-sys/storage/app/livewire-tmp/' . $file);
+        // dd($file);
+    }
 
 
     /**
