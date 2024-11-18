@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use OCR;
+use Illuminate\Support\Facades\Http;
 
 class Search extends Component
 {
@@ -23,6 +24,7 @@ class Search extends Component
 
     #[Url]
 
+    public $pdfco_url = 'https://api.pdf.co/v1/pdf/';
     public $all_folders, $folders, $files, $count, $limit = 20;
     public $query, $search_on = 'all', $link;
     public $filter_folder, $advanced_search, $filter_by_date, $filter_date_start, $filter_date_end;
@@ -72,9 +74,35 @@ class Search extends Component
             $this->parsed_text = null;
         }
 
+        $file_ext = $this->upload_file->getClientOriginalExtension();
+
+        // if ($file_ext == 'pdf' || $file_ext == 'PDF') {
+
+        //     // $response = Http::post('http://example.com/users', [
+        //     //     'name' => 'Steve',
+        //     //     'role' => 'Network Administrator',
+        //     // ]);
+        //     $response = Http::acceptJson()->get('http://example.com/users');
+
+        //     $response = Http::withHeaders([
+        //         'Content-Type' => 'application/json',
+        //         'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+        //     ])->post($this->pdfco_url . 'convert/to/text', [
+        //         'url' => 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-to-text/sample.pdf',
+        //         'inline' => true,
+        //         'async' => false,
+        //     ]);
+
+        //     dd($response->getBody()->getContents());
+        // } else {
+
         $ocr = app()->make(OcrAbstract::class);
 
         $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
+        dd($this->parsed_text);
+
+        // }
+
         $this->setTables();
     }
 
@@ -134,11 +162,32 @@ class Search extends Component
                         if ($value->attachment) {
                             $file_ext = $value->attachment->file_type;
 
-                            $path =  ($file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'pdf' || $file_ext == 'PDF' ||  $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
+                            if ($file_ext == 'pdf' || $file_ext == 'PDF') {
 
-                            $ocr = app()->make(OcrAbstract::class);
-                            $file = $ocr->scan($path);
+                                // $response = Http::post('http://example.com/users', [
+                                //     'name' => 'Steve',
+                                //     'role' => 'Network Administrator',
+                                // ]);
 
+                                $response = Http::withHeaders([
+                                    'Content-Type' => 'application/json',
+                                    'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+                                ])->post($this->pdfco_url . 'convert/to/text', [
+                                    'url' => 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-to-text/sample.pdf',
+                                    'inline' => true,
+                                    'async' => false,
+                                ]);
+
+                                dd($response);
+                            } else {
+
+                                $path =  ($file_ext == 'doc' || $file_ext == 'docx' ||  $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
+
+                                $ocr = app()->make(OcrAbstract::class);
+                                $file = $ocr->scan($path);
+                            }
+
+                            // Match ocr extract with parsed text
                             if (stripos($file, $this->parsed_text) !== FALSE) {
                                 $ids[] = $value->id;
                             }
