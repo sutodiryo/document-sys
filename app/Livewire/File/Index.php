@@ -25,7 +25,7 @@ use Illuminate\Support\Str;
 // use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Redirect;
 
 class Index extends Component
 {
@@ -527,7 +527,8 @@ class Index extends Component
         // $response = json_decode($response->getBody()->getContents());
 
         // return $response->body;
-        redirect($response->getBody()->getContents()->url);
+        // redirect($response->getBody()->getContents()->url);
+        return Redirect::to($response->getBody()->getContents()->url);
     }
 
     public function addSpare($spareId)
