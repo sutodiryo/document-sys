@@ -78,7 +78,7 @@ class Search extends Component
 
         if ($file_ext == 'pdf' || $file_ext == 'PDF') {
 
-            // dd($this->upload_file->getFileName());
+            dd($this->upload_file->getPathName());
 
             route('public.preview.files', $this->upload_file->getFileName());
 
