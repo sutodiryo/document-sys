@@ -154,7 +154,7 @@ class Search extends Component
                                 $url = route('public.ext.preview.files', $value->id);
                                 $file = $this->pdf_to_text($url);
 
-                                dd($file);
+                                // dd($file);
                             } else {
 
                                 $path =  ($file_ext == 'doc' || $file_ext == 'docx' ||  $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
