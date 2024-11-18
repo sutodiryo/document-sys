@@ -78,6 +78,8 @@ class Search extends Component
 
         if ($file_ext == 'pdf' || $file_ext == 'PDF') {
             $url = route('public.tmp.preview.files', $this->upload_file->getFileName());
+            // $url = 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/document-parser/sample-invoice.pdf';
+
             $this->parsed_text = $this->pdf_to_text($url);
         } else {
 
@@ -86,21 +88,9 @@ class Search extends Component
             $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
         }
 
+        // dd($this->parsed_text);
+
         $this->setTables();
-    }
-
-    public function pdf_to_text($url)
-    {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
-        ])->post($this->pdfco_url . 'convert/to/text', [
-            'url' => $url,
-            'inline' => true,
-            'async' => false,
-        ]);
-
-        return $response->getBody()->getContents();
     }
 
     public function setTables()
@@ -246,6 +236,22 @@ class Search extends Component
 
             $this->count = 0;
         }
+    }
+
+    public function pdf_to_text($url)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+        ])->post($this->pdfco_url . 'convert/to/text', [
+            'url' => $url,
+            'inline' => true,
+            'async' => false,
+        ]);
+
+        $response = json_decode($response->getBody()->getContents());
+
+        return $response->body;
     }
 
     public function render()
