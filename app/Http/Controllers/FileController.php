@@ -112,8 +112,8 @@ class FileController extends Controller
 
     public function tmp_preview($file)
     {
-        return response()->file('/Users/user/Herd/document-sys/storage/app/livewire-tmp/' . $file);
-        // dd($file);
+        // return response()->file('/Users/user/Herd/document-sys/storage/app/livewire-tmp/' . $file); // local/dev
+        return response()->file('/home/dms.std.web.id/public_html/storage/app/livewire-tmp/' . $file); // online
     }
 
 
