@@ -25,7 +25,6 @@ use Illuminate\Support\Str;
 // use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Redirect;
 
 class Index extends Component
 {
@@ -505,7 +504,7 @@ class Index extends Component
             'images' => [
                 [
                     'url' => $base_url . '/signature.png',
-                    'x' => 500,
+                    'x' => 400,
                     'y' => 700,
                     'width' => 159,
                     'height' => 43,
@@ -528,8 +527,8 @@ class Index extends Component
 
         // return $response->body;
         // redirect($response->getBody()->getContents()->url);
-        dd($response->url);
-        return Redirect::to($response->url);
+        // dd($response->url);
+        return redirect($response->url);
     }
 
     public function addSpare($spareId)
