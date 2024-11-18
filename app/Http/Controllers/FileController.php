@@ -116,6 +116,13 @@ class FileController extends Controller
         return response()->file('/home/dms.std.web.id/public_html/storage/app/livewire-tmp/' . $file); // online
     }
 
+    public function file_preview($id) // for api call
+    {
+        $file = File::find($id);
+
+        $file = storage_path('app/public/uploads/' . $file->id . '/') . "" . $file->name . "";
+        return response()->file($file); // harusnya view only pake third party
+    }
 
     /**
      * Show the form for creating a new resource.

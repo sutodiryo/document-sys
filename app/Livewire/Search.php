@@ -77,23 +77,8 @@ class Search extends Component
         $file_ext = $this->upload_file->getClientOriginalExtension();
 
         if ($file_ext == 'pdf' || $file_ext == 'PDF') {
-
-            // dd($this->upload_file->getPathName());
-            // route('public.preview.files', $this->upload_file->getFileName());
-
-            // $response = Http::acceptJson()->get('http://example.com/users');
-
-            // $response = Http::withHeaders([
-            //     'Content-Type' => 'application/json',
-            //     'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
-            // ])->post($this->pdfco_url . 'convert/to/text', [
-            //     'url' => route('public.tmp.preview.files', $this->upload_file->getFileName()),
-            //     'inline' => true,
-            //     'async' => false,
-            // ]);
-
-            // $this->parsed_text = $response->getBody()->getContents();
-            $this->parsed_text = $this->pdf_to_text($this->upload_file->getFileName());
+            $url = route('public.tmp.preview.files', $this->upload_file->getFileName());
+            $this->parsed_text = $this->pdf_to_text($url);
         } else {
 
             $ocr = app()->make(OcrAbstract::class);
@@ -101,18 +86,16 @@ class Search extends Component
             $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
         }
 
-        dd($this->parsed_text);
-
         $this->setTables();
     }
 
-    public function pdf_to_text($tmp_file_name)
+    public function pdf_to_text($url)
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
         ])->post($this->pdfco_url . 'convert/to/text', [
-            'url' => route('public.tmp.preview.files', $tmp_file_name),
+            'url' => $url,
             'inline' => true,
             'async' => false,
         ]);
@@ -178,19 +161,8 @@ class Search extends Component
 
                             if ($file_ext == 'pdf' || $file_ext == 'PDF') {
 
-                                // $response = Http::post('http://example.com/users', [
-                                //     'name' => 'Steve',
-                                //     'role' => 'Network Administrator',
-                                // ]);
-
-                                $response = Http::withHeaders([
-                                    'Content-Type' => 'application/json',
-                                    'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
-                                ])->post($this->pdfco_url . 'convert/to/text', [
-                                    'url' => 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-to-text/sample.pdf',
-                                    'inline' => true,
-                                    'async' => false,
-                                ]);
+                                $url = route('public.ext.preview.files', $value->attachment->name);
+                                $response = $this->pdf_to_text($url);
 
                                 dd($response);
                             } else {
