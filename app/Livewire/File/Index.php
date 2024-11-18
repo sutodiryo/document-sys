@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
 
 // use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\Tcpdf\Fpdi;
+use Illuminate\Support\Facades\Http;
 
 
 class Index extends Component
@@ -483,6 +484,50 @@ class Index extends Component
 
         $pdf->Output();
         // dd($pdf);
+    }
+
+    public function eSignPDFCo()
+    {
+        $base_url = ENV('APP_URL');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
+        ])->post('https://api.pdf.co/v1/pdf/edit/add', [
+            // 'url' => $url,
+            // 'inline' => true,
+            // 'async' => false,
+
+            'async' => false,
+            'inline' => true,
+            'name' => "f1040-form-filled",
+            'url' => route('public.ext.preview.files', $this->uuid),
+            'images' => [
+                [
+                    'url' => $base_url . '/signature.png',
+                    'x' => 500,
+                    'y' => 700,
+                    'width' => 159,
+                    'height' => 43,
+                    'pages' => '0'
+                ]
+            ],
+
+            // {
+            //     "async": false,
+            //     "inline": true,
+            //     "name": "f1040-form-filled",
+            //     "url": "pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-form/f1040.pdf",
+            //     "annotationsString": "250;20;0-;PDF form filled with PDF.co API;24+bold+italic+underline+strikeout;Arial;FF0000;www.pdf.co;true",
+            //     "imagesString": "100;180;0-;pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-edit/logo.png|400;180;0-;pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-edit/logo.png;www.pdf.co;200;200",
+            //     "fieldsString": "1;topmostSubform[0].Page1[0].f1_02[0];John A. Doe|1;topmostSubform[0].Page1[0].FilingStatus[0].c1_01[1];true|1;topmostSubform[0].Page1[0].YourSocial_ReadOrderControl[0].f1_04[0];123456789"
+            // }
+        ]);
+
+        // $response = json_decode($response->getBody()->getContents());
+
+        // return $response->body;
+        redirect($response->getBody()->getContents()->url);
     }
 
     public function addSpare($spareId)

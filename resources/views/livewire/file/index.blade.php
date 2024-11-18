@@ -262,7 +262,7 @@
                                                             <td class="fw-bold text-end">
                                                                 <div class="d-flex justify-content-end"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a wire:click="eSign" type="button"
+                                                                    <a wire:click="eSignPDFCo" type="button"
                                                                         class="btn btn-sm btn-primary me-3">
                                                                         Click to edit
                                                                     </a>
