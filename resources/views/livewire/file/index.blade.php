@@ -3,18 +3,6 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card card-flush pb-0 bgi-position-y-center bgi-no-repeat mb-10"
                 style="background-size: auto calc(100% + 10rem); background-position-x: 100%; background-image: url('{{ asset('metronic_8.2.6/media/illustrations/sketchy-1/4.png') }}')">
-                {{-- <div class="card-header pt-10">
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex flex-column">
-                            <h2 class="mb-1">{{ $file->name }}</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body pb-0">
-                    <div class="d-flex overflow-auto h-20px">
-                    </div>
-                </div> --}}
             </div>
 
             <div class="card card-flush">
@@ -444,19 +432,12 @@
                                             unlocks automatically after 6 hours if you don't unlock it first.</div>
                                     </div>
                                 </div>
-                                {{-- <div class="d-flex justify-content-end">
-                                    <div class="form-check form-check-solid form-check-custom form-switch">
-                                        <input class="form-check-input w-45px h-30px" type="checkbox" id="lockswitch">
-                                        <label class="form-check-label" for="lockswitch"></label>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        {{-- <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button> --}}
-                        <button wire:click="lock_file" {{-- href="{{ route('doc.lock', ['id' => $document->id]) }}" --}} type="button"
+                        <button wire:click="lock_file" type="button"
                             class="btn btn-primary">Lock</button>
                     </div>
                 </form>
@@ -478,10 +459,7 @@
                     </div>
                 </div>
 
-                {{-- {!! Form::open(['route' => ['doc.reminder.store'], 'method' => 'post', 'files' => true]) !!} --}}
                 <div class="modal-body py-10 px-lg-17">
-                    {{-- {!! Form::hidden('id', $document->id) !!}
-                    {!! Form::hidden('curent_link', Request::url()) !!} --}}
 
                     <div class="scroll-y me-n7 pe-7" id="kt_modal_reminder_scroll" data-kt-scroll="true"
                         data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
@@ -507,7 +485,6 @@
                             <span class="indicator-label">Remind</span>
                         </button>
                     </div>
-                    {{-- {!! Form::close() !!} --}}
 
                 </div>
             </div>
@@ -518,8 +495,6 @@
         <div class="modal-dialog modal-dialog-centered mw-800px">
 
             <div class="modal-content">
-
-                {{-- <form wire:submit="share_by_email"> --}}
                 <div class="modal-header pb-0 border-0 justify-content-end">
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
                         <i class="ki-duotone ki-cross fs-1">
@@ -531,8 +506,6 @@
                 <div class="modal-body pt-10 pb-15 px-lg-17">
                     <iframe style="width: 100%; height: 500px;"
                         src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true"></iframe>
-
-                    {{-- <div id="pspdfkit" style="height: 100vh"></div> --}}
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -545,8 +518,6 @@
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
                 </div>
-                {{-- </form> --}}
-
             </div>
         </div>
     </div>
@@ -556,7 +527,6 @@
 
             <div class="modal-content">
 
-                {{-- <form wire:submit="share_by_email"> --}}
                 <div class="modal-header pb-0 border-0 justify-content-end">
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
                         <i class="ki-duotone ki-cross fs-1">
@@ -581,7 +551,6 @@
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
                 </div>
-                {{-- </form> --}}
 
             </div>
         </div>
@@ -968,19 +937,6 @@
                             </div>
 
                             <div class="mb-10">
-                                {{-- <div class="mb-3">
-                                    <label class="d-flex align-items-center fs-5 fw-semibold">
-                                        <span>Signature file</span>
-                                        <span class="ms-1" data-bs-toggle="tooltip"
-                                            title="Use default signature file or upload new one">
-                                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                                <span class="path3"></span>
-                                            </i>
-                                        </span>
-                                    </label>
-                                </div> --}}
                                 <div class="d-flex flex-column mb-5 fv-row">
                                     <label class="form-check form-switch form-check-custom form-check-solid">
                                         <input class="form-check-input" type="checkbox"

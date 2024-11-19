@@ -497,45 +497,29 @@ class Index extends Component
     {
         $base_url = ENV('APP_URL');
         $this->esign_signature_file_url = $this->esign_signature_file_url ? $this->esign_signature_file_url : route('public.ext.preview.files', $this->uuid);
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
         ])->post('https://api.pdf.co/v1/pdf/edit/add', [
-            // 'url' => $url,
-            // 'inline' => true,
-            // 'async' => false,
-
             'async' => false,
             'inline' => true,
-            'name' => "f1040-form-filled",
+            'name' => 'Signed_' . $this->file->name,
             'url' => route('public.ext.preview.files', $this->uuid),
             'images' => [
                 [
                     'url' => $base_url . '/signature.png',
                     'x' => $this->esign_x,
                     'y' => $this->esign_y,
-                    'width' => 160,
+                    'width' => 140,
                     // 'height' => 40,
                     'pages' => '0'
                 ]
             ],
-
-            // {
-            //     "async": false,
-            //     "inline": true,
-            //     "name": "f1040-form-filled",
-            //     "url": "pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-form/f1040.pdf",
-            //     "annotationsString": "250;20;0-;PDF form filled with PDF.co API;24+bold+italic+underline+strikeout;Arial;FF0000;www.pdf.co;true",
-            //     "imagesString": "100;180;0-;pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-edit/logo.png|400;180;0-;pdfco-test-files.s3.us-west-2.amazonaws.com/pdf-edit/logo.png;www.pdf.co;200;200",
-            //     "fieldsString": "1;topmostSubform[0].Page1[0].f1_02[0];John A. Doe|1;topmostSubform[0].Page1[0].FilingStatus[0].c1_01[1];true|1;topmostSubform[0].Page1[0].YourSocial_ReadOrderControl[0].f1_04[0];123456789"
-            // }
         ]);
 
         $response = json_decode($response->getBody()->getContents());
 
-        // return $response->body;
-        // redirect($response->getBody()->getContents()->url);
-        // dd($response->url);
         return redirect($response->url);
     }
 
