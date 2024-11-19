@@ -262,10 +262,12 @@
                                                             <td class="fw-bold text-end">
                                                                 <div class="d-flex justify-content-end"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a wire:click="eSignPDFCo" type="button"
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#kt_modal_e_sign"
+                                                                        {{-- wire:click="eSignPDFCo"  --}} type="button"
                                                                         class="btn btn-sm btn-primary me-3">
                                                                         Click to edit
-                                                                    </a>
+                                                                    </button>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -288,7 +290,8 @@
 
                                                                 <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modal_view_onedrive"
+                                                                    <button type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_view_onedrive"
                                                                         class="btn btn-block btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-eye"></i>View Document
                                                                         onedrive
@@ -563,8 +566,8 @@
                     </div>
                 </div>
                 <div class="modal-body pt-10 pb-15 px-lg-17">
-                    <iframe src='https://view.officeapps.live.com/op/embed.aspx?src={{ $link_file }}' width='px'
-                        height='px' frameborder='0'>
+                    <iframe src='https://view.officeapps.live.com/op/embed.aspx?src={{ $link_file }}'
+                        width='px' height='px' frameborder='0'>
                     </iframe>
                 </div>
 
@@ -921,6 +924,94 @@
                 </div>
 
                 {{-- {!! Form::close() !!} --}}
+
+            </div>
+        </div>
+    </div>
+
+
+    <div wire:ignore.self class="modal fade" id="kt_modal_e_sign" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content">
+                <div class="modal-header" id="kt_modal_e_sign_header">
+                    <h2>E-Sign for "{{ $file->name }}"</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                </div>
+
+                {{-- <form wire:submit.prevent="start_approval"> --}}
+
+                    <div class="modal-body py-10 px-lg-17">
+                        <div class="scroll-y me-n7 pe-7" id="kt_modal_e_sign_scroll" data-kt-scroll="true"
+                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+                            data-kt-scroll-dependencies="#kt_modal_e_sign_header"
+                            data-kt-scroll-wrappers="#kt_modal_e_sign_scroll" data-kt-scroll-offset="300px">
+
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <label class="fs-5 fw-semibold mb-2">X coordinate <br><small style="color: grey;">Use
+                                        <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
+                                            Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
+                                <input type="number" class="form-control form-control-solid"
+                                    wire:model="esign_x"></input>
+                            </div>
+
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <label class="fs-5 fw-semibold mb-2">Y coordinate <br><small style="color: grey;">Use
+                                        <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
+                                            Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
+                                <input type="number" class="form-control form-control-solid"
+                                    wire:model="esign_y"></input>
+                            </div>
+
+                            <div class="mb-10">
+                                {{-- <div class="mb-3">
+                                    <label class="d-flex align-items-center fs-5 fw-semibold">
+                                        <span>Signature file</span>
+                                        <span class="ms-1" data-bs-toggle="tooltip"
+                                            title="Use default signature file or upload new one">
+                                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                            </i>
+                                        </span>
+                                    </label>
+                                </div> --}}
+                                <div class="d-flex flex-column mb-5 fv-row">
+                                    <label class="form-check form-switch form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox"
+                                            wire:model.live="esign_signature_option" />
+                                        <span class="form-check-label">Use new signature file?</span>
+                                    </label>
+                                </div>
+
+                                @if ($esign_signature_option)
+                                    <div class="d-flex flex-column mb-5 fv-row">
+                                        <span class="form-check-label">Use
+                                            <a href="https://www.signwell.com/online-signature/draw/"
+                                                target="_blank">Signwell</a> to draw and save your signature</span>
+                                        <input type="file" class="form-control form-control-solid"
+                                            wire:model="esign_signature_file" accept="image/png, image/gif, image/jpeg"></input>
+                                    </div>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer flex-center">
+                        <button data-bs-dismiss="modal" class="btn btn-light me-3">Cancel</button>
+                        <button wire:click="eSignPDFCo" class="btn btn-primary">
+                            <span class="indicator-label"
+                            >Start</span>
+                        </button>
+                    </div>
+
+                {{-- </form> --}}
+
 
             </div>
         </div>

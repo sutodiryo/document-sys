@@ -44,6 +44,9 @@ class Index extends Component
     // Modal approval
     public $approval_resolution, $approval_invited_emails, $approval_by_email_expiration, $approval_by_email_expires_at;
 
+    // Modal ESign
+    public $esign_x = 400, $esign_y = 700, $esign_signature_option = 0, $esign_signature_file;
+
     public $curent_link;
 
     protected $rules =  ['qty' => 'array', 'qty.*' => 'numeric'];
@@ -488,7 +491,7 @@ class Index extends Component
     public function eSignPDFCo()
     {
         $base_url = ENV('APP_URL');
-
+        // dd($this->esign_signature_file);
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
@@ -504,10 +507,10 @@ class Index extends Component
             'images' => [
                 [
                     'url' => $base_url . '/signature.png',
-                    'x' => 400,
-                    'y' => 700,
-                    'width' => 159,
-                    'height' => 43,
+                    'x' => $this->esign_x,
+                    'y' => $this->esign_y,
+                    // 'width' => 159,
+                    // 'height' => 43,
                     'pages' => '0'
                 ]
             ],
