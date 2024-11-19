@@ -45,7 +45,7 @@ class Index extends Component
     public $approval_resolution, $approval_invited_emails, $approval_by_email_expiration, $approval_by_email_expires_at;
 
     // Modal ESign
-    public $esign_x = 400, $esign_y = 700, $esign_signature_option = 0, $esign_signature_file;
+    public $esign_x = 400, $esign_y = 700, $esign_signature_option = 0, $esign_signature_file, $esign_signature_file_url;
 
     public $curent_link;
 
@@ -488,10 +488,15 @@ class Index extends Component
         // dd($pdf);
     }
 
+    public function updatedEsignSignatureFile()
+    {
+        $this->esign_signature_file_url = route('public.tmp.preview.files', $this->esign_signature_file->getFileName());
+    }
+
     public function eSignPDFCo()
     {
         $base_url = ENV('APP_URL');
-        // dd($this->esign_signature_file);
+        $this->esign_signature_file_url = $this->esign_signature_file_url ? $this->esign_signature_file_url : route('public.ext.preview.files', $this->uuid);
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'
@@ -509,8 +514,8 @@ class Index extends Component
                     'url' => $base_url . '/signature.png',
                     'x' => $this->esign_x,
                     'y' => $this->esign_y,
-                    // 'width' => 159,
-                    // 'height' => 43,
+                    'width' => 160,
+                    // 'height' => 40,
                     'pages' => '0'
                 ]
             ],
