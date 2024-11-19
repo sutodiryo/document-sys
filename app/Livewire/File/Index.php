@@ -491,13 +491,15 @@ class Index extends Component
     public function updatedEsignSignatureFile()
     {
         $this->esign_signature_file_url = route('public.tmp.preview.files', $this->esign_signature_file->getFileName());
+        // dd($this->esign_signature_file_url);
+
     }
 
     public function eSignPDFCo()
     {
         $base_url = ENV('APP_URL');
         $this->esign_signature_file_url = $this->esign_signature_file_url ? $this->esign_signature_file_url : $base_url . '/signature.png';
-        dd($this->esign_signature_file_url);
+        // dd($this->esign_signature_file_url);
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-api-key' => 'yoxgii@gmail.com_SdM3oNfwdBEG9dP3QxRYqkRNMzTbZ5f1B7gaPdWQFaWbjWwxu7QdsRTsgMBQbQfd'

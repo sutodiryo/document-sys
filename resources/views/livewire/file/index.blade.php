@@ -951,7 +951,7 @@
                                             <a href="https://www.signwell.com/online-signature/draw/"
                                                 target="_blank">Signwell</a> to draw and save your signature</span>
                                         <input type="file" class="form-control form-control-solid"
-                                            wire:model="esign_signature_file" accept="image/png, image/gif, image/jpeg"></input>
+                                            wire:model.live="esign_signature_file" accept="image/png, image/gif, image/jpeg"></input>
                                     </div>
                                 @endif
 
