@@ -496,7 +496,7 @@ class Index extends Component
     public function eSignPDFCo()
     {
         $base_url = ENV('APP_URL');
-        $this->esign_signature_file_url = $this->esign_signature_file_url ? $this->esign_signature_file_url : route('public.ext.preview.files', $this->uuid);
+        $this->esign_signature_file_url = $this->esign_signature_file_url ? $this->esign_signature_file_url : $base_url . '/signature.png';
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -508,7 +508,7 @@ class Index extends Component
             'url' => route('public.ext.preview.files', $this->uuid),
             'images' => [
                 [
-                    'url' => $base_url . '/signature.png',
+                    'url' => $this->esign_signature_file_url,
                     'x' => $this->esign_x,
                     'y' => $this->esign_y,
                     'width' => 140,
