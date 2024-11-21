@@ -292,7 +292,7 @@
                                                                         rel="nofollow">
                                                                         Edit with PDF2Go
                                                                     </a> --}}
-                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url{{ $link_file }}"
                                                                         rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-pencil"></i>Edit Document
