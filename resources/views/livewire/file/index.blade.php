@@ -288,7 +288,12 @@
 
                                                                 <div class="d-flex justify-content-end"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a href="#" type="button"
+                                                                    {{-- <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                        rel="nofollow">
+                                                                        Edit with PDF2Go
+                                                                    </a> --}}
+                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ route('file.view', ['uuid' => $file->id]) }}"
+                                                                        rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-pencil"></i>Edit Document
                                                                     </a>
@@ -437,8 +442,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button wire:click="lock_file" type="button"
-                            class="btn btn-primary">Lock</button>
+                        <button wire:click="lock_file" type="button" class="btn btn-primary">Lock</button>
                     </div>
                 </form>
             </div>
@@ -914,57 +918,57 @@
 
                 {{-- <form wire:submit.prevent="start_approval"> --}}
 
-                    <div class="modal-body py-10 px-lg-17">
-                        <div class="scroll-y me-n7 pe-7" id="kt_modal_e_sign_scroll" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_e_sign_header"
-                            data-kt-scroll-wrappers="#kt_modal_e_sign_scroll" data-kt-scroll-offset="300px">
+                <div class="modal-body py-10 px-lg-17">
+                    <div class="scroll-y me-n7 pe-7" id="kt_modal_e_sign_scroll" data-kt-scroll="true"
+                        data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
+                        data-kt-scroll-dependencies="#kt_modal_e_sign_header"
+                        data-kt-scroll-wrappers="#kt_modal_e_sign_scroll" data-kt-scroll-offset="300px">
 
+                        <div class="d-flex flex-column mb-5 fv-row">
+                            <label class="fs-5 fw-semibold mb-2">X coordinate <br><small style="color: grey;">Use
+                                    <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
+                                        Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
+                            <input type="number" class="form-control form-control-solid"
+                                wire:model="esign_x"></input>
+                        </div>
+
+                        <div class="d-flex flex-column mb-5 fv-row">
+                            <label class="fs-5 fw-semibold mb-2">Y coordinate <br><small style="color: grey;">Use
+                                    <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
+                                        Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
+                            <input type="number" class="form-control form-control-solid"
+                                wire:model="esign_y"></input>
+                        </div>
+
+                        <div class="mb-10">
                             <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-5 fw-semibold mb-2">X coordinate <br><small style="color: grey;">Use
-                                        <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
-                                            Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
-                                <input type="number" class="form-control form-control-solid"
-                                    wire:model="esign_x"></input>
+                                <label class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox"
+                                        wire:model.live="esign_signature_option" />
+                                    <span class="form-check-label">Use new signature file?</span>
+                                </label>
                             </div>
 
-                            <div class="d-flex flex-column mb-5 fv-row">
-                                <label class="fs-5 fw-semibold mb-2">Y coordinate <br><small style="color: grey;">Use
-                                        <a href="https://app.pdf.co/pdf-edit-add-helper" target="_blank">PDF.co PDF
-                                            Edit Add Helper</a> to get or measure pdf coordinates.</small></label>
-                                <input type="number" class="form-control form-control-solid"
-                                    wire:model="esign_y"></input>
-                            </div>
-
-                            <div class="mb-10">
+                            @if ($esign_signature_option)
                                 <div class="d-flex flex-column mb-5 fv-row">
-                                    <label class="form-check form-switch form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox"
-                                            wire:model.live="esign_signature_option" />
-                                        <span class="form-check-label">Use new signature file?</span>
-                                    </label>
+                                    <span class="form-check-label">Use
+                                        <a href="https://www.signwell.com/online-signature/draw/"
+                                            target="_blank">Signwell</a> to draw and save your signature</span>
+                                    <input type="file" class="form-control form-control-solid"
+                                        wire:model.live="esign_signature_file"
+                                        accept="image/png, image/gif, image/jpeg"></input>
                                 </div>
+                            @endif
 
-                                @if ($esign_signature_option)
-                                    <div class="d-flex flex-column mb-5 fv-row">
-                                        <span class="form-check-label">Use
-                                            <a href="https://www.signwell.com/online-signature/draw/"
-                                                target="_blank">Signwell</a> to draw and save your signature</span>
-                                        <input type="file" class="form-control form-control-solid"
-                                            wire:model.live="esign_signature_file" accept="image/png, image/gif, image/jpeg"></input>
-                                    </div>
-                                @endif
-
-                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer flex-center">
-                        <button data-bs-dismiss="modal" class="btn btn-light me-3">Cancel</button>
-                        <button wire:click="eSignPDFCo" class="btn btn-primary">
-                            <span class="indicator-label"
-                            >Start</span>
-                        </button>
-                    </div>
+                </div>
+                <div class="modal-footer flex-center">
+                    <button data-bs-dismiss="modal" class="btn btn-light me-3">Cancel</button>
+                    <button wire:click="eSignPDFCo" class="btn btn-primary">
+                        <span class="indicator-label">Start</span>
+                    </button>
+                </div>
 
                 {{-- </form> --}}
 
