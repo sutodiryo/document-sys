@@ -521,7 +521,7 @@
                     {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
 
-                    {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+                    <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe>
                     {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
 
                     {{-- <iframe src="https://tinywow.com/pdf/edit" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
