@@ -138,7 +138,8 @@
                                     <div class="card-title">
                                         {{-- <input id="pdfBase64" type="text" value="{{ $link_file }}" /> --}}
 
-                                        <a type="button" id="sendPdfBase64" data-bs-toggle="modal" data-bs-target="#modal_view_pdf">
+                                        <a type="button" id="sendPdfBase64" data-bs-toggle="modal"
+                                            data-bs-target="#modal_view_pdf">
                                             <h2><i class="fas fa-document"></i> {{ $file->name }}</h2>
                                         </a>
                                     </div>
@@ -291,9 +292,12 @@
 
                                                                 <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <a data-bs-toggle="modal" data-bs-target="#modal_view_pdf" type="button"
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_view_pdf"
+                                                                        type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit Document pdf.co
+                                                                        <i class="fas fa-pencil"></i>Edit Document
+                                                                        pdf.co
                                                                     </a>
                                                                 </div>
 
@@ -304,10 +308,10 @@
                                                                         Edit with PDF2Go
                                                                     </a> --}}
                                                                     <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ $link_file }}"
-                                                                    target="_blank"
-                                                                        rel="nofollow" type="button"
+                                                                        target="_blank" rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit Document pdfgo
+                                                                        <i class="fas fa-pencil"></i>Edit Document
+                                                                        pdfgo
                                                                     </a>
                                                                 </div>
 
@@ -537,7 +541,9 @@
                         </script>
                     </div> --}}
                     {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    <iframe src="https://www.sejda.com/pdf-editor?files=%5B%7B%22downloadUrl%22%3A%22https%3A%2F%2Fdms.std.web.id%2F%22%7D%5D" style="width: 100%; height:1000px"  frameborder="0"></iframe>
+                    <iframe
+                        src="https://www.sejda.com/pdf-editor?files={{ urlencode('[{"downloadUrl":"' . $link_file . '"}]') }}"
+                        style="width: 100%; height:1000px" frameborder="0"></iframe>
 
                     {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
