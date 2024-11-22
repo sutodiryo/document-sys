@@ -92,7 +92,7 @@ class Index extends Component
 
                 $newFile = new File();
 
-                $newFile->name = $file_name. '.' . $file_ext;
+                $newFile->name = $file_name . '.' . $file_ext;
                 $newFile->folder_id = $this->uuid;
                 $newFile->status = 'PENDING';
                 $newFile->lock_status = NULL;
@@ -117,7 +117,7 @@ class Index extends Component
                 $text = "Uploaded to " . $this->folder->name . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $newFile->name . "</a>";
                 $newFile->newActivity($newFile->id, $text);
                 $this->uploaded_files[] = $newFile;
-                $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
+                $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name . '.' . $file_ext);
 
                 if ($upload && ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx')) {
                     // route('file.convert.jpg', $newFile->id);

@@ -36,8 +36,8 @@
                                 </i>Upload new version</button>
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <a href="{{ $link_file }}" {{-- wire:click="downloadZip" --}}
-                                type="button" class="btn btn-sm btn-primary me-3">
+                            <a href="{{ $link_file }}" {{-- wire:click="downloadZip" --}} type="button"
+                                class="btn btn-sm btn-primary me-3">
                                 <i class="ki-solid ki-archive fs-2">
                                 </i>Download Zip
                             </a>
@@ -136,7 +136,9 @@
                             <div class="card card-flush py-4 flex-row-fluid">
                                 <div class="card-header">
                                     <div class="card-title">
-                                        <a type="button" data-bs-toggle="modal" data-bs-target="#modal_view_pdf">
+                                        {{-- <input id="pdfBase64" type="text" value="{{ $link_file }}" /> --}}
+
+                                        <a type="button" id="sendPdfBase64" data-bs-toggle="modal" data-bs-target="#modal_view_pdf">
                                             <h2><i class="fas fa-document"></i> {{ $file->name }}</h2>
                                         </a>
                                     </div>
@@ -293,7 +295,7 @@
                                                                         rel="nofollow">
                                                                         Edit with PDF2Go
                                                                     </a> --}}
-                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url{{ $link_file }}"
+                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ $link_file }}"
                                                                         rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-pencil"></i>Edit Document
@@ -497,7 +499,7 @@
     </div>
 
     <div wire:ignore.self class="modal fade" id="modal_view_pdf" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mw-800px">
+        <div class="modal-dialog modal-dialog-centered mw-1000px">
 
             <div class="modal-content">
                 <div class="modal-header pb-0 border-0 justify-content-end">
@@ -509,8 +511,25 @@
                     </div>
                 </div>
                 <div class="modal-body pt-10 pb-15 px-lg-17">
-                    <iframe style="width: 100%; height: 500px;" {{-- src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true" --}}
-                        src="https://www.sejda.com/sign-pdf?files=%5B%7B%22downloadUrl%22%3A%22{{ urlencode(strtolower($link_file)) }}%22%7D%5D"></iframe>
+                    {{-- <div id="avepdf-container-id">
+                        <script type="text/javascript" src="https://avepdf.com/api/js/embedwidgets.js"></script>
+                        <script type="text/javascript">
+                            loadAvePDFWidget('d887e08f-6326-4a98-83b7-63d00bd79bab', 'auto', 'pdf-edit', 'avepdf-container-id');
+                        </script>
+                    </div> --}}
+                    {{-- <iframe src="" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    <iframe src="https://dms.std.web.id/public/ext/9d841ca5-d9a7-4a07-8c76-9a7a8edd0319" style="width: 100%; height:500px"  frameborder="0"></iframe>
+                    {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="https://tinywow.com/pdf/edit" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe style="width: 100%; height:500px" src="https://app.pdf.co/pdf-edit-add-helper"></iframe> --}}
+                    {{-- <iframe style="width: 100%; height:500px" src="https://www.pdfgear.com/edit-pdf/"></iframe> --}}
+                    {{-- <iframe style="width: 100%; height: 500px;" --}}
+                    {{-- src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true" --}}
+                    {{-- src="https://www.sejda.com/sign-pdf?files=%5B%7B%22downloadUrl%22%3A%22{{ urlencode(strtolower($link_file)) }}%22%7D%5D" --}}
+                    {{-- src="https://www.pdfsmart.com/en/web-viewer?uuid=0c43e8b8-754e-4c64-ba11-a224eb8fa394" --}}
+                    {{-- src="https://pdfbob.com/editor/"></iframe> --}}
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -1000,5 +1019,18 @@
             .catch(function(error) {
                 console.error(error.message);
             });
+
+
+        // send to iframe
+        var button = document.querySelector("#sendPdfBase64");
+
+        function sendPdfBase64() {
+            alert('aa');
+            const pdfBase64 = document.querySelector("#pdfBase64").value;
+            const iframe = document.querySelector("iframe");
+            iframe.contentWindow.postMessage(pdfBase64, "*");
+        }
+
+        button.addEventListener("click", sendPdfBase64);
     </script>
 @endpush
