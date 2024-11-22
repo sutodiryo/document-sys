@@ -36,7 +36,8 @@
                                 </i>Upload new version</button>
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <a wire:click="downloadZip" type="button" class="btn btn-sm btn-primary me-3">
+                            <a href="{{ route('public.ext.preview.files', $uuid) }}" {{-- wire:click="downloadZip" --}} type="button"
+                                class="btn btn-sm btn-primary me-3">
                                 <i class="ki-solid ki-archive fs-2">
                                 </i>Download Zip
                             </a>
