@@ -289,7 +289,15 @@
                                                                     </button>
                                                                 </div>
 
-                                                                <div class="d-flex justify-content-end"
+                                                                <div class="d-flex justify-content-end mb-3"
+                                                                    data-kt-filemanager-table-toolbar="base">
+                                                                    <a data-bs-toggle="modal" data-bs-target="#modal_view_pdf" type="button"
+                                                                        class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
+                                                                        <i class="fas fa-pencil"></i>Edit Document pdf.co
+                                                                    </a>
+                                                                </div>
+
+                                                                <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
                                                                     {{-- <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ route('file.view', ['uuid' => $file->id]) }}"
                                                                         rel="nofollow">
@@ -299,9 +307,19 @@
                                                                     target="_blank"
                                                                         rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit Document
+                                                                        <i class="fas fa-pencil"></i>Edit Document pdfgo
                                                                     </a>
                                                                 </div>
+
+                                                                {{-- <div class="d-flex justify-content-end mb-3"
+                                                                    data-kt-filemanager-table-toolbar="base">
+                                                                    <a data-bs-toggle="modal" data-bs-target="#modal_view_pdf" type="button"
+                                                                        class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
+                                                                        <i class="fas fa-pencil"></i>Edit Document pdf.co
+                                                                    </a>
+                                                                </div> --}}
+
+
                                                             </td>
                                                         </tr>
 
@@ -519,9 +537,9 @@
                         </script>
                     </div> --}}
                     {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+                    <iframe src="https://www.sejda.com/pdf-editor?files=%5B%7B%22downloadUrl%22%3A%22https%3A%2F%2Fdms.std.web.id%2F%22%7D%5D" style="width: 100%; height:1000px"  frameborder="0"></iframe>
 
-                    <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe>
+                    {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
 
                     {{-- <iframe src="https://tinywow.com/pdf/edit" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
