@@ -41,8 +41,9 @@ Route::group(['prefix' => '/public', 'as' => 'public.'], function () {
     Route::get('file/preview/{id}', [FileController::class, 'preview'])->name('preview.files');
     Route::get('file/approval/{id}', Approval::class)->name('approval.files');
 
-    Route::get('ext/{id}', [FileController::class, 'file_preview'])->name('ext.preview.files'); // exixting preview file for api call
+    Route::get('ext/{id}', [FileController::class, 'file_preview'])->name('ext.preview.files'); // existing preview file for api call
     Route::get('tmp/{file}', [FileController::class, 'tmp_preview'])->name('tmp.preview.files'); // temporary preview file for api call
+    Route::get('airslate-pdf/{id}', [FileController::class, 'file_edit_airslate'])->name('ext.edit.files'); // existing edit file
 
     // Folder
     Route::get('approval/folder/{id}', FolderApproval::class)->name('approval.folder');
