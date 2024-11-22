@@ -296,6 +296,7 @@
                                                                         Edit with PDF2Go
                                                                     </a> --}}
                                                                     <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ $link_file }}"
+                                                                    target="_blank"
                                                                         rel="nofollow" type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-pencil"></i>Edit Document
@@ -517,9 +518,12 @@
                             loadAvePDFWidget('d887e08f-6326-4a98-83b7-63d00bd79bab', 'auto', 'pdf-edit', 'avepdf-container-id');
                         </script>
                     </div> --}}
-                    {{-- <iframe src="" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
-                    <iframe src="https://dms.std.web.id/public/ext/9d841ca5-d9a7-4a07-8c76-9a7a8edd0319" style="width: 100%; height:500px"  frameborder="0"></iframe>
-                    {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+
+                    {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+
                     {{-- <iframe src="https://tinywow.com/pdf/edit" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
