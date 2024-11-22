@@ -541,9 +541,11 @@
                         </script>
                     </div> --}}
                     {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    <iframe
+                    <iframe src="https://ez6vldcu.simplepdf.com/editor?open={{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe>
+                    {{-- <iframe src="https://www.pdffiller.com/jsfiller-desk13/?PAGE_REARRANGE_V2_MVP=true&act-notary-pro-integration=true&flat_pdf_quality=high&isPageRearrangeV2MVP=true&isSkipEditorLoadFrequency=true&jsf-desktop-ux-for-tablets=false&jsf-fake-edit-embedded=true&jsf-page-rearrange-v2=true&jsf-probability-70=true&jsf-redesign-full=true&jsf-socket-io=false&projectId=1695441584&richTextFormatting=true&routeId=b63825ff334aeee2f41c9355c9f08e1f#3989f2cd514549ae94fee0e2b03edeed" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
+                    {{-- <iframe
                         src="https://www.sejda.com/pdf-editor?files={{ urlencode('[{"downloadUrl":"' . $link_file . '"}]') }}"
-                        style="width: 100%; height:1000px" frameborder="0"></iframe>
+                        style="width: 100%; height:1000px" frameborder="0"></iframe> --}}
 
                     {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
                     {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
@@ -565,7 +567,7 @@
                         class="btn btn-light me-3">Cancel</button>
 
                     <button type="submit" id="modal_view_pdf_submit" class="btn btn-primary">
-                        <span class="indicator-label">Share</span>
+                        <span class="indicator-label">Save</span>
                         <span class="indicator-progress">Please wait...
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
