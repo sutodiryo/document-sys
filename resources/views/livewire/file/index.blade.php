@@ -36,8 +36,8 @@
                                 </i>Upload new version</button>
                         </div>
                         <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
-                            <a href="{{ route('public.ext.preview.files', $uuid) }}" {{-- wire:click="downloadZip" --}} type="button"
-                                class="btn btn-sm btn-primary me-3">
+                            <a href="{{ route('public.ext.preview.files', $uuid) }}" {{-- wire:click="downloadZip" --}}
+                                type="button" class="btn btn-sm btn-primary me-3">
                                 <i class="ki-solid ki-archive fs-2">
                                 </i>Download Zip
                             </a>
@@ -509,8 +509,8 @@
                     </div>
                 </div>
                 <div class="modal-body pt-10 pb-15 px-lg-17">
-                    <iframe style="width: 100%; height: 500px;"
-                        src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true"></iframe>
+                    <iframe style="width: 100%; height: 500px;" {{-- src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true" --}}
+                        src="https://www.sejda.com/sign-pdf?files=%5B%7B%22downloadUrl%22%3A%22{{ urlencode(strtolower(route('public.ext.preview.files', $uuid))) }}%22%7D%5D"></iframe>
                 </div>
 
                 <div class="modal-footer flex-center">
