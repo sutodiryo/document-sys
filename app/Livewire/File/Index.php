@@ -62,9 +62,6 @@ class Index extends Component
         $this->user_groups = UserGroup::get();
 
         $this->link_file = route('public.ext.preview.files', $this->uuid);
-        // $this->link_file = route('home') . Storage::url('uploads/' . $this->file->id . '/' . $this->file->attachment->name . '.' . $this->file->attachment->file_type);
-
-        // $this->link_file = "http://writing.engr.psu.edu/workbooks/formal_report_template.doc";
 
         $file_share = FileShare::where('file_id', $this->uuid)->whereNotNull('by_link');
         if ($file_share->count()) {
@@ -493,8 +490,6 @@ class Index extends Component
     public function updatedEsignSignatureFile()
     {
         $this->esign_signature_file_url = route('public.tmp.preview.files', $this->esign_signature_file->getFileName());
-        // dd($this->esign_signature_file_url);
-
     }
 
     public function eSignPDFCo()
@@ -516,7 +511,6 @@ class Index extends Component
                     'x' => $this->esign_x,
                     'y' => $this->esign_y,
                     'width' => 140,
-                    // 'height' => 40,
                     'pages' => '0'
                 ]
             ],

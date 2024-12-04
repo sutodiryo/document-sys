@@ -24,15 +24,10 @@ use App\Livewire\HomePage;
 use App\Livewire\Search;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('metronic.home')->name('home');
-// });
-// Route::get('/', 'Controllers\HomeController@home')->name('home');
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
 
 // Public link
-
 Route::group(['prefix' => '/public', 'as' => 'public.'], function () {
     // File
     Route::get('public/{id}', [FileController::class, 'share_by_link'])->name('share.files');
@@ -47,9 +42,6 @@ Route::group(['prefix' => '/public', 'as' => 'public.'], function () {
 
     // Folder
     Route::get('approval/folder/{id}', FolderApproval::class)->name('approval.folder');
-    //     Route::get('folder/view/', [ResolutionController::class, 'folder'])->name('folder.view');
-    //     Route::post('folder/store', [ResolutionController::class, 'folder_store'])->name('folder.store');
-    //     Route::post('document/view', [ResolutionController::class, 'document_view'])->name('document.view');
 });
 
 // Profile
@@ -63,8 +55,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified']], functi
 
     Route::get('file/preview/{id}', [FileController::class, 'preview_admin'])->name('admin.preview.file');
 
-
-    // Route::get('/', Dashboard::class)->name('home');
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     Route::group(['prefix' => '/menu', 'as' => 'menu.'], function () {

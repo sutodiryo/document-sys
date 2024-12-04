@@ -112,7 +112,6 @@ class Index extends Component
                     'updated_at' => Carbon::now(),
                     'created_by' => Auth::id()
                 ]);
-                // dd(bytesToHuman($file_size));
 
                 $text = "Uploaded to " . $this->folder->name . ' : <a href="' . route('file.index') . '?uuid=' . $this->uuid . '">' . $newFile->name . "</a>";
                 $newFile->newActivity($newFile->id, $text);
@@ -120,29 +119,14 @@ class Index extends Component
                 $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name . '.' . $file_ext);
 
                 if ($upload && ($file_ext == 'pdf' || $file_ext == 'PDF' || $file_ext == 'doc' || $file_ext == 'docx' || $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx')) {
-                    // route('file.convert.jpg', $newFile->id);
 
                     $file = File::find($newFile->id);
                     $path = storage_path('app/public/');
-                    // dd($file);
-
-                    // ConvertApi::setApiCredentials('secret_JC9IonJgkKHwq2UH');
-                    // $result = ConvertApi::convert(
-                    //     'jpg',
-                    //     [
-                    //         'File' => $path . $file->attachment->file,
-                    //     ],
-                    //     $file->attachment->file_type
-                    // );
-                    // $result->saveFiles($path . $file->attachment->path);
                 }
 
                 DB::commit();
             }
         }
-
-        // dd($this->uploaded_files );
-
     }
 
     public function uploadAndExtract($file, $file_name)
@@ -154,11 +138,6 @@ class Index extends Component
         $zip = new ZipArchive;
 
         if ($zip->open($zipFilePath) === True) {
-            // $zip->extractTo(storage_path("uploads/$file_name"));
-            // $upload = Storage::disk('public')->putFileAs('uploads/' . $newFile->id . '/', $file, $file_name);
-
-            dd($zip);
-
             $zip->close();
         }
         dd($zip->open($zipFilePath));
@@ -193,11 +172,8 @@ class Index extends Component
             ],
             route('file.index', ['uuid' => $new_file->id])
         );
-        // $this->curent_link);
 
         DB::commit();
-
-        // return redirect($this->curent_link);
     }
 
     public function setModalFolderId($id)
@@ -251,7 +227,6 @@ class Index extends Component
                         $file->save();
                     }
                 }
-                // dd($folder->files);
 
                 if ($this->resolution_status == 'Active') {
 
@@ -424,7 +399,6 @@ class Index extends Component
         DB::beginTransaction();
         $file = File::withTrashed()->findOrFail($id);
         if ($permanent) {
-            // $file->forceDelete();
             $text = "Permanent deleted file" . ' : <a href="#">' . $file->name . "</a>";
             $file->newActivity($file->id, $text);
         } else {
@@ -467,7 +441,6 @@ class Index extends Component
         $text = "Deleted file" . ' : <a href="' . route('file.index') . '?uuid=' . $this->delete_id . '">' . $file->name . "</a>";
         $file->newActivity($file->id, $text);
 
-        // dd($file->activities());
         DB::commit();
 
         $this->flash('success', 'File berhasil dihapus.', [], $this->curent_link);
@@ -475,7 +448,7 @@ class Index extends Component
 
     public function cancelDelete()
     {
-        // $this->reset(['delete_id']);
+        $this->reset(['delete_id']);
         redirect($this->curent_link);
     }
 

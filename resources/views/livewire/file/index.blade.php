@@ -282,47 +282,13 @@
 
                                                                 <div class="d-flex justify-content-end mb-3"
                                                                     data-kt-filemanager-table-toolbar="base">
-                                                                    <button type="button" data-bs-toggle="modal"
-                                                                        data-bs-target="#modal_view_onedrive"
-                                                                        class="btn btn-block btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-eye"></i>View Document
-                                                                        onedrive
-                                                                    </button>
-                                                                </div>
-
-                                                                <div class="d-flex justify-content-end mb-3"
-                                                                    data-kt-filemanager-table-toolbar="base">
                                                                     <a data-bs-toggle="modal"
                                                                         data-bs-target="#modal_view_pdf"
                                                                         type="button"
                                                                         class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
                                                                         <i class="fas fa-pencil"></i>Edit Document
-                                                                        pdf.co
                                                                     </a>
                                                                 </div>
-
-                                                                <div class="d-flex justify-content-end mb-3"
-                                                                    data-kt-filemanager-table-toolbar="base">
-                                                                    {{-- <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ route('file.view', ['uuid' => $file->id]) }}"
-                                                                        rel="nofollow">
-                                                                        Edit with PDF2Go
-                                                                    </a> --}}
-                                                                    <a href="https://www.pdf2go.com/edit-pdf?remote_url={{ $link_file }}"
-                                                                        target="_blank" rel="nofollow" type="button"
-                                                                        class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit Document
-                                                                        pdfgo
-                                                                    </a>
-                                                                </div>
-
-                                                                {{-- <div class="d-flex justify-content-end mb-3"
-                                                                    data-kt-filemanager-table-toolbar="base">
-                                                                    <a data-bs-toggle="modal" data-bs-target="#modal_view_pdf" type="button"
-                                                                        class="btn btn-flex btn-outline btn-color-gray-700 btn-active-color-primary bg-body h-40px fs-7 fw-bold me-3">
-                                                                        <i class="fas fa-pencil"></i>Edit Document pdf.co
-                                                                    </a>
-                                                                </div> --}}
-
 
                                                             </td>
                                                         </tr>
@@ -534,32 +500,7 @@
                     </div>
                 </div>
                 <div class="modal-body pt-10 pb-15 px-lg-17">
-                    {{-- <div id="avepdf-container-id">
-                        <script type="text/javascript" src="https://avepdf.com/api/js/embedwidgets.js"></script>
-                        <script type="text/javascript">
-                            loadAvePDFWidget('d887e08f-6326-4a98-83b7-63d00bd79bab', 'auto', 'pdf-edit', 'avepdf-container-id');
-                        </script>
-                    </div> --}}
-                    {{-- <iframe src="" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    <iframe src="https://ez6vldcu.simplepdf.com/editor?open={{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe>
-                    {{-- <iframe src="https://www.pdffiller.com/jsfiller-desk13/?PAGE_REARRANGE_V2_MVP=true&act-notary-pro-integration=true&flat_pdf_quality=high&isPageRearrangeV2MVP=true&isSkipEditorLoadFrequency=true&jsf-desktop-ux-for-tablets=false&jsf-fake-edit-embedded=true&jsf-page-rearrange-v2=true&jsf-probability-70=true&jsf-redesign-full=true&jsf-socket-io=false&projectId=1695441584&richTextFormatting=true&routeId=b63825ff334aeee2f41c9355c9f08e1f#3989f2cd514549ae94fee0e2b03edeed" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe
-                        src="https://www.sejda.com/pdf-editor?files={{ urlencode('[{"downloadUrl":"' . $link_file . '"}]') }}"
-                        style="width: 100%; height:1000px" frameborder="0"></iframe> --}}
-
-                    {{-- <iframe src="{{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe src="https://products.aspose.app/pdf/editor" style="width: 100%; height:1000px"  frameborder="0"></iframe> --}}
-
-                    {{-- <iframe src="https://tinywow.com/pdf/edit" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe src="https://www.pdfbuddy.com/documents/new?source=" style="width: 100%; height:500px"  frameborder="0"></iframe> --}}
-                    {{-- <iframe style="width: 100%; height:500px" src="https://app.pdf.co/pdf-edit-add-helper"></iframe> --}}
-                    {{-- <iframe style="width: 100%; height:500px" src="https://www.pdfgear.com/edit-pdf/"></iframe> --}}
-                    {{-- <iframe style="width: 100%; height: 500px;" --}}
-                    {{-- src="https://docs.google.com/gview?url={{ $link_file }}&embedded=true" --}}
-                    {{-- src="https://www.sejda.com/sign-pdf?files=%5B%7B%22downloadUrl%22%3A%22{{ urlencode(strtolower($link_file)) }}%22%7D%5D" --}}
-                    {{-- src="https://www.pdfsmart.com/en/web-viewer?uuid=0c43e8b8-754e-4c64-ba11-a224eb8fa394" --}}
-                    {{-- src="https://pdfbob.com/editor/"></iframe> --}}
+                    <iframe src="https://ez6vldcu.simplexpdf.com/editor?open={{ $link_file }}" style="width: 100%; height:1000px"  frameborder="0"></iframe>
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -572,40 +513,6 @@
                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div wire:ignore.self class="modal fade" id="modal_view_onedrive" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mw-800px">
-
-            <div class="modal-content">
-
-                <div class="modal-header pb-0 border-0 justify-content-end">
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                        <i class="ki-duotone ki-cross fs-1">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                        </i>
-                    </div>
-                </div>
-                <div class="modal-body pt-10 pb-15 px-lg-17">
-                    <iframe src='https://view.officeapps.live.com/op/embed.aspx?src={{ $link_file }}'
-                        width='px' height='px' frameborder='0'>
-                    </iframe>
-                </div>
-
-                <div class="modal-footer flex-center">
-                    <button type="reset" id="modal_view_pdf_cancel" data-bs-dismiss="modal"
-                        class="btn btn-light me-3">Cancel</button>
-
-                    <button type="submit" id="modal_view_pdf_submit" class="btn btn-primary">
-                        <span class="indicator-label">Share</span>
-                        <span class="indicator-progress">Please wait...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                    </button>
-                </div>
-
             </div>
         </div>
     </div>

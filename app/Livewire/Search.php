@@ -47,7 +47,6 @@ class Search extends Component
         $this->setTables();
     }
 
-
     public function updatedSortByName()
     {
         $this->sort_by = 'name';
@@ -60,12 +59,10 @@ class Search extends Component
         $this->setTables();
     }
 
-
     public function advancedSearch()
     {
         $this->advanced_search = $this->advanced_search ? false : true;
     }
-
 
     public function updatedUploadFile()
     {
@@ -78,7 +75,6 @@ class Search extends Component
 
         if ($file_ext == 'pdf' || $file_ext == 'PDF') {
             $url = route('public.tmp.preview.files', $this->upload_file->getFileName());
-            // $url = 'https://pdfco-test-files.s3.us-west-2.amazonaws.com/document-parser/sample-invoice.pdf';
 
             $this->parsed_text = $this->pdf_to_text($url);
         } else {
@@ -87,8 +83,6 @@ class Search extends Component
 
             $this->parsed_text = $ocr->scan($this->upload_file->getPathName());
         }
-
-        // dd($this->parsed_text);
 
         $this->setTables();
     }
@@ -153,8 +147,6 @@ class Search extends Component
 
                                 $url = route('public.ext.preview.files', $value->id);
                                 $file = $this->pdf_to_text($url);
-
-                                // dd($file);
                             } else {
 
                                 $path =  ($file_ext == 'doc' || $file_ext == 'docx' ||  $file_ext == 'xls' || $file_ext == 'xlsx' || $file_ext == 'pps' || $file_ext == 'ppsx' || $file_ext == 'ppt' || $file_ext == 'pptx') ? storage_path('app/public' . $value->attachment->name) . '.jpg' : storage_path('app/public' . $value->attachment->file);
